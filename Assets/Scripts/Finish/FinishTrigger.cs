@@ -1,5 +1,4 @@
-using JetBrains.Annotations;
-using Unity.AI.MCP.Editor.Tools.Parameters;
+
 using UnityEngine;
 using UnityEngine.Events;
 
