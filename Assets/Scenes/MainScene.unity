@@ -940,7 +940,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DraggingController
   playerController: {fileID: 551573838}
-  dragSensitivity: 0.176
+  dragSensitivity: 0.292
 --- !u!58 &551573840
 CircleCollider2D:
   m_ObjectHideFlags: 0
