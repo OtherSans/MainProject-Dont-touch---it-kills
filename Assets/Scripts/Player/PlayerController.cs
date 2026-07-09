@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
@@ -7,6 +8,9 @@ public class PlayerController : MonoBehaviour
     private PlayerInput playerInput;
 
     [SerializeField] private Rigidbody2D characterRB;
+    [SerializeField] private Transform target;
+
+    private NavMeshAgent agent;
 
 
     public event Action<bool> OnDragEvent;
@@ -16,6 +20,12 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         playerInput = new PlayerInput();
+    }
+    private void Start()
+    {
+        agent = GetComponent<NavMeshAgent>();
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
     }
 
     private void OnEnable()
@@ -36,10 +46,15 @@ public class PlayerController : MonoBehaviour
 
         playerInput.Disable();
     }
-
+    private void Update()
+    {
+        if(target != null)
+        {
+            agent.SetDestination(target.position);
+        }
+    }
     private void OnDragStarted(InputAction.CallbackContext ctx)
     {
-        // ПКМ нажата — начинаем перетаскивание
         draggingCheck = true;
 
         OnDragEvent?.Invoke(draggingCheck);
@@ -47,7 +62,6 @@ public class PlayerController : MonoBehaviour
     }
     private void OnDragCancelled(InputAction.CallbackContext ctx)
     {
-        // ПКМ отпущена — заканчиваем перетаскивание
         draggingCheck = false;
 
         OnDragEvent?.Invoke(draggingCheck);
