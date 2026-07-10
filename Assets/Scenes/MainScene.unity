@@ -799,6 +799,7 @@ GameObject:
   - component: {fileID: 551573836}
   - component: {fileID: 551573835}
   - component: {fileID: 551573834}
+  - component: {fileID: 551573842}
   - component: {fileID: 551573838}
   - component: {fileID: 551573839}
   - component: {fileID: 551573840}
@@ -927,6 +928,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   characterRB: {fileID: 551573834}
   target: {fileID: 2034495012}
+  agent: {fileID: 0}
 --- !u!114 &551573839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -999,6 +1001,19 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &551573842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 551573833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba692e55f42bdab49ba66a62694973dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MovingController
+  playerController: {fileID: 551573838}
 --- !u!1 &599459277
 GameObject:
   m_ObjectHideFlags: 0
@@ -1612,7 +1627,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &915905766
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -10,13 +10,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Rigidbody2D characterRB;
     [SerializeField] private Transform target;
 
-    private NavMeshAgent agent;
+    public NavMeshAgent agent;
 
 
     public event Action<bool> OnDragEvent;
     public event Action OnAttackEvent;
+    public event Action<bool> OnMoveEvent;
 
     private bool draggingCheck;
+    private bool movingCheck = false;
     private void Awake()
     {
         playerInput = new PlayerInput();
@@ -36,6 +38,8 @@ public class PlayerController : MonoBehaviour
         playerInput.Player.Drag.canceled += OnDragCancelled;
 
         playerInput.Player.Attack.performed += OnAttack;
+
+        playerInput.Player.Move.performed += OnMove;
     }
     private void OnDisable()
     {
@@ -43,6 +47,8 @@ public class PlayerController : MonoBehaviour
         playerInput.Player.Drag.canceled -= OnDragCancelled;
 
         playerInput.Player.Attack.performed -= OnAttack;
+
+        playerInput.Player.Move.performed -= OnMove;
 
         playerInput.Disable();
     }
@@ -70,5 +76,10 @@ public class PlayerController : MonoBehaviour
     private void OnAttack(InputAction.CallbackContext ctx)
     {
         OnAttackEvent?.Invoke();
+    }
+    private void OnMove(InputAction.CallbackContext ctx)
+    {
+        movingCheck = !movingCheck;
+        OnMoveEvent?.Invoke(movingCheck);
     }
 }
