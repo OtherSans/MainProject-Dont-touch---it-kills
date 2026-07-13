@@ -45,7 +45,7 @@ public class DraggingController : MonoBehaviour
         if(isDragging)
             lastMouseWorldPos = GetMouseWorldPosition();
     }
-    private void DragControl()
+    public void DragControl()
     {
         
         if (isDragging)

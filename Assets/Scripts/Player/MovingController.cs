@@ -1,10 +1,11 @@
+using System;
 using UnityEngine;
 
 public class MovingController : MonoBehaviour
 {
     [SerializeField] private PlayerController playerController;
 
-    private bool isMoving;
+    [NonSerialized] public bool isMoving;
 
     private void OnEnable()
     {
@@ -30,6 +31,9 @@ public class MovingController : MonoBehaviour
     }
     private void MoveCheck()
     {
-        Debug.Log(isMoving);
+        if (isMoving)
+            playerController.NavMoving();
+        else
+            playerController.NavStop();
     }
 }

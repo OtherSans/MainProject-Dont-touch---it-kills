@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Rigidbody2D characterRB;
     [SerializeField] private Transform target;
 
-    public NavMeshAgent agent;
+    private NavMeshAgent agent;
 
 
     public event Action<bool> OnDragEvent;
@@ -54,10 +54,7 @@ public class PlayerController : MonoBehaviour
     }
     private void Update()
     {
-        if(target != null)
-        {
-            agent.SetDestination(target.position);
-        }
+        
     }
     private void OnDragStarted(InputAction.CallbackContext ctx)
     {
@@ -81,5 +78,22 @@ public class PlayerController : MonoBehaviour
     {
         movingCheck = !movingCheck;
         OnMoveEvent?.Invoke(movingCheck);
+    }
+
+    public void NavMoving()
+    {
+        if (target != null)
+        {
+            agent.isStopped = false;
+            agent.SetDestination(target.position);
+        }
+    }
+
+    public void NavStop()
+    {
+        if (target != null)
+        {
+            agent.isStopped = true;
+        }
     }
 }

@@ -16,7 +16,7 @@ public class Fsm
     {
         var type = typeof(T);
 
-        if (StateCurrent.GetType() == type)
+        if (StateCurrent != null && StateCurrent.GetType() == type)
             return;
 
         if (_states.TryGetValue(type, out var newState))
