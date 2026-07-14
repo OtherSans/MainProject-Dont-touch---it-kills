@@ -805,6 +805,9 @@ GameObject:
   - component: {fileID: 551573839}
   - component: {fileID: 551573840}
   - component: {fileID: 551573841}
+  - component: {fileID: 551573842}
+  - component: {fileID: 551573844}
+  - component: {fileID: 551573843}
   m_Layer: 0
   m_Name: MainChar
   m_TagString: Player
@@ -1018,10 +1021,61 @@ MonoBehaviour:
   m_GameObject: {fileID: 551573833}
   m_Enabled: 1
   m_EditorHideFlags: 0
+<<<<<<< HEAD
   m_Script: {fileID: 11500000, guid: ba692e55f42bdab49ba66a62694973dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MovingController
   playerController: {fileID: 551573838}
+=======
+  m_Script: {fileID: 11500000, guid: b0643e31e8bb31241b4147afc3b47f99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthController
+  maxHealth: 100
+  curHealth: 100
+  OnDied:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDamaged:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 551573844}
+        m_TargetAssemblyTypeName: InvincibleStart, Assembly-CSharp
+        m_MethodName: InvincibilityActivate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &551573843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 551573833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 587944db6caea8145a0ce92aeb94d52c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InvincibilityController
+--- !u!114 &551573844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 551573833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d6bc46d2eb988941aa902541ccb6e7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InvincibleStart
+  invDuration: 3
+>>>>>>> feature/health
 --- !u!1 &599459277
 GameObject:
   m_ObjectHideFlags: 0
@@ -1135,11 +1189,14 @@ GameObject:
   m_Component:
   - component: {fileID: 605598811}
   - component: {fileID: 605598810}
+<<<<<<< HEAD
   - component: {fileID: 605598818}
   - component: {fileID: 605598817}
   - component: {fileID: 605598816}
   - component: {fileID: 605598815}
   - component: {fileID: 605598814}
+=======
+>>>>>>> feature/health
   - component: {fileID: 605598813}
   - component: {fileID: 605598812}
   m_Layer: 0
@@ -1218,12 +1275,17 @@ Transform:
   m_GameObject: {fileID: 605598809}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+<<<<<<< HEAD
   m_LocalPosition: {x: -0.0692, y: -3.13, z: 0}
+=======
+  m_LocalPosition: {x: -0.0692, y: -3.38, z: 0}
+>>>>>>> feature/health
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< HEAD
 --- !u!195 &605598812
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1247,6 +1309,9 @@ NavMeshAgent:
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &605598813
+=======
+--- !u!114 &605598812
+>>>>>>> feature/health
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1255,6 +1320,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 605598809}
   m_Enabled: 1
   m_EditorHideFlags: 0
+<<<<<<< HEAD
   m_Script: {fileID: 11500000, guid: 608b7b443a0f2774082ad67c5ebf9adf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChaseController
@@ -1356,6 +1422,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FsmStartingEnemyState
   chaseContr: {fileID: 605598813}
 --- !u!60 &605598817
+=======
+  m_Script: {fileID: 11500000, guid: 7fd1e45988116af43bbc76abe71188ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAttack
+  enemyDamage: 10
+  targetTag: Player
+--- !u!60 &605598813
+>>>>>>> feature/health
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1405,6 +1479,7 @@ PolygonCollider2D:
       - {x: -0.5, y: -0.28866667}
       - {x: 0.5, y: -0.28866667}
   m_UseDelaunayMesh: 1
+<<<<<<< HEAD
 --- !u!50 &605598818
 Rigidbody2D:
   serializedVersion: 5
@@ -1432,6 +1507,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+=======
+>>>>>>> feature/health
 --- !u!1 &816189633
 GameObject:
   m_ObjectHideFlags: 0
