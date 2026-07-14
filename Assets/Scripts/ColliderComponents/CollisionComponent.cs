@@ -8,7 +8,7 @@ public class CollisionComponent : MonoBehaviour
     [SerializeField] private EnterEvent actionStay;
     [SerializeField] private EnterEvent actionExit;
 
-    public string actionTag;
+    [SerializeField] private string actionTag;
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag(actionTag))
