@@ -18,10 +18,16 @@ public class PlayerController : MonoBehaviour
 
 
     public event Action<bool> OnDragEvent;
+<<<<<<< HEAD
     public event Action OnAttackStartedEvent;
     public event Action OnAttackCanceledEvent;
+=======
+    public event Action OnAttackEvent;
+    public event Action<bool> OnMoveEvent;
+>>>>>>> feature/FSM
 
     private bool draggingCheck;
+    private bool movingCheck = false;
     private void Awake()
     {
         playerInput = new PlayerInput();
@@ -47,8 +53,14 @@ public class PlayerController : MonoBehaviour
         playerInput.Player.Drag.started += OnDragStarted;
         playerInput.Player.Drag.canceled += OnDragCancelled;
 
+<<<<<<< HEAD
         playerInput.Player.Attack.started += OnAttackStarted;
         playerInput.Player.Attack.canceled += OnAttackCanceled;
+=======
+        playerInput.Player.Attack.performed += OnAttack;
+
+        playerInput.Player.Move.performed += OnMove;
+>>>>>>> feature/FSM
     }
     private void OnDisable()
     {
@@ -58,14 +70,13 @@ public class PlayerController : MonoBehaviour
         playerInput.Player.Attack.started -= OnAttackStarted;
         playerInput.Player.Attack.canceled += OnAttackCanceled;
 
+        playerInput.Player.Move.performed -= OnMove;
+
         playerInput.Disable();
     }
     private void Update()
     {
-        if(target != null)
-        {
-            agent.SetDestination(target.position);
-        }
+        
     }
     private void OnDragStarted(InputAction.CallbackContext ctx)
     {
@@ -98,5 +109,27 @@ public class PlayerController : MonoBehaviour
         lastPosition = transform.position;
 
         pendController.AddImpulse(velocity.x);
+    }
+    private void OnMove(InputAction.CallbackContext ctx)
+    {
+        movingCheck = !movingCheck;
+        OnMoveEvent?.Invoke(movingCheck);
+    }
+
+    public void NavMoving()
+    {
+        if (target != null)
+        {
+            agent.isStopped = false;
+            agent.SetDestination(target.position);
+        }
+    }
+
+    public void NavStop()
+    {
+        if (target != null)
+        {
+            agent.isStopped = true;
+        }
     }
 }
