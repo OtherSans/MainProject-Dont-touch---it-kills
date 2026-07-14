@@ -18,13 +18,13 @@ public class PlayerController : MonoBehaviour
 
 
     public event Action<bool> OnDragEvent;
-<<<<<<< HEAD
+
     public event Action OnAttackStartedEvent;
     public event Action OnAttackCanceledEvent;
-=======
+
     public event Action OnAttackEvent;
     public event Action<bool> OnMoveEvent;
->>>>>>> feature/FSM
+
 
     private bool draggingCheck;
     private bool movingCheck = false;
@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
     {
         playerInput = new PlayerInput();
     }
-<<<<<<< HEAD
+
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -40,12 +40,12 @@ public class PlayerController : MonoBehaviour
         agent.updateUpAxis = false;
     }
 
-=======
+
     private void Update()
     {
         PendulumSwing();
     }
->>>>>>> feature/attack
+
     private void OnEnable()
     {
         playerInput.Enable();
@@ -53,14 +53,11 @@ public class PlayerController : MonoBehaviour
         playerInput.Player.Drag.started += OnDragStarted;
         playerInput.Player.Drag.canceled += OnDragCancelled;
 
-<<<<<<< HEAD
+
         playerInput.Player.Attack.started += OnAttackStarted;
         playerInput.Player.Attack.canceled += OnAttackCanceled;
-=======
-        playerInput.Player.Attack.performed += OnAttack;
 
         playerInput.Player.Move.performed += OnMove;
->>>>>>> feature/FSM
     }
     private void OnDisable()
     {
@@ -73,10 +70,6 @@ public class PlayerController : MonoBehaviour
         playerInput.Player.Move.performed -= OnMove;
 
         playerInput.Disable();
-    }
-    private void Update()
-    {
-        
     }
     private void OnDragStarted(InputAction.CallbackContext ctx)
     {
