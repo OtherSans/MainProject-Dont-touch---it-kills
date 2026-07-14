@@ -12,8 +12,16 @@ public class PlayerController : MonoBehaviour
 
     private NavMeshAgent agent;
 
+    [SerializeField] private PendulumController pendController;
+
+    private Vector3 lastPosition;
+
 
     public event Action<bool> OnDragEvent;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> parent of aa5758a (Cancel attack)
 
     public event Action OnAttackStartedEvent;
     public event Action OnAttackCanceledEvent;
@@ -31,6 +39,10 @@ public class PlayerController : MonoBehaviour
     {
         playerInput = new PlayerInput();
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> parent of aa5758a (Cancel attack)
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -47,16 +59,30 @@ public class PlayerController : MonoBehaviour
         playerInput.Player.Drag.started += OnDragStarted;
         playerInput.Player.Drag.canceled += OnDragCancelled;
 
+<<<<<<< HEAD
 
         playerInput.Player.Attack.performed += OnAttack;
 
+=======
+<<<<<<< HEAD
+
+        playerInput.Player.Attack.started += OnAttackStarted;
+        playerInput.Player.Attack.canceled += OnAttackCanceled;
+
+        playerInput.Player.Move.performed += OnMove;
+=======
+        playerInput.Player.Attack.started += OnAttackStarted;
+        playerInput.Player.Attack.canceled += OnAttackCanceled;
+>>>>>>> parent of aca6323 (Local changes and merge FSM)
+>>>>>>> parent of aa5758a (Cancel attack)
     }
     private void OnDisable()
     {
         playerInput.Player.Drag.started -= OnDragStarted;
         playerInput.Player.Drag.canceled -= OnDragCancelled;
 
-        playerInput.Player.Attack.performed -= OnAttack;
+        playerInput.Player.Attack.started -= OnAttackStarted;
+        playerInput.Player.Attack.canceled += OnAttackCanceled;
 
         playerInput.Disable();
     }
@@ -81,8 +107,22 @@ public class PlayerController : MonoBehaviour
         OnDragEvent?.Invoke(draggingCheck);
     }
 
-    private void OnAttack(InputAction.CallbackContext ctx)
+    private void OnAttackStarted(InputAction.CallbackContext ctx)
     {
-        OnAttackEvent?.Invoke();
+        OnAttackStartedEvent?.Invoke();
+    }
+    private void OnAttackCanceled(InputAction.CallbackContext ctx)
+    {
+        OnAttackCanceledEvent?.Invoke();
+    }
+
+    private void PendulumSwing()
+    {
+        Vector3 velocity =
+(transform.position - lastPosition) / Time.deltaTime;
+
+        lastPosition = transform.position;
+
+        pendController.AddImpulse(velocity.x);
     }
 }
