@@ -1,22 +1,14 @@
-using System;
 using UnityEngine;
 
 public class AttackController : MonoBehaviour
 {
     [SerializeField] private PlayerController playerController;
 
-    [NonSerialized] public bool isAttacking;
-    private void Start()
-    {
-
-    }
-
     private void OnEnable()
     {
         if(playerController != null)
         {
-            playerController.OnAttackStartedEvent += AttackStart;
-            playerController.OnAttackCanceledEvent += AttackCancel;
+            playerController.OnAttackEvent += AttackPerform;
         }
     }
 
@@ -24,18 +16,12 @@ public class AttackController : MonoBehaviour
     {
         if (playerController != null)
         {
-            playerController.OnAttackStartedEvent -= AttackStart;
-            playerController.OnAttackCanceledEvent -= AttackCancel;
+            playerController.OnAttackEvent -= AttackPerform;
         }
     }
-    private void AttackStart()
+    private void AttackPerform()
     {
-        Debug.Log("attackStart");
-        isAttacking = true;
+        Debug.Log("attack");
     }
-    private void AttackCancel()
-    {
-        Debug.Log("attackCancel");
-        isAttacking = false;
-    }
+
 }
