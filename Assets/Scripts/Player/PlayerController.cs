@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
 
 
     public event Action<bool> OnDragEvent;
+<<<<<<< HEAD
 
     public event Action OnAttackStartedEvent;
     public event Action OnAttackCanceledEvent;
@@ -25,9 +26,12 @@ public class PlayerController : MonoBehaviour
     public event Action OnAttackEvent;
     public event Action<bool> OnMoveEvent;
 
+=======
+    public event Action OnAttackStartedEvent;
+    public event Action OnAttackCanceledEvent;
+>>>>>>> parent of aca6323 (Local changes and merge FSM)
 
     private bool draggingCheck;
-    private bool movingCheck = false;
     private void Awake()
     {
         playerInput = new PlayerInput();
@@ -53,11 +57,16 @@ public class PlayerController : MonoBehaviour
         playerInput.Player.Drag.started += OnDragStarted;
         playerInput.Player.Drag.canceled += OnDragCancelled;
 
+<<<<<<< HEAD
 
         playerInput.Player.Attack.started += OnAttackStarted;
         playerInput.Player.Attack.canceled += OnAttackCanceled;
 
         playerInput.Player.Move.performed += OnMove;
+=======
+        playerInput.Player.Attack.started += OnAttackStarted;
+        playerInput.Player.Attack.canceled += OnAttackCanceled;
+>>>>>>> parent of aca6323 (Local changes and merge FSM)
     }
     private void OnDisable()
     {
@@ -67,10 +76,18 @@ public class PlayerController : MonoBehaviour
         playerInput.Player.Attack.started -= OnAttackStarted;
         playerInput.Player.Attack.canceled += OnAttackCanceled;
 
-        playerInput.Player.Move.performed -= OnMove;
-
         playerInput.Disable();
     }
+<<<<<<< HEAD
+=======
+    private void Update()
+    {
+        if(target != null)
+        {
+            agent.SetDestination(target.position);
+        }
+    }
+>>>>>>> parent of aca6323 (Local changes and merge FSM)
     private void OnDragStarted(InputAction.CallbackContext ctx)
     {
         draggingCheck = true;
@@ -102,27 +119,5 @@ public class PlayerController : MonoBehaviour
         lastPosition = transform.position;
 
         pendController.AddImpulse(velocity.x);
-    }
-    private void OnMove(InputAction.CallbackContext ctx)
-    {
-        movingCheck = !movingCheck;
-        OnMoveEvent?.Invoke(movingCheck);
-    }
-
-    public void NavMoving()
-    {
-        if (target != null)
-        {
-            agent.isStopped = false;
-            agent.SetDestination(target.position);
-        }
-    }
-
-    public void NavStop()
-    {
-        if (target != null)
-        {
-            agent.isStopped = true;
-        }
     }
 }
