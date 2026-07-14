@@ -23,7 +23,9 @@ public class PlayerController : MonoBehaviour
 
     public event Action<bool> OnMoveEvent;
 
+    [SerializeField] private PendulumController pendController;
 
+    private Vector3 lastPosition;
 
 
     private bool draggingCheck;
@@ -48,7 +50,8 @@ public class PlayerController : MonoBehaviour
         playerInput.Player.Drag.canceled += OnDragCancelled;
 
 
-        playerInput.Player.Attack.performed += OnAttack;
+        playerInput.Player.Attack.started += OnAttackStarted;
+        playerInput.Player.Attack.canceled += OnAttackCanceled;
 
     }
     private void OnDisable()
@@ -56,13 +59,16 @@ public class PlayerController : MonoBehaviour
         playerInput.Player.Drag.started -= OnDragStarted;
         playerInput.Player.Drag.canceled -= OnDragCancelled;
 
-        playerInput.Player.Attack.performed -= OnAttack;
+        playerInput.Player.Attack.started -= OnAttackStarted;
+        playerInput.Player.Attack.canceled += OnAttackCanceled;
 
         playerInput.Disable();
     }
     private void Update()
     {
-        if(target != null)
+        PendulumSwing();
+
+        if (target != null)
         {
             agent.SetDestination(target.position);
         }
@@ -81,8 +87,22 @@ public class PlayerController : MonoBehaviour
         OnDragEvent?.Invoke(draggingCheck);
     }
 
-    private void OnAttack(InputAction.CallbackContext ctx)
+    private void OnAttackStarted(InputAction.CallbackContext ctx)
     {
-        OnAttackEvent?.Invoke();
+        OnAttackStartedEvent?.Invoke();
+    }
+    private void OnAttackCanceled(InputAction.CallbackContext ctx)
+    {
+        OnAttackCanceledEvent?.Invoke();
+    }
+
+    private void PendulumSwing()
+    {
+        Vector3 velocity =
+(transform.position - lastPosition) / Time.deltaTime;
+
+        lastPosition = transform.position;
+
+        pendController.AddImpulse(velocity.x);
     }
 }

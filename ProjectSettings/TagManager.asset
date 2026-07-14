@@ -43,19 +43,16 @@ TagManager:
     uniqueID: 0
     locked: 0
   - name: Background
-    uniqueID: 4254833603
+    uniqueID: 1432622161
     locked: 0
   - name: Player
-    uniqueID: 1604981859
+    uniqueID: 3177946147
     locked: 0
   - name: Enemy
-    uniqueID: 382790699
+    uniqueID: 2745771955
     locked: 0
   - name: Finish
-    uniqueID: 3735177991
-    locked: 0
-  - name: Wall
-    uniqueID: 1916715693
+    uniqueID: 2524836577
     locked: 0
   m_RenderingLayers:
   - Default
