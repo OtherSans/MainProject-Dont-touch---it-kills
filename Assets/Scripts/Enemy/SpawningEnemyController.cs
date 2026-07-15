@@ -15,7 +15,7 @@ public class SpawningEnemyController : MonoBehaviour
     }
     private void SwingAttack()
     {
-        Debug.Log("SwingAttack");
+        
         Destroy(gameObject, destroyTimer);
     }
 

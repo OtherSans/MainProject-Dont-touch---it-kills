@@ -7,7 +7,8 @@ public class PlayerController : MonoBehaviour
 {
     private PlayerInput playerInput;
 
-    [SerializeField] private Rigidbody2D characterRB;
+    [SerializeField] private PendulumController pendController;
+    [SerializeField] private SwordController swordController;
     [SerializeField] private Transform target;
 
     private NavMeshAgent agent;
@@ -18,17 +19,13 @@ public class PlayerController : MonoBehaviour
     public event Action OnAttackStartedEvent;
     public event Action OnAttackCanceledEvent;
 
-    public event Action OnAttackEvent;
-
-
     public event Action<bool> OnMoveEvent;
-
-    [SerializeField] private PendulumController pendController;
 
     private Vector3 lastPosition;
 
 
     private bool draggingCheck;
+    private bool movingCheck;
     private void Awake()
     {
         playerInput = new PlayerInput();
@@ -53,6 +50,8 @@ public class PlayerController : MonoBehaviour
         playerInput.Player.Attack.started += OnAttackStarted;
         playerInput.Player.Attack.canceled += OnAttackCanceled;
 
+        playerInput.Player.Move.performed += OnMove;
+
     }
     private void OnDisable()
     {
@@ -62,16 +61,13 @@ public class PlayerController : MonoBehaviour
         playerInput.Player.Attack.started -= OnAttackStarted;
         playerInput.Player.Attack.canceled += OnAttackCanceled;
 
+        playerInput.Player.Move.performed -= OnMove;
+
         playerInput.Disable();
     }
     private void Update()
     {
-        PendulumSwing();
-
-        if (target != null)
-        {
-            agent.SetDestination(target.position);
-        }
+        SwordSwing();
     }
     private void OnDragStarted(InputAction.CallbackContext ctx)
     {
@@ -96,6 +92,11 @@ public class PlayerController : MonoBehaviour
         OnAttackCanceledEvent?.Invoke();
     }
 
+    private void OnMove(InputAction.CallbackContext ctx)
+    {
+        movingCheck = !movingCheck;
+        OnMoveEvent?.Invoke(movingCheck);
+    }
     private void PendulumSwing()
     {
         Vector3 velocity =
@@ -104,5 +105,29 @@ public class PlayerController : MonoBehaviour
         lastPosition = transform.position;
 
         pendController.AddImpulse(velocity.x);
+    }
+    private void SwordSwing()
+    {
+        Vector3 velocity =
+(transform.position - lastPosition) / Time.deltaTime;
+
+        lastPosition = transform.position;
+
+        swordController.AddImpulse(velocity.x);
+    }
+    public void NavMove()
+    {
+        if (target != null)
+        {
+            agent.isStopped = false;
+            agent.SetDestination(target.position);
+        }
+    }
+    public void NavStop()
+    {
+        if (target != null)
+        {
+            agent.isStopped = true;
+        }
     }
 }
