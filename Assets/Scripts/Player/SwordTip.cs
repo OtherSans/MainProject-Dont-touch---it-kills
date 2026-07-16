@@ -10,7 +10,7 @@ public class SwordTip : MonoBehaviour
         if (!sword.CanSkewer())
             return;
 
-        if (!other.TryGetComponent(out FsmStartingEnemyState enemy))
+        if (!other.TryGetComponent(out EnemyController enemy))
             return;
 
         sword.TrySkewer(enemy);

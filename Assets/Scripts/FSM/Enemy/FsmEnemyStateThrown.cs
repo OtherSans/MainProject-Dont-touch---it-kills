@@ -3,10 +3,10 @@ using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 public class FsmEnemyStateThrown : FsmState
 {
-    private readonly FsmStartingEnemyState enemy;
+    private readonly EnemyController enemy;
     private float timer;
 
-    public FsmEnemyStateThrown(Fsm fsm, FsmStartingEnemyState enemy) : base(fsm)
+    public FsmEnemyStateThrown(Fsm fsm, EnemyController enemy) : base(fsm)
     {
         this.enemy = enemy;
     }
@@ -21,7 +21,7 @@ public class FsmEnemyStateThrown : FsmState
         }
         enemy.transform.SetParent(null);
         enemy.Rigidbody.simulated = true;
-        enemy.Chase.enabled = false;
+        //enemy.Chase.enabled = false;
         enemy.Rigidbody.linearVelocity = thrown.swordCntr.TipVelocity;
         timer = 0f;
         //enemy.Animator.Play("Thrown")
@@ -31,7 +31,7 @@ public class FsmEnemyStateThrown : FsmState
     {
         Debug.Log("Thrown State [EXIT]");
 
-        enemy.Chase.enabled = true;
+        //enemy.Chase.enabled = true;
 
         //enemy.Animator.Play("Walk");
     }

@@ -228,17 +228,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
---- !u!114 &18539457 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4621266825362335307, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
-  m_PrefabInstance: {fileID: 1971375228}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccc9f2513712cba4b84b8a5dd0a262e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AttackController
 --- !u!1 &37564801
 GameObject:
   m_ObjectHideFlags: 0
@@ -732,12 +721,12 @@ GameObject:
   - component: {fileID: 605598810}
   - component: {fileID: 605598817}
   - component: {fileID: 605598816}
-  - component: {fileID: 605598815}
-  - component: {fileID: 605598814}
+  - component: {fileID: 605598821}
   - component: {fileID: 605598813}
   - component: {fileID: 605598818}
   - component: {fileID: 605598819}
   - component: {fileID: 605598820}
+  - component: {fileID: 605598822}
   m_Layer: 7
   m_Name: ChasingEnemy
   m_TagString: Enemy
@@ -834,7 +823,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 2
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -842,64 +831,6 @@ NavMeshAgent:
   m_BaseOffset: 0.71133333
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &605598814
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 605598809}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00a70dfbc437aba4c8438f5cb80a02a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TriggerComponent
-  triggerEnter:
-    m_PersistentCalls:
-      m_Calls: []
-  triggerStay:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 605598816}
-        m_TargetAssemblyTypeName: ChaseController, Assembly-CSharp
-        m_MethodName: ChaseTrue
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  triggerExit:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 605598816}
-        m_TargetAssemblyTypeName: ChaseController, Assembly-CSharp
-        m_MethodName: ChaseFalse
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  objectTag: Player
---- !u!114 &605598815
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 605598809}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1fc976a4fd8ce14781e2b341ddc6ad6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FsmStartingEnemyState
 --- !u!114 &605598816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -913,7 +844,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChaseController
   target: {fileID: 1971375231}
-  isChasing: 0
 --- !u!60 &605598817
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -1027,7 +957,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -1046,7 +976,32 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0.21133333}
-  m_Radius: 1.65
+  m_Radius: 2.28
+--- !u!114 &605598821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 605598809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3211a0ad3c6f5e478deddd68367fed4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChaserController
+--- !u!114 &605598822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 605598809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 021fbdada8ed4db4f89ed705086b1f96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CheckPlayerInRange
+  enemy: {fileID: 605598821}
 --- !u!1 &816189633
 GameObject:
   m_ObjectHideFlags: 0
@@ -1201,35 +1156,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &828987415 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4207349730948161008, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
-  m_PrefabInstance: {fileID: 1971375228}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &828987418
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 828987415}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bafb6923adce4f49858313c9e0e221f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SwordController
-  sword: {fileID: 1750306353}
-  skewerPoint: {fileID: 1175572926}
-  attackBool: {fileID: 18539457}
-  minLength: 1
-  maxLength: 4
-  extendSpeed: 5
-  retractSpeed: 4
-  spring: 35
-  damping: 0.95
-  impulseMultiplier: 2.39
-  throwVelocity: 180
-  minSkewerSpeed: 0.52
 --- !u!1 &832722003
 GameObject:
   m_ObjectHideFlags: 0
@@ -1403,144 +1329,6 @@ Transform:
   - {fileID: 125218412}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1175572925
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1175572926}
-  - component: {fileID: 1175572927}
-  - component: {fileID: 1175572928}
-  m_Layer: 0
-  m_Name: SwordTip
-  m_TagString: Untagged
-  m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1175572926
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1175572925}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 6.18, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1190769659}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &1175572927
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1175572925}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.59
---- !u!114 &1175572928
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1175572925}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fdbaa997e57eb242a10a542cec35f70, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SwordTip
-  sword: {fileID: 828987418}
---- !u!1 &1190769658 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 204727165651538750, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
-  m_PrefabInstance: {fileID: 1971375228}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1190769659 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 79023493691615763, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
-  m_PrefabInstance: {fileID: 1971375228}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1190769663
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1190769658}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12f2bca99a0b5aa49b5f21f4c253d966, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SwordAttack
-  attackDamage: 5
-  targetTag: Enemy
---- !u!50 &1190769664
-Rigidbody2D:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1190769658}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 1
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 7
---- !u!4 &1750306353 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6783736041105373723, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
-  m_PrefabInstance: {fileID: 1971375228}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1804106479
 GameObject:
   m_ObjectHideFlags: 0
@@ -1705,10 +1493,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 204727165651538750, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
     - target: {fileID: 770597547847241045, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6.23
@@ -1749,125 +1533,24 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1655888119196511454, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1769707353997759686, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
-      propertyPath: m_ExcludeLayers.m_Bits
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1769707353997759686, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
-      propertyPath: m_IncludeLayers.m_Bits
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4207349730948161008, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 4277215166788787598, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4277215166788787598, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
-      propertyPath: impulseMultiplier
-      value: 2.17
-      objectReference: {fileID: 0}
-    - target: {fileID: 4983684166364023703, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
     - target: {fileID: 6399058089455004984, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
       propertyPath: target
       value: 
       objectReference: {fileID: 2034495012}
-    - target: {fileID: 6399058089455004984, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
-      propertyPath: swordController
-      value: 
-      objectReference: {fileID: 828987418}
     - target: {fileID: 6950101497218981567, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
       propertyPath: m_Name
       value: MainChar
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 79023493691615763, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1175572926}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6950101497218981567, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
-      insertIndex: 5
-      addedObject: {fileID: 1971375237}
-    - targetCorrespondingSourceObject: {fileID: 6950101497218981567, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1971375230}
-    - targetCorrespondingSourceObject: {fileID: 4207349730948161008, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 828987418}
-    - targetCorrespondingSourceObject: {fileID: 204727165651538750, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1190769663}
-    - targetCorrespondingSourceObject: {fileID: 204727165651538750, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1190769664}
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
---- !u!1 &1971375229 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6950101497218981567, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
-  m_PrefabInstance: {fileID: 1971375228}
-  m_PrefabAsset: {fileID: 0}
---- !u!195 &1971375230
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1971375229}
-  m_Enabled: 0
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 1.64
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 1
-  m_BaseOffset: 0.5
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!4 &1971375231 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 770597547847241045, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
   m_PrefabInstance: {fileID: 1971375228}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1971375232 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6399058089455004984, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
-  m_PrefabInstance: {fileID: 1971375228}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1971375229}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab44b2ae1f8389843bf093d437d97816, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
---- !u!114 &1971375237
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1971375229}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18123e207eacdb347b12042e99445d92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MovingController
-  playerContr: {fileID: 1971375232}
 --- !u!1 &2034495010
 GameObject:
   m_ObjectHideFlags: 0

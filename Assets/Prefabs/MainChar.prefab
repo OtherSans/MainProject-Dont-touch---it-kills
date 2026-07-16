@@ -12,9 +12,11 @@ GameObject:
   - component: {fileID: 6826100121179559086}
   - component: {fileID: 1769707353997759686}
   - component: {fileID: 5205321976925156495}
-  m_Layer: 0
+  - component: {fileID: 4372644698099403091}
+  - component: {fileID: 6039027333309964159}
+  m_Layer: 8
   m_Name: Sword
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31,7 +33,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0.97, z: 0}
   m_LocalScale: {x: 1, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 5330881254652534118}
   m_Father: {fileID: 6783736041105373723}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6826100121179559086
@@ -153,6 +156,47 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IgnoreParentScale
   parentToIgnore: {fileID: 6783736041105373723}
+--- !u!114 &4372644698099403091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 204727165651538750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12f2bca99a0b5aa49b5f21f4c253d966, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SwordAttack
+  attackDamage: 5
+  targetTag: Enemy
+--- !u!50 &6039027333309964159
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 204727165651538750}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 1
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1 &1103423864967220881
 GameObject:
   m_ObjectHideFlags: 0
@@ -345,9 +389,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1499899281447583930}
   - component: {fileID: 4277215166788787598}
+  - component: {fileID: 8368833187745118706}
   m_Layer: 0
   m_Name: ChainPivot
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -375,7 +420,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4207349730948161008}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b095f881b5dd8b24c82ce209f64b12ee, type: 3}
   m_Name: 
@@ -387,7 +432,114 @@ MonoBehaviour:
   retractSpeed: 3
   spring: 40
   damping: 0.94
-  impulseMultiplier: 1.81
+  impulseMultiplier: 2.17
+--- !u!114 &8368833187745118706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4207349730948161008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bafb6923adce4f49858313c9e0e221f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SwordController
+  sword: {fileID: 6783736041105373723}
+  skewerPoint: {fileID: 5330881254652534118}
+  attackBool: {fileID: 4621266825362335307}
+  minLength: 1
+  maxLength: 4
+  extendSpeed: 5
+  retractSpeed: 4
+  spring: 35
+  damping: 0.95
+  impulseMultiplier: 5.65
+  throwVelocity: 180
+  minSkewerSpeed: 1.14
+  maxExtendLength: 0.45
+--- !u!1 &4953256125700748966
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5330881254652534118}
+  - component: {fileID: 7768393962114524287}
+  - component: {fileID: 5370549474213544720}
+  m_Layer: 8
+  m_Name: SwordTip
+  m_TagString: Untagged
+  m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5330881254652534118
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4953256125700748966}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 6.18, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 79023493691615763}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &7768393962114524287
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4953256125700748966}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.6
+--- !u!114 &5370549474213544720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4953256125700748966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fdbaa997e57eb242a10a542cec35f70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SwordTip
+  sword: {fileID: 8368833187745118706}
 --- !u!1 &4983684166364023703
 GameObject:
   m_ObjectHideFlags: 0
@@ -403,7 +555,7 @@ GameObject:
   - component: {fileID: 1655888119196511454}
   m_Layer: 0
   m_Name: Chains
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -564,7 +716,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4983684166364023703}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ca576f9b0059fac4dbc0e7f56d5b6733, type: 3}
   m_Name: 
@@ -584,7 +736,9 @@ GameObject:
   - component: {fileID: 5332527100501221205}
   - component: {fileID: 6399058089455004984}
   - component: {fileID: 8235511576955612494}
+  - component: {fileID: 2013269830544051905}
   - component: {fileID: 6972676475072440962}
+  - component: {fileID: 6236013314809925462}
   m_Layer: 0
   m_Name: MainChar
   m_TagString: Player
@@ -707,9 +861,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab44b2ae1f8389843bf093d437d97816, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  characterRB: {fileID: 5332527100501221205}
-  target: {fileID: 0}
   pendController: {fileID: 4277215166788787598}
+  swordController: {fileID: 8368833187745118706}
+  target: {fileID: 0}
 --- !u!114 &8235511576955612494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -724,6 +878,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DraggingController
   playerController: {fileID: 6399058089455004984}
   dragSensitivity: 0.176
+--- !u!114 &2013269830544051905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6950101497218981567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18123e207eacdb347b12042e99445d92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MovingController
+  playerContr: {fileID: 6399058089455004984}
 --- !u!58 &6972676475072440962
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -760,3 +927,25 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.5
+--- !u!195 &6236013314809925462
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6950101497218981567}
+  m_Enabled: 0
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 1.64
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0.5
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4

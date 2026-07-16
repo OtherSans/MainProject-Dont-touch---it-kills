@@ -2,16 +2,16 @@ using UnityEngine;
 
 public class FsmEnemyStateWalk : FsmState
 {
-    private readonly FsmStartingEnemyState enemy;
+    private readonly EnemyController enemy;
 
-    public FsmEnemyStateWalk(Fsm fsm, FsmStartingEnemyState enemy) : base(fsm)
+    public FsmEnemyStateWalk(Fsm fsm, EnemyController enemy) : base(fsm)
     {
         this.enemy = enemy;
     }
     public override void Enter(FsmContext ctx)
     {
         Debug.Log("Walk State [ENTER]");
-        enemy.Chase.ChasePlayer();
+        //enemy.Chase.ChasePlayer();
         //enemy.Animator.Play("Walk");
         //enemy.Chase.enabled = true;
     }
@@ -21,10 +21,10 @@ public class FsmEnemyStateWalk : FsmState
     }
     public override void Update()
     {
-        if(!enemy.Chase.isChasing)
-        {
-            Fsm.SetState<FsmEnemyStateIdle>();
-        }
+        //if(!enemy.Chase.isChasing)
+        //{
+        //    Fsm.SetState<FsmEnemyStateIdle>();
+        //}
         //enemy.Chase.enabled = false;
     }
 }

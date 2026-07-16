@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class FsmEnemyStateIdle : FsmState
 {
-    private readonly FsmStartingEnemyState enemy;
-    public FsmEnemyStateIdle(Fsm fsm, FsmStartingEnemyState enemy) : base(fsm)
+    private readonly EnemyController enemy;
+    public FsmEnemyStateIdle(Fsm fsm, EnemyController enemy) : base(fsm)
     {
         this.enemy = enemy;
 
@@ -20,9 +20,9 @@ public class FsmEnemyStateIdle : FsmState
     }
     public override void Update()
     {
-        if (enemy.Chase.isChasing)
-        {
-            Fsm.SetState<FsmEnemyStateWalk>();
-        }
+        //if (enemy.Chase.isChasing)
+        //{
+        //    Fsm.SetState<FsmEnemyStateWalk>();
+        //}
     }
 }

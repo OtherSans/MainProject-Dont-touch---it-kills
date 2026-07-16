@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class FsmEnemyStateSkewered : FsmState
 {
-    private readonly FsmStartingEnemyState enemy;
+    private readonly EnemyController enemy;
     private SwordController sword;
-    public FsmEnemyStateSkewered(Fsm fsm, FsmStartingEnemyState enemy) : base(fsm)
+    public FsmEnemyStateSkewered(Fsm fsm, EnemyController enemy) : base(fsm)
     {
         this.enemy = enemy;
     }
@@ -20,7 +20,7 @@ public class FsmEnemyStateSkewered : FsmState
 
         sword = skewer.Sword;
 
-        enemy.Chase.enabled = false;
+        //enemy.Chase.enabled = false;
         enemy.Rigidbody.simulated = false;
 
         enemy.transform.SetParent(skewer.SkewerPoint);

@@ -21,6 +21,7 @@ public class SwordController : MonoBehaviour
     [Header("Throw")]
     [SerializeField] private float throwVelocity = 180f;
     [SerializeField] private float minSkewerSpeed = 5f;
+    [SerializeField, Range(0,1)] private float maxExtendLength = 1f;
     private Vector3 lastTipPosition;
 
     private float currentLength;
@@ -31,13 +32,13 @@ public class SwordController : MonoBehaviour
 
     public float AngularVelocity => angularVelocity;
 
-    public FsmStartingEnemyState SkeweredEnemy { get; private set; }
+    public EnemyController SkeweredEnemy { get; private set; }
     public Vector2 TipVelocity { get; private set; }
 
     //проверки на нанизывание
     public float TipSpeed => TipVelocity.magnitude;
-    public bool IsExtended =>
-    currentLength > maxLength * 0.8f;
+    
+    
 
 
 
@@ -108,7 +109,7 @@ public class SwordController : MonoBehaviour
 
     #region Skewer
 
-    public bool TrySkewer(FsmStartingEnemyState enemy)
+    public bool TrySkewer(EnemyController enemy)
     {
         if (SkeweredEnemy != null)
             return false;
@@ -151,7 +152,10 @@ public class SwordController : MonoBehaviour
 
         lastTipPosition = skewerPoint.position;
     }
-
+    public bool IsExtended()
+    {
+        return currentLength > maxLength * maxExtendLength;
+    }
     public bool IsMovingForward()
     {
         if (TipVelocity.sqrMagnitude < 0.01f)
@@ -164,14 +168,14 @@ public class SwordController : MonoBehaviour
     }
     public bool CanSkewer()
     {
-        //if (!IsExtended)
-        //    return false;
+        if (!IsExtended())
+            return false;
 
         if (TipVelocity.magnitude < minSkewerSpeed)
             return false;
 
-        if (!IsMovingForward())
-            return false;
+        //if (!IsMovingForward())
+        //    return false;
 
         return true;
     }
