@@ -18,7 +18,7 @@ public class MovingController : MonoBehaviour
     }
     private void Update()
     {
-        MovingChange();
+        //MovingChange();
     }
     private void MovePerform(bool moveCheck)
     {

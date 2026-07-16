@@ -20,6 +20,8 @@ public class SwordController : MonoBehaviour
 
     [Header("Throw")]
     [SerializeField] private float throwVelocity = 180f;
+    [SerializeField] private float minSkewerSpeed = 5f;
+    private Vector3 lastTipPosition;
 
     private float currentLength;
     private float targetLength;
@@ -30,18 +32,32 @@ public class SwordController : MonoBehaviour
     public float AngularVelocity => angularVelocity;
 
     public FsmStartingEnemyState SkeweredEnemy { get; private set; }
+    public Vector2 TipVelocity { get; private set; }
+
+    //проверки на нанизывание
+    public float TipSpeed => TipVelocity.magnitude;
+    public bool IsExtended =>
+    currentLength > maxLength * 0.8f;
+
+
 
     private void Awake()
     {
         currentLength = minLength;
         targetLength = minLength;
     }
+    private void Start()
+    {
+        lastTipPosition = skewerPoint.position;
+    }
 
     private void Update()
     {
         UpdateLength();
         UpdateSwing();
+        CheckSwordVelocity();
         CheckThrow();
+
     }
 
     #region Length
@@ -124,12 +140,40 @@ public class SwordController : MonoBehaviour
         SkeweredEnemy.Fsm.SetState<FsmEnemyStateThrown>(
     new FsmThrownContext()
     {
-        Direction = transform.right,
-        Force = Mathf.Abs(angularVelocity)
+        swordCntr = this
     });
 
         SkeweredEnemy = null;
     }
+    private void CheckSwordVelocity()
+    {
+        TipVelocity = (skewerPoint.position - lastTipPosition) / Time.deltaTime;
 
+        lastTipPosition = skewerPoint.position;
+    }
+
+    public bool IsMovingForward()
+    {
+        if (TipVelocity.sqrMagnitude < 0.01f)
+            return false;
+
+        Vector2 tipDirection = TipVelocity.normalized;
+        Vector2 swordForward = transform.up;
+
+        return Vector2.Dot(tipDirection, swordForward) > 0.6f;
+    }
+    public bool CanSkewer()
+    {
+        //if (!IsExtended)
+        //    return false;
+
+        if (TipVelocity.magnitude < minSkewerSpeed)
+            return false;
+
+        if (!IsMovingForward())
+            return false;
+
+        return true;
+    }
     #endregion
 }

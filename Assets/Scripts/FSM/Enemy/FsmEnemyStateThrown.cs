@@ -22,8 +22,7 @@ public class FsmEnemyStateThrown : FsmState
         enemy.transform.SetParent(null);
         enemy.Rigidbody.simulated = true;
         enemy.Chase.enabled = false;
-        enemy.Rigidbody.linearVelocity = Vector2.zero;
-        enemy.Rigidbody.AddForce(thrown.Direction.normalized * thrown.Force, ForceMode2D.Impulse);
+        enemy.Rigidbody.linearVelocity = thrown.swordCntr.TipVelocity;
         timer = 0f;
         //enemy.Animator.Play("Thrown")
         

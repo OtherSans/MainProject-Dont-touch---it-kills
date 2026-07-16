@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour
         playerInput.Player.Attack.started += OnAttackStarted;
         playerInput.Player.Attack.canceled += OnAttackCanceled;
 
-        playerInput.Player.Move.performed += OnMove;
+        //playerInput.Player.Move.performed += OnMove;
 
     }
     private void OnDisable()
@@ -61,7 +61,7 @@ public class PlayerController : MonoBehaviour
         playerInput.Player.Attack.started -= OnAttackStarted;
         playerInput.Player.Attack.canceled += OnAttackCanceled;
 
-        playerInput.Player.Move.performed -= OnMove;
+        //playerInput.Player.Move.performed -= OnMove;
 
         playerInput.Disable();
     }
@@ -92,11 +92,11 @@ public class PlayerController : MonoBehaviour
         OnAttackCanceledEvent?.Invoke();
     }
 
-    private void OnMove(InputAction.CallbackContext ctx)
-    {
-        movingCheck = !movingCheck;
-        OnMoveEvent?.Invoke(movingCheck);
-    }
+    //private void OnMove(InputAction.CallbackContext ctx)
+    //{
+    //    movingCheck = !movingCheck;
+    //    OnMoveEvent?.Invoke(movingCheck);
+    //}
     private void PendulumSwing()
     {
         Vector3 velocity =
