@@ -17,11 +17,14 @@ public class SwordController : MonoBehaviour
     [SerializeField] private float spring = 35f;
     [SerializeField] private float damping = 0.95f;
     [SerializeField] private float impulseMultiplier = 0.12f;
+    [SerializeField] private float impulseThreshold;
 
     [Header("Throw")]
     [SerializeField] private float throwVelocity = 180f;
     [SerializeField] private float minSkewerSpeed = 5f;
     [SerializeField, Range(0,1)] private float maxExtendLength = 1f;
+    [SerializeField] private float minThrowSpeed = 6f;
+
     private Vector3 lastTipPosition;
 
     private float currentLength;
@@ -90,6 +93,9 @@ public class SwordController : MonoBehaviour
 
     public void AddImpulse(float impulse)
     {
+        if (Mathf.Abs(impulse) < impulseThreshold)
+            return;
+
         angularVelocity += impulse * impulseMultiplier;
     }
 
@@ -136,6 +142,8 @@ public class SwordController : MonoBehaviour
             return;
 
         if (Mathf.Abs(angularVelocity) < throwVelocity)
+            return;
+        if (TipVelocity.magnitude < minThrowSpeed)
             return;
 
         SkeweredEnemy.Fsm.SetState<FsmEnemyStateThrown>(

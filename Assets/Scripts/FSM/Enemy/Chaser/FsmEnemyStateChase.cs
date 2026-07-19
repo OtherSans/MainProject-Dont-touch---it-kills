@@ -6,7 +6,6 @@ public class FsmEnemyStateChase : FsmState
 {
     private ChaserController enemy;
     private ChaseController chaseCont;
-   
 
     public FsmEnemyStateChase(Fsm fsm, ChaserController enemy) : base(fsm)
     {
@@ -23,19 +22,19 @@ public class FsmEnemyStateChase : FsmState
 
         chaseCont = chase.chaseContr;
         
-
-        chaseCont.ChasePlayer();
     }
     public override void Update()
     {
         base.Update();
-        
-            
-
+        chaseCont.ChasePlayer();
+        if (!enemy.playerInRange.IsChasing)
+        {
+            enemy.Fsm.SetState<FsmChaserStateIdle>();
+        }
     }
     public override void Exit()
     {
+        chaseCont.StopChasing();
         Debug.Log("Chase State [EXIT]");
-        
     }
 }

@@ -55,6 +55,9 @@ TagManager:
   - name: Finish
     uniqueID: 2524836577
     locked: 0
+  - name: Wall
+    uniqueID: 270182633
+    locked: 0
   m_RenderingLayers:
   - Default
   m_MigratedRenderPipelines: []

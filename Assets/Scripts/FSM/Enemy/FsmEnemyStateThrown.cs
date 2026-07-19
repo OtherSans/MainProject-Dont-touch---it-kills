@@ -20,8 +20,7 @@ public class FsmEnemyStateThrown : FsmState
             return;
         }
         enemy.transform.SetParent(null);
-        enemy.Rigidbody.simulated = true;
-        //enemy.Chase.enabled = false;
+        //enemy.Rigidbody.simulated = true;
         enemy.Rigidbody.linearVelocity = thrown.swordCntr.TipVelocity;
         timer = 0f;
         //enemy.Animator.Play("Thrown")
@@ -41,7 +40,7 @@ public class FsmEnemyStateThrown : FsmState
 
         if (timer > 0.8f)
         {
-            Fsm.SetState<FsmEnemyStateWalk>();
+            Fsm.SetState<FsmChaserStateIdle>();
         }
     }
 }

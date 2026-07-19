@@ -20,6 +20,8 @@ public class Fsm
 
         if (StateCurrent != null && StateCurrent.GetType() == type)
             return;
+        if (StateCurrent != null && !StateCurrent.CanExit())
+            return;
 
         if (_states.TryGetValue(type, out var newState))
         {

@@ -6,13 +6,10 @@ public class FsmEnemyStateIdle : FsmState
     public FsmEnemyStateIdle(Fsm fsm, EnemyController enemy) : base(fsm)
     {
         this.enemy = enemy;
-
     }
     public override void Enter(FsmContext ctx)
     {
         Debug.Log("Idle State [ENTER]");
-        //enemy.Animator.Play("Idle");
-        //enemy.Chase.enabled = false;
     }
     public override void Exit()
     {
@@ -20,9 +17,5 @@ public class FsmEnemyStateIdle : FsmState
     }
     public override void Update()
     {
-        //if (enemy.Chase.isChasing)
-        //{
-        //    Fsm.SetState<FsmEnemyStateWalk>();
-        //}
     }
 }

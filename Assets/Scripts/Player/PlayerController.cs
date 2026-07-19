@@ -7,9 +7,9 @@ public class PlayerController : MonoBehaviour
 {
     private PlayerInput playerInput;
 
-    [SerializeField] private PendulumController pendController;
     [SerializeField] private SwordController swordController;
     [SerializeField] private Transform target;
+    [SerializeField] private float deltaVelocityThreshold;
 
     private NavMeshAgent agent;
 
@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
     public event Action<bool> OnMoveEvent;
 
     private Vector3 lastPosition;
+    private Vector3 lastVelocity;
+
 
 
     private bool draggingCheck;
@@ -97,23 +99,15 @@ public class PlayerController : MonoBehaviour
     //    movingCheck = !movingCheck;
     //    OnMoveEvent?.Invoke(movingCheck);
     //}
-    private void PendulumSwing()
-    {
-        Vector3 velocity =
-(transform.position - lastPosition) / Time.deltaTime;
-
-        lastPosition = transform.position;
-
-        pendController.AddImpulse(velocity.x);
-    }
     private void SwordSwing()
     {
         Vector3 velocity =
-(transform.position - lastPosition) / Time.deltaTime;
+        (transform.position - lastPosition) / Time.deltaTime;
 
+        Vector3 deltaVelocity = velocity - lastVelocity;
+        swordController.AddImpulse(deltaVelocity.x);
+        lastVelocity = velocity;
         lastPosition = transform.position;
-
-        swordController.AddImpulse(velocity.x);
     }
     public void NavMove()
     {

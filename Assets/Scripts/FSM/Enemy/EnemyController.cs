@@ -22,11 +22,15 @@ public abstract class EnemyController : MonoBehaviour
         RegisterCommonStates();
         RegisterSpecificStates();
 
-        Fsm.SetState<FsmEnemyStateIdle>();
+        SetInitialState();
     }
     protected virtual void Update()
     {
         Fsm.Update();
+    }
+    protected virtual void SetInitialState()
+    {
+        Fsm.SetState<FsmEnemyStateIdle>();
     }
     protected virtual void RegisterCommonStates()
     {
