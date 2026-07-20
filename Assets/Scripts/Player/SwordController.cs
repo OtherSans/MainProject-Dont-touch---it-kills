@@ -151,7 +151,7 @@ public class SwordController : MonoBehaviour
     {
         swordCntr = this
     });
-
+        
         SkeweredEnemy = null;
     }
     private void CheckSwordVelocity()

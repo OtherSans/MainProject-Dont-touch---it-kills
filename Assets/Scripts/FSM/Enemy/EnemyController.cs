@@ -7,7 +7,7 @@ public abstract class EnemyController : MonoBehaviour
     
     public Animator Animator { get; private set; }
     public Collider2D Collider { get; private set; }
-
+    public PlayerController player { get; private set; }
     public Fsm Fsm { get; private set; }
 
     protected virtual void Awake()
@@ -16,7 +16,7 @@ public abstract class EnemyController : MonoBehaviour
         
         Animator = GetComponent<Animator>();
         Collider = GetComponent<Collider2D>();
-
+        player = FindAnyObjectByType<PlayerController>();
         Fsm = new Fsm();
 
         RegisterCommonStates();

@@ -22,6 +22,7 @@ public class FsmEnemyStateSkewered : FsmState
 
         //enemy.Chase.enabled = false;
         enemy.Rigidbody.simulated = false;
+        enemy.Collider.enabled = false;
 
         enemy.transform.SetParent(skewer.SkewerPoint);
         enemy.transform.localPosition = Vector3.zero;
@@ -31,7 +32,7 @@ public class FsmEnemyStateSkewered : FsmState
     public override void Exit()
     {
         enemy.transform.SetParent(null);
-
+        enemy.Collider.enabled = true;
         enemy.Rigidbody.simulated = true;
 
         sword = null;

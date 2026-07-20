@@ -30,8 +30,8 @@ Transform:
   m_GameObject: {fileID: 204727165651538750}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.97, z: 0}
-  m_LocalScale: {x: 1, y: 0.5, z: 1}
+  m_LocalPosition: {x: 0, y: 0.9642, z: 0}
+  m_LocalScale: {x: 1, y: 0.2091, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5330881254652534118}
@@ -82,8 +82,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1117021149
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2159646871143802618, guid: c6103dca2ee275a4881e457fc4759c0f, type: 3}
@@ -278,8 +278,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1117021149
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
@@ -388,7 +388,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1499899281447583930}
-  - component: {fileID: 4277215166788787598}
   - component: {fileID: 8368833187745118706}
   m_Layer: 0
   m_Name: ChainPivot
@@ -413,26 +412,6 @@ Transform:
   - {fileID: 6783736041105373723}
   m_Father: {fileID: 5463268542530072649}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4277215166788787598
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4207349730948161008}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b095f881b5dd8b24c82ce209f64b12ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PendulumController
-  sword: {fileID: 6783736041105373723}
-  minLength: 1
-  maxLength: 5
-  extendSpeed: 4
-  retractSpeed: 3
-  spring: 40
-  damping: 0.94
-  impulseMultiplier: 2.17
 --- !u!114 &8368833187745118706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -449,15 +428,17 @@ MonoBehaviour:
   skewerPoint: {fileID: 5330881254652534118}
   attackBool: {fileID: 4621266825362335307}
   minLength: 1
-  maxLength: 4
-  extendSpeed: 5
-  retractSpeed: 4
-  spring: 35
+  maxLength: 7
+  extendSpeed: 10
+  retractSpeed: 7
+  spring: 20
   damping: 0.95
-  impulseMultiplier: 5.65
-  throwVelocity: 180
-  minSkewerSpeed: 1.14
+  impulseMultiplier: 50
+  impulseThreshold: 0.1
+  throwVelocity: 500
+  minSkewerSpeed: 3.77
   maxExtendLength: 0.45
+  minThrowSpeed: 50
 --- !u!1 &4953256125700748966
 GameObject:
   m_ObjectHideFlags: 0
@@ -526,7 +507,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.6
+  m_Radius: 0.62
 --- !u!114 &5370549474213544720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -621,8 +602,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1117021149
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 4165331355568768060, guid: a42229fcb34142646b634f76ebdf73da, type: 3}
@@ -807,8 +788,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1117021149
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
@@ -861,9 +842,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab44b2ae1f8389843bf093d437d97816, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  pendController: {fileID: 4277215166788787598}
   swordController: {fileID: 8368833187745118706}
   target: {fileID: 0}
+  deltaVelocityThreshold: 0.3
 --- !u!114 &8235511576955612494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -877,7 +858,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DraggingController
   playerController: {fileID: 6399058089455004984}
-  dragSensitivity: 0.176
+  dragSensitivity: 0.45
 --- !u!114 &2013269830544051905
 MonoBehaviour:
   m_ObjectHideFlags: 0

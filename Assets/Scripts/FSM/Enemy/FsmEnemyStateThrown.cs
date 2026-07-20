@@ -4,6 +4,7 @@ using static UnityEditor.Timeline.TimelinePlaybackControls;
 public class FsmEnemyStateThrown : FsmState
 {
     private readonly EnemyController enemy;
+    [SerializeField] private float throwPower = 20f;
     private float timer;
 
     public FsmEnemyStateThrown(Fsm fsm, EnemyController enemy) : base(fsm)
@@ -19,12 +20,21 @@ public class FsmEnemyStateThrown : FsmState
             Debug.LogError("ThrownContext expected.");
             return;
         }
-        enemy.transform.SetParent(null);
-        //enemy.Rigidbody.simulated = true;
-        enemy.Rigidbody.linearVelocity = thrown.swordCntr.TipVelocity;
-        timer = 0f;
-        //enemy.Animator.Play("Thrown")
         
+        enemy.transform.SetParent(null);
+        enemy.Rigidbody.simulated = true;
+        enemy.Collider.enabled = true;
+
+        enemy.player.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
+        enemy.Rigidbody.linearVelocity = thrown.swordCntr.TipVelocity;
+
+
+        //enemy.Rigidbody.linearVelocity = thrown.swordCntr.TipVelocity;
+        timer = 0f;
+
+        //enemy.Animator.Play("Thrown")
+
+
     }
     public override void Exit()
     {

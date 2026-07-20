@@ -19,12 +19,20 @@ public class CheckPlayerInRange : MonoBehaviour
 
         IsChasing = true;
     }
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (!other.CompareTag("Player"))
+            return;
+
+
+        IsChasing = true;
+    }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         if (!other.CompareTag("Player"))
             return;
-
+        Debug.Log("EXIT TRIGGER");
         IsChasing = false;
     }
 }

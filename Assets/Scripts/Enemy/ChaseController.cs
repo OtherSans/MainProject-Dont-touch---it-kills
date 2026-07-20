@@ -9,6 +9,10 @@ public class ChaseController : MonoBehaviour
 
     private NavMeshAgent agent;
 
+    private void Awake()
+    {
+        
+    }
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
