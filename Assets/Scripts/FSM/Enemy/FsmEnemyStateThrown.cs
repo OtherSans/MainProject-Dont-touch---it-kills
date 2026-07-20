@@ -5,6 +5,7 @@ public class FsmEnemyStateThrown : FsmState
 {
     private readonly EnemyController enemy;
     [SerializeField] private float throwPower = 20f;
+    [SerializeField] private float maxThrowSpeed = 20f;
     private float timer;
 
     public FsmEnemyStateThrown(Fsm fsm, EnemyController enemy) : base(fsm)
@@ -25,8 +26,16 @@ public class FsmEnemyStateThrown : FsmState
         enemy.Rigidbody.simulated = true;
         enemy.Collider.enabled = true;
 
-        enemy.player.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
-        enemy.Rigidbody.linearVelocity = thrown.swordCntr.TipVelocity;
+        enemy.player.GetComponent<Rigidbody2D>().simulated = false;
+
+        Vector2 velocity = thrown.swordCntr.TipVelocity;
+
+        velocity = Vector2.ClampMagnitude(velocity, maxThrowSpeed);
+
+        enemy.Rigidbody.linearVelocity = velocity;
+
+        //enemy.Rigidbody.linearVelocity = thrown.swordCntr.TipVelocity.normalized * throwPower;
+       
 
 
         //enemy.Rigidbody.linearVelocity = thrown.swordCntr.TipVelocity;
@@ -39,7 +48,7 @@ public class FsmEnemyStateThrown : FsmState
     public override void Exit()
     {
         Debug.Log("Thrown State [EXIT]");
-
+        enemy.player.GetComponent<Rigidbody2D>().simulated = true;
         //enemy.Chase.enabled = true;
 
         //enemy.Animator.Play("Walk");

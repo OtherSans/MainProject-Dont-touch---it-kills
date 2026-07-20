@@ -1,14 +1,32 @@
+using System.Collections;
+using Unity.AppUI.Core;
 using UnityEngine;
 
 public class EnemyKnockback : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private EnemyController enemyContr;
     [SerializeField] private Transform target;
     private Vector3 dir;
     [SerializeField] private float force;
+    public float knockbackTimer;
+    public float timer;
+    public bool knockbackIsRunning = false;
+
+    public void SetState()
+    {
+        if(enemyContr.Fsm.CurrentState is  FsmEnemyStateSkewered)
+        {
+            return;
+        }
+        enemyContr.Fsm.SetState<FsmEnemyStateKnockback>();
+    }
     public void KnockbackPerform()
     {
-        dir = (transform.position - target.position).normalized;
-        rb.AddForce(dir * force, ForceMode2D.Force);
+        timer = knockbackTimer;
+        rb.linearVelocity = Vector2.zero;
+        dir = transform.position - target.position;
+        rb.linearVelocity = dir * force;
     }
+
 }

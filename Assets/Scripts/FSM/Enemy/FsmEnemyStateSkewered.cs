@@ -21,11 +21,14 @@ public class FsmEnemyStateSkewered : FsmState
         sword = skewer.Sword;
 
         //enemy.Chase.enabled = false;
+        enemy.Agent.enabled = false;
         enemy.Rigidbody.simulated = false;
+        enemy.Rigidbody.linearVelocity = Vector3.zero;
         enemy.Collider.enabled = false;
 
         enemy.transform.SetParent(skewer.SkewerPoint);
-        enemy.transform.localPosition = Vector3.zero;
+        enemy.transform.localPosition = new Vector3(0, -0.2f, 0);
+        //enemy.transform.position = skewer.SkewerPoint.position;
 
         //enemy.Animator.Play("Skewered");
     }
@@ -34,7 +37,7 @@ public class FsmEnemyStateSkewered : FsmState
         enemy.transform.SetParent(null);
         enemy.Collider.enabled = true;
         enemy.Rigidbody.simulated = true;
-
+        enemy.Agent.enabled = true;
         sword = null;
 
         Debug.Log("Skewer State [EXIT]");

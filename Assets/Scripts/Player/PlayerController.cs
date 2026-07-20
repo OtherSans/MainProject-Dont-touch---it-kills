@@ -104,8 +104,8 @@ public class PlayerController : MonoBehaviour
         Vector3 velocity =
         (transform.position - lastPosition) / Time.deltaTime;
 
-        Vector3 deltaVelocity = velocity - lastVelocity;
-        swordController.AddImpulse(deltaVelocity.x);
+        //Vector3 deltaVelocity = velocity - lastVelocity;
+        swordController.AddImpulse(velocity.x);
         lastVelocity = velocity;
         lastPosition = transform.position;
     }
