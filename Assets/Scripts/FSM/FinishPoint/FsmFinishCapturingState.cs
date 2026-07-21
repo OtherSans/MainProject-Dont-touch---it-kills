@@ -19,17 +19,44 @@ public class FsmFinishCapturingState : FsmState
     }
     public override void Update()
     {
-        if (!finish.PlayerInside)
+        
+
+
+        if (finish.PlayerInside)
         {
-            Fsm.SetState<FsmFinishIdleState>();
-            return;
+            finish.CurrentCaptureTime += Time.deltaTime;
+
+            finish.CaptureBar.fillAmount =
+                finish.CurrentCaptureTime /
+                finish.CaptureTime;
+        }
+        else if(finish.WeaponPlaced)
+        {
+            Debug.Log("DONE");
+            //pause capture
+        }
+        else
+        {
+            finish.CurrentCaptureTime -=
+            finish.DecaySpeed * Time.deltaTime;
         }
 
-        finish.CurrentCaptureTime += Time.deltaTime;
+
+        finish.CurrentCaptureTime =
+        Mathf.Clamp(
+            finish.CurrentCaptureTime,
+            0,
+            finish.CaptureTime);
 
         finish.CaptureBar.fillAmount =
             finish.CurrentCaptureTime /
             finish.CaptureTime;
+
+        if (finish.CurrentCaptureTime <= 0)
+        {
+            Fsm.SetState<FsmFinishIdleState>();
+            return;
+        }
 
         if (finish.CurrentCaptureTime >= finish.CaptureTime)
         {

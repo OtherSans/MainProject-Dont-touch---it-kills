@@ -24,6 +24,7 @@ public class SwordController : MonoBehaviour
     [SerializeField] private float minSkewerSpeed = 5f;
     [SerializeField, Range(0,1)] private float maxExtendLength = 1f;
     [SerializeField] private float minThrowSpeed = 6f;
+    public float maxThrowSpeed = 20f;
 
     private Vector3 lastTipPosition;
 
@@ -40,8 +41,8 @@ public class SwordController : MonoBehaviour
 
     //проверки на нанизывание
     public float TipSpeed => TipVelocity.magnitude;
-    
-    
+
+    public bool IsPlaced { get; private set; }
 
 
 
@@ -57,11 +58,20 @@ public class SwordController : MonoBehaviour
 
     private void Update()
     {
+        if (IsPlaced)
+            return;
+
         UpdateLength();
         UpdateSwing();
         CheckSwordVelocity();
         CheckThrow();
 
+    }
+
+    public void SetPlaced(bool value)
+    {
+        IsPlaced = value;
+        enabled = !value;
     }
 
     #region Length

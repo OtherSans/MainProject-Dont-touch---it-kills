@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 1769707353997759686}
   - component: {fileID: 5205321976925156495}
   - component: {fileID: 4372644698099403091}
-  - component: {fileID: 6039027333309964159}
   m_Layer: 8
   m_Name: Sword
   m_TagString: Player
@@ -30,8 +29,8 @@ Transform:
   m_GameObject: {fileID: 204727165651538750}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.9642, z: 0}
-  m_LocalScale: {x: 1, y: 0.2091, z: 1}
+  m_LocalPosition: {x: 0, y: 0.9683, z: 0}
+  m_LocalScale: {x: 1, y: 0.41397616, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5330881254652534118}
@@ -127,7 +126,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -168,35 +167,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12f2bca99a0b5aa49b5f21f4c253d966, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwordAttack
-  attackDamage: 5
+  attackDamage: 10
   targetTag: Enemy
---- !u!50 &6039027333309964159
-Rigidbody2D:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 204727165651538750}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 1
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 7
 --- !u!1 &1103423864967220881
 GameObject:
   m_ObjectHideFlags: 0
@@ -207,7 +179,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5463268542530072649}
   - component: {fileID: 4070464364531452829}
-  - component: {fileID: 3906626085776843085}
   - component: {fileID: 4621266825362335307}
   - component: {fileID: 8989445983445999906}
   m_Layer: 0
@@ -226,11 +197,10 @@ Transform:
   m_GameObject: {fileID: 1103423864967220881}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.022, y: -0.33, z: 0}
+  m_LocalPosition: {x: 0.022, y: -0.032, z: 0}
   m_LocalScale: {x: 0.4400945, y: 0.46513397, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1499899281447583930}
+  m_Children: []
   m_Father: {fileID: 770597547847241045}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4070464364531452829
@@ -293,33 +263,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
---- !u!50 &3906626085776843085
-Rigidbody2D:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1103423864967220881}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!114 &4621266825362335307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -404,13 +347,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4207349730948161008}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.022000015, y: -0.032000005, z: 0}
+  m_LocalScale: {x: 0.4400945, y: 0.46513397, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6783736041105373723}
-  m_Father: {fileID: 5463268542530072649}
+  m_Father: {fileID: 770597547847241045}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8368833187745118706
 MonoBehaviour:
@@ -429,16 +372,16 @@ MonoBehaviour:
   attackBool: {fileID: 4621266825362335307}
   minLength: 1
   maxLength: 7
-  extendSpeed: 10
-  retractSpeed: 7
-  spring: 20
-  damping: 0.95
-  impulseMultiplier: 50
+  extendSpeed: 35
+  retractSpeed: 20
+  spring: 25
+  damping: 0.96
+  impulseMultiplier: 4
   impulseThreshold: 0.1
   throwVelocity: 500
-  minSkewerSpeed: 3.77
+  minSkewerSpeed: 1.5
   maxExtendLength: 0.45
-  minThrowSpeed: 50
+  minThrowSpeed: 100
 --- !u!1 &4953256125700748966
 GameObject:
   m_ObjectHideFlags: 0
@@ -452,7 +395,7 @@ GameObject:
   - component: {fileID: 5370549474213544720}
   m_Layer: 8
   m_Name: SwordTip
-  m_TagString: Untagged
+  m_TagString: Sword
   m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -466,7 +409,7 @@ Transform:
   m_GameObject: {fileID: 4953256125700748966}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 6.18, z: 0}
+  m_LocalPosition: {x: 0, y: 6.806, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -507,7 +450,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.62
+  m_Radius: 0.41
 --- !u!114 &5370549474213544720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -531,7 +474,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6783736041105373723}
   - component: {fileID: 6767504626187823299}
-  - component: {fileID: 8123606436546378861}
   - component: {fileID: 7786238918341972153}
   - component: {fileID: 1655888119196511454}
   m_Layer: 0
@@ -617,33 +559,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 1
   m_BlendShapeWeights: []
---- !u!50 &8123606436546378861
-Rigidbody2D:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4983684166364023703}
-  m_BodyType: 2
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!61 &7786238918341972153
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -720,6 +635,11 @@ GameObject:
   - component: {fileID: 2013269830544051905}
   - component: {fileID: 6972676475072440962}
   - component: {fileID: 6236013314809925462}
+  - component: {fileID: 4784617449987125462}
+  - component: {fileID: 8335405671220886398}
+  - component: {fileID: 8823516603395013250}
+  - component: {fileID: 1607850200968748226}
+  - component: {fileID: 5852138527718163122}
   m_Layer: 0
   m_Name: MainChar
   m_TagString: Player
@@ -741,6 +661,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5463268542530072649}
+  - {fileID: 1499899281447583930}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7887262548356318280
@@ -813,10 +734,10 @@ Rigidbody2D:
   m_GameObject: {fileID: 6950101497218981567}
   m_BodyType: 0
   m_Simulated: 1
-  m_UseFullKinematicContacts: 0
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDamping: 0
+  m_LinearDamping: 5
   m_AngularDamping: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -828,8 +749,8 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!114 &6399058089455004984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -858,7 +779,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DraggingController
   playerController: {fileID: 6399058089455004984}
-  dragSensitivity: 0.45
+  dragSensitivity: 0.349
 --- !u!114 &2013269830544051905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -930,3 +851,110 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &4784617449987125462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6950101497218981567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1542b63f948034e47b4c21fa65d74b60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthController
+  maxHealth: 100
+  curHealth: 100
+  OnDied:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5852138527718163122}
+        m_TargetAssemblyTypeName: PlayerDeathController, Assembly-CSharp
+        m_MethodName: DeathPlayerPerformed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnDamaged:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8335405671220886398}
+        m_TargetAssemblyTypeName: PlayerHealthBar, Assembly-CSharp
+        m_MethodName: UpdatePlayerHealth
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1607850200968748226}
+        m_TargetAssemblyTypeName: InvincibleStart, Assembly-CSharp
+        m_MethodName: InvincibilityActivate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &8335405671220886398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6950101497218981567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2219bf58164d6c5479967dd510575266, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealthBar
+  healthSlider: {fileID: 0}
+  healthContr: {fileID: 4784617449987125462}
+--- !u!114 &8823516603395013250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6950101497218981567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9987d10263cd5ab4c82650cb8ad7737f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InvincibilityController
+--- !u!114 &1607850200968748226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6950101497218981567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf52cc6a922350b459c026c58c0c2c0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InvincibleStart
+  invDuration: 1
+--- !u!114 &5852138527718163122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6950101497218981567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24e89545c94529f4ca63a965813581a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerDeathController

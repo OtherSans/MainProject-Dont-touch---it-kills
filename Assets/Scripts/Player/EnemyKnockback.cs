@@ -26,7 +26,7 @@ public class EnemyKnockback : MonoBehaviour
         timer = knockbackTimer;
         rb.linearVelocity = Vector2.zero;
         dir = transform.position - target.position;
-        rb.linearVelocity = dir * force;
+        rb.linearVelocity = dir.normalized * force;
     }
 
 }

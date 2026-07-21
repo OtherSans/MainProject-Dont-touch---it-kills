@@ -6,10 +6,12 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     private PlayerInput playerInput;
+    public IInteractable CurrentInteractable;
 
-    [SerializeField] private SwordController swordController;
+    public SwordController swordController;
     [SerializeField] private Transform target;
     [SerializeField] private float deltaVelocityThreshold;
+    [SerializeField] private ForceWaveController forceContr;
 
     private NavMeshAgent agent;
 
@@ -19,12 +21,14 @@ public class PlayerController : MonoBehaviour
     public event Action OnAttackStartedEvent;
     public event Action OnAttackCanceledEvent;
 
+    public event Action OnForcePerformedEvent;
+
     public event Action<bool> OnMoveEvent;
 
     private Vector3 lastPosition;
     private Vector3 lastVelocity;
 
-
+    public WeaponSlot CurrentWeaponSlot { get; set; }
 
     private bool draggingCheck;
     private bool movingCheck;
@@ -48,9 +52,13 @@ public class PlayerController : MonoBehaviour
         playerInput.Player.Drag.started += OnDragStarted;
         playerInput.Player.Drag.canceled += OnDragCancelled;
 
+        playerInput.Player.Drag.performed += OnForcePerformed;
+
 
         playerInput.Player.Attack.started += OnAttackStarted;
         playerInput.Player.Attack.canceled += OnAttackCanceled;
+
+        playerInput.Player.Interact.performed += OnInteract;
 
         //playerInput.Player.Move.performed += OnMove;
 
@@ -60,8 +68,12 @@ public class PlayerController : MonoBehaviour
         playerInput.Player.Drag.started -= OnDragStarted;
         playerInput.Player.Drag.canceled -= OnDragCancelled;
 
+        playerInput.Player.Drag.performed -= OnForcePerformed;
+
         playerInput.Player.Attack.started -= OnAttackStarted;
-        playerInput.Player.Attack.canceled += OnAttackCanceled;
+        playerInput.Player.Attack.canceled -= OnAttackCanceled;
+
+        playerInput.Player.Interact.performed -= OnInteract;
 
         //playerInput.Player.Move.performed -= OnMove;
 
@@ -84,6 +96,10 @@ public class PlayerController : MonoBehaviour
 
         OnDragEvent?.Invoke(draggingCheck);
     }
+    private void OnForcePerformed(InputAction.CallbackContext ctx)
+    {
+        OnForcePerformedEvent?.Invoke();
+    }
 
     private void OnAttackStarted(InputAction.CallbackContext ctx)
     {
@@ -92,6 +108,13 @@ public class PlayerController : MonoBehaviour
     private void OnAttackCanceled(InputAction.CallbackContext ctx)
     {
         OnAttackCanceledEvent?.Invoke();
+    }
+
+    private void OnInteract(InputAction.CallbackContext ctx)
+    {
+        if (!ctx.performed)
+            return;
+        CurrentInteractable?.Interact(this);
     }
 
     //private void OnMove(InputAction.CallbackContext ctx)

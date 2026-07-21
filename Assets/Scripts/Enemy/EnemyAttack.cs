@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class SwordAttack : MonoBehaviour
+public class EnemyAttack : MonoBehaviour
 {
     [SerializeField] private float attackDamage;
     [SerializeField] private string targetTag;
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag(targetTag))
         {

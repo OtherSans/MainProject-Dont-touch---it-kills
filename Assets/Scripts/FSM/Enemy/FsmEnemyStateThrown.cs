@@ -5,7 +5,6 @@ public class FsmEnemyStateThrown : FsmState
 {
     private readonly EnemyController enemy;
     [SerializeField] private float throwPower = 20f;
-    [SerializeField] private float maxThrowSpeed = 20f;
     private float timer;
 
     public FsmEnemyStateThrown(Fsm fsm, EnemyController enemy) : base(fsm)
@@ -30,7 +29,7 @@ public class FsmEnemyStateThrown : FsmState
 
         Vector2 velocity = thrown.swordCntr.TipVelocity;
 
-        velocity = Vector2.ClampMagnitude(velocity, maxThrowSpeed);
+        velocity = Vector2.ClampMagnitude(velocity, thrown.swordCntr.maxThrowSpeed);
 
         enemy.Rigidbody.linearVelocity = velocity;
 

@@ -7,7 +7,11 @@ public class FsmFinishController : MonoBehaviour
     public float CaptureTime = 5f;
     public float CurrentCaptureTime;
 
+    public float CaptureSpeed = 1f;
+    public float DecaySpeed = 1f;
+
     public bool PlayerInside;
+    public bool WeaponPlaced;
 
     public Image CaptureBar;
     private void Awake()
@@ -25,6 +29,13 @@ public class FsmFinishController : MonoBehaviour
         Fsm.Update();
     }
     private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!collision.CompareTag("Player"))
+            return;
+
+        PlayerInside = true;
+    }
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (!collision.CompareTag("Player"))
             return;

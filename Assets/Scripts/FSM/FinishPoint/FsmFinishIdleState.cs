@@ -19,15 +19,6 @@ public class FsmFinishIdleState : FsmState
     }
     public override void Update()
     {
-        if (finish.CurrentCaptureTime > 0)
-        {
-            finish.CurrentCaptureTime -= Time.deltaTime;
-
-
-            finish.CaptureBar.fillAmount =
-            finish.CurrentCaptureTime /
-            finish.CaptureTime;
-        }
             
         if (finish.PlayerInside)
             Fsm.SetState<FsmFinishCapturingState>();

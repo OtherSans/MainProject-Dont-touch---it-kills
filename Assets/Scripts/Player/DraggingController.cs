@@ -5,6 +5,7 @@ public class DraggingController : MonoBehaviour
 {
     [SerializeField] private PlayerController playerController;
 
+
     [Tooltip("Множитель скорости перемещения. 1 = персонаж двигается точно так же, как курсор")]
     [SerializeField, Range(0, 1)] private float dragSensitivity = 1f;
 

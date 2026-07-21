@@ -23,7 +23,8 @@ public class ChaseController : MonoBehaviour
     public void ChasePlayer()
     {
         agent.isStopped = false;
-        agent.SetDestination(target.position);
+        if(target != null)
+            agent.SetDestination(target.position);
     }
     public void StopChasing()
     {
