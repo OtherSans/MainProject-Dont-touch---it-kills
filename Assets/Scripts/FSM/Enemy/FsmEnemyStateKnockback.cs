@@ -36,6 +36,7 @@ public class FsmEnemyStateKnockback : FsmState
                 enemy.Knockback.timer = 0;
                 enemy.Knockback.knockbackIsRunning = false;
                 Debug.Log("Timer is up!!");
+                enemy.Rigidbody.linearVelocity = Vector2.zero;
                 Fsm.SetState<FsmChaserStateIdle>();
             }
             

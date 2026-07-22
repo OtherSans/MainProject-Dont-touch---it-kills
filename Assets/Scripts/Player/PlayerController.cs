@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
@@ -12,6 +13,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform target;
     [SerializeField] private float deltaVelocityThreshold;
     [SerializeField] private ForceWaveController forceContr;
+
+    [SerializeField] private float forceCooldown = 3f;
+
+    private float lastForceTime = -100f;
 
     private NavMeshAgent agent;
 
@@ -31,6 +36,7 @@ public class PlayerController : MonoBehaviour
     public WeaponSlot CurrentWeaponSlot { get; set; }
 
     private bool draggingCheck;
+    private bool isCastingForce;
     private bool movingCheck;
     private void Awake()
     {
@@ -52,7 +58,7 @@ public class PlayerController : MonoBehaviour
         playerInput.Player.Drag.started += OnDragStarted;
         playerInput.Player.Drag.canceled += OnDragCancelled;
 
-        playerInput.Player.Drag.performed += OnForcePerformed;
+        //playerInput.Player.Drag.performed += OnForcePerformed;
 
 
         playerInput.Player.Attack.started += OnAttackStarted;
@@ -68,7 +74,7 @@ public class PlayerController : MonoBehaviour
         playerInput.Player.Drag.started -= OnDragStarted;
         playerInput.Player.Drag.canceled -= OnDragCancelled;
 
-        playerInput.Player.Drag.performed -= OnForcePerformed;
+        //playerInput.Player.Drag.performed -= OnForcePerformed;
 
         playerInput.Player.Attack.started -= OnAttackStarted;
         playerInput.Player.Attack.canceled -= OnAttackCanceled;
@@ -98,7 +104,13 @@ public class PlayerController : MonoBehaviour
     }
     private void OnForcePerformed(InputAction.CallbackContext ctx)
     {
-        OnForcePerformedEvent?.Invoke();
+        if (isCastingForce)
+            return;
+        if (Time.time < lastForceTime + forceCooldown)
+            return;
+        lastForceTime = Time.time;
+
+        StartCoroutine(ForceCoroutine());
     }
 
     private void OnAttackStarted(InputAction.CallbackContext ctx)
@@ -122,6 +134,26 @@ public class PlayerController : MonoBehaviour
     //    movingCheck = !movingCheck;
     //    OnMoveEvent?.Invoke(movingCheck);
     //}
+
+    private IEnumerator ForceCoroutine()
+    {
+        isCastingForce = true;
+        //animation trigger
+
+        yield return new WaitForSeconds(forceContr.forceDelay);
+
+        forceContr.TriggerWave();
+
+        yield return new WaitForSeconds(forceContr.forceDelay);
+
+        foreach (var hit in forceContr.hits)
+        {
+            var rb = hit.GetComponent<Rigidbody2D>();
+            rb.linearVelocity = Vector2.zero;
+        }
+
+        isCastingForce = false;
+    }
     private void SwordSwing()
     {
         Vector3 velocity =

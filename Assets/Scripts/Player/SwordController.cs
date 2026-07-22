@@ -24,6 +24,7 @@ public class SwordController : MonoBehaviour
     [SerializeField] private float minSkewerSpeed = 5f;
     [SerializeField, Range(0,1)] private float maxExtendLength = 1f;
     [SerializeField] private float minThrowSpeed = 6f;
+    [SerializeField] private float moveForwardFloat = 0.05f;
     public float maxThrowSpeed = 20f;
 
     private Vector3 lastTipPosition;
@@ -168,6 +169,7 @@ public class SwordController : MonoBehaviour
     {
         TipVelocity = (skewerPoint.position - lastTipPosition) / Time.deltaTime;
 
+
         lastTipPosition = skewerPoint.position;
     }
     public bool IsExtended()
@@ -181,8 +183,8 @@ public class SwordController : MonoBehaviour
 
         Vector2 tipDirection = TipVelocity.normalized;
         Vector2 swordForward = transform.up;
-
-        return Vector2.Dot(tipDirection, swordForward) > 0.6f;
+        Debug.Log(Vector2.Dot(tipDirection, swordForward));
+        return Vector2.Dot(tipDirection, swordForward) > moveForwardFloat;
     }
     public bool CanSkewer()
     {
