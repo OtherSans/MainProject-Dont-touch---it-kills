@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class FsmEnemyStateSkewered : FsmState
@@ -25,7 +26,7 @@ public class FsmEnemyStateSkewered : FsmState
         enemy.Rigidbody.simulated = false;
         enemy.Rigidbody.linearVelocity = Vector3.zero;
         enemy.Collider.enabled = false;
-
+        
         enemy.transform.SetParent(skewer.SkewerPoint);
         enemy.transform.localPosition = new Vector3(0, -0.2f, 0);
         //enemy.transform.position = skewer.SkewerPoint.position;
@@ -46,4 +47,5 @@ public class FsmEnemyStateSkewered : FsmState
     {
 
     }
+    
 }

@@ -1,3 +1,4 @@
+using System.Drawing;
 using UnityEngine;
 
 public class SwordController : MonoBehaviour
@@ -27,16 +28,41 @@ public class SwordController : MonoBehaviour
     [SerializeField] private float moveForwardFloat = 0.05f;
     public float maxThrowSpeed = 20f;
 
-    private Vector3 lastTipPosition;
+    [Header("Impact")]
+    [SerializeField] private float maxSwordSpeed = 20f;
+    [SerializeField] private float minHitStopDur = 0.01f;
+    [SerializeField] private float maxHitStopDur = 0.02f;
+    [SerializeField] private float minShakeDur = 0.03f;
+    [SerializeField] private float maxShakeDur = 0.08f;
+    [SerializeField] private float minShakeStr = 0.03f;
+    [SerializeField] private float maxShakeStr = 0.08f;
 
+    [Header("Wall collision")]
+    [SerializeField, Range(0f, 1f)]
+    private float wallVelocityMultiplier = 0.7f;
+    [SerializeField]
+    private float wallResistance = 20f;
+    [SerializeField]
+    private float maxWallPenetrationAngle = 6f;
+    [SerializeField]
+    private float minWallSpeed = 0.2f;
+
+    private bool blocked;
+    private bool wallStuck;
+    private float blockedAngle;
+    private float wallStuckAngle;
+    private float wallMoveDirection;
+    
+    private float nextWallHitTime;
+    private Vector3 lastTipPosition;
     private float currentLength;
     private float targetLength;
-
     private float angle;
     private float angularVelocity;
 
-    public float AngularVelocity => angularVelocity;
+    private WallMaterial currentWallMaterial;
 
+    public float AngularVelocity => angularVelocity;
     public EnemyController SkeweredEnemy { get; private set; }
     public Vector2 TipVelocity { get; private set; }
 
@@ -62,6 +88,7 @@ public class SwordController : MonoBehaviour
         if (IsPlaced)
             return;
 
+
         UpdateLength();
         UpdateSwing();
         CheckSwordVelocity();
@@ -69,10 +96,45 @@ public class SwordController : MonoBehaviour
 
     }
 
+    public void OnWallHit(WallMaterial wallMaterial)
+    {
+        Debug.Log($"WALL ENTER | angle: {angle} | speed: {angularVelocity}");
+
+        if (blocked)
+            return;
+
+        blocked = true;
+        currentWallMaterial = wallMaterial;
+
+        blockedAngle = angle;
+        wallMoveDirection = Mathf.Sign(angularVelocity);
+
+        angularVelocity *= wallMaterial.velocityMultiplier;
+    }
+    public void OnWallHitEnd()
+    {
+        Debug.Log("WALL EXIT");
+
+        blocked = false;
+        currentWallMaterial = null;
+
+    }
     public void SetPlaced(bool value)
     {
         IsPlaced = value;
         enabled = !value;
+    }
+
+    public void PlayImpact()
+    {
+        float impact = Mathf.Clamp01(TipVelocity.magnitude / maxSwordSpeed);
+
+        HitStop.Instance.StopHit(
+            Mathf.Lerp(minHitStopDur, maxHitStopDur, impact));
+
+        CameraShake.Instance.Shake(
+            Mathf.Lerp(minShakeDur, maxShakeDur, impact),
+            Mathf.Lerp(minShakeStr, maxShakeStr, impact));
     }
 
     #region Length
@@ -104,6 +166,9 @@ public class SwordController : MonoBehaviour
 
     public void AddImpulse(float impulse)
     {
+        if (float.IsNaN(impulse) || float.IsInfinity(impulse))
+            return;
+
         if (Mathf.Abs(impulse) < impulseThreshold)
             return;
 
@@ -112,14 +177,82 @@ public class SwordController : MonoBehaviour
 
     private void UpdateSwing()
     {
-        angularVelocity += -angle * spring * Time.deltaTime;
+        if (Time.deltaTime <= Mathf.Epsilon)
+            return;
 
+        if (float.IsNaN(angle) || float.IsInfinity(angle))
+            angle = 0f;
+
+        if (float.IsNaN(angularVelocity) ||
+            float.IsInfinity(angularVelocity))
+        {
+            angularVelocity = 0f;
+        }
+        if (blocked)
+        {
+            Debug.Log(
+                $"BLOCKED | resistance: {wallResistance} | " +
+                $"speed: {angularVelocity} | angle: {angle}");
+        }
+
+        //if (blocked && wallStuck)
+        //{
+        //    angularVelocity = 0f;
+        //    angle = wallStuckAngle;
+
+        //    transform.localRotation =
+        //        Quaternion.Euler(0f, 0f, angle);
+
+        //    return;
+        //}
+
+        angularVelocity += -angle * spring * Time.deltaTime;
         angularVelocity *= damping;
 
-        angle += angularVelocity * Time.deltaTime;
+        if (blocked && currentWallMaterial != null)
+        {
+            bool movingIntoWall =
+                Mathf.Sign(angularVelocity) == wallMoveDirection;
+
+            if (movingIntoWall)
+            {
+                //angularVelocity = Mathf.MoveTowards(
+                //    angularVelocity,
+                //    0f,
+                //    wallResistance * Time.deltaTime);
+                angularVelocity *= Mathf.Exp(
+    -currentWallMaterial.resistance * Time.deltaTime);
+            }
+        }
+
+        float nextAngle =
+    angle + angularVelocity * Time.deltaTime;
+
+        if (blocked && currentWallMaterial != null)
+        {
+            float limitAngle =
+                blockedAngle +
+                wallMoveDirection * currentWallMaterial.maxPenetrationAngle;
+
+            bool passedLimit =
+                wallMoveDirection > 0f
+                    ? nextAngle > limitAngle
+                    : nextAngle < limitAngle;
+
+            if (passedLimit)
+            {
+                nextAngle = limitAngle;
+
+                // Убираем только скорость, направленную внутрь стены.
+                if (Mathf.Sign(angularVelocity) == wallMoveDirection)
+                    angularVelocity = 0f;
+            }
+        }
+
+        angle = nextAngle;
 
         transform.localRotation =
-            Quaternion.Euler(0, 0, angle);
+            Quaternion.Euler(0f, 0f, angle);
     }
 
     #endregion
@@ -167,6 +300,9 @@ public class SwordController : MonoBehaviour
     }
     private void CheckSwordVelocity()
     {
+        if (Time.deltaTime <= Mathf.Epsilon)
+            return;
+
         TipVelocity = (skewerPoint.position - lastTipPosition) / Time.deltaTime;
 
 

@@ -156,11 +156,18 @@ public class PlayerController : MonoBehaviour
     }
     private void SwordSwing()
     {
+        if (Time.deltaTime <= Mathf.Epsilon)
+        {
+            lastPosition = transform.position;
+            lastVelocity = Vector3.zero;
+            return;
+        }
+
         Vector3 velocity =
         (transform.position - lastPosition) / Time.deltaTime;
 
         //Vector3 deltaVelocity = velocity - lastVelocity;
-        swordController.AddImpulse(velocity.x);
+        swordController.AddImpulse(velocity.x); 
         lastVelocity = velocity;
         lastPosition = transform.position;
     }
