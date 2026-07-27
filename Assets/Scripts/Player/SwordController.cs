@@ -20,13 +20,16 @@ public class SwordController : MonoBehaviour
     [SerializeField] private float impulseMultiplier = 0.12f;
     [SerializeField] private float impulseThreshold;
 
+    [Header("Skewer")]
+    [SerializeField] private float minSkewerSpeed = 5f;
+    [SerializeField] private float minExtensionSpeed = 1f;
+    [SerializeField, Range(0f, 1f)]
+    private float minSkewerExtension = 0.5f;
+
     [Header("Throw")]
     [SerializeField] private float throwVelocity = 180f;
-    [SerializeField] private float minSkewerSpeed = 5f;
-    [SerializeField, Range(0,1)] private float maxExtendLength = 1f;
     [SerializeField] private float minThrowSpeed = 6f;
-    [SerializeField] private float moveForwardFloat = 0.05f;
-    public float maxThrowSpeed = 20f;
+    public float maxThrowSpeed = 20f; 
 
     [Header("Impact")]
     [SerializeField] private float maxSwordSpeed = 20f;
@@ -38,22 +41,14 @@ public class SwordController : MonoBehaviour
     [SerializeField] private float maxShakeStr = 0.08f;
 
     [Header("Wall collision")]
-    [SerializeField, Range(0f, 1f)]
-    private float wallVelocityMultiplier = 0.7f;
     [SerializeField]
     private float wallResistance = 20f;
-    [SerializeField]
-    private float maxWallPenetrationAngle = 6f;
-    [SerializeField]
-    private float minWallSpeed = 0.2f;
+
 
     private bool blocked;
-    private bool wallStuck;
     private float blockedAngle;
-    private float wallStuckAngle;
     private float wallMoveDirection;
     
-    private float nextWallHitTime;
     private Vector3 lastTipPosition;
     private float currentLength;
     private float targetLength;
@@ -66,10 +61,12 @@ public class SwordController : MonoBehaviour
     public EnemyController SkeweredEnemy { get; private set; }
     public Vector2 TipVelocity { get; private set; }
 
-    //проверки на нанизывание
     public float TipSpeed => TipVelocity.magnitude;
 
     public bool IsPlaced { get; private set; }
+
+    private float previousLength;
+    public float ExtensionSpeed { get; private set; }
 
 
 
@@ -77,6 +74,7 @@ public class SwordController : MonoBehaviour
     {
         currentLength = minLength;
         targetLength = minLength;
+        previousLength = currentLength;
     }
     private void Start()
     {
@@ -149,10 +147,19 @@ public class SwordController : MonoBehaviour
             ? extendSpeed
             : retractSpeed;
 
+        previousLength = currentLength;
+
         currentLength = Mathf.MoveTowards(
             currentLength,
             targetLength,
             speed * Time.deltaTime);
+
+        if (Time.deltaTime > Mathf.Epsilon)
+        {
+            ExtensionSpeed =
+                (currentLength - previousLength) /
+                Time.deltaTime;
+        }
 
         sword.localScale = new Vector3(
             sword.localScale.x,
@@ -195,17 +202,6 @@ public class SwordController : MonoBehaviour
                 $"speed: {angularVelocity} | angle: {angle}");
         }
 
-        //if (blocked && wallStuck)
-        //{
-        //    angularVelocity = 0f;
-        //    angle = wallStuckAngle;
-
-        //    transform.localRotation =
-        //        Quaternion.Euler(0f, 0f, angle);
-
-        //    return;
-        //}
-
         angularVelocity += -angle * spring * Time.deltaTime;
         angularVelocity *= damping;
 
@@ -216,10 +212,6 @@ public class SwordController : MonoBehaviour
 
             if (movingIntoWall)
             {
-                //angularVelocity = Mathf.MoveTowards(
-                //    angularVelocity,
-                //    0f,
-                //    wallResistance * Time.deltaTime);
                 angularVelocity *= Mathf.Exp(
     -currentWallMaterial.resistance * Time.deltaTime);
             }
@@ -287,8 +279,11 @@ public class SwordController : MonoBehaviour
 
         if (Mathf.Abs(angularVelocity) < throwVelocity)
             return;
-        if (TipVelocity.magnitude < minThrowSpeed)
+            
+        if (TipVelocity.magnitude < minThrowSpeed)  
             return;
+
+        Debug.Log(Mathf.Abs(angularVelocity) + "angular Velocity|| " + TipVelocity.magnitude + "tipVeloc magnitude|| ");
 
         SkeweredEnemy.Fsm.SetState<FsmEnemyStateThrown>(
     new FsmThrownContext()
@@ -308,30 +303,29 @@ public class SwordController : MonoBehaviour
 
         lastTipPosition = skewerPoint.position;
     }
-    public bool IsExtended()
-    {
-        return currentLength > maxLength * maxExtendLength;
-    }
-    public bool IsMovingForward()
-    {
-        if (TipVelocity.sqrMagnitude < 0.01f)
-            return false;
+    private float ExtensionNormalized =>
+    Mathf.InverseLerp(minLength, maxLength, currentLength);
 
-        Vector2 tipDirection = TipVelocity.normalized;
-        Vector2 swordForward = transform.up;
-        Debug.Log(Vector2.Dot(tipDirection, swordForward));
-        return Vector2.Dot(tipDirection, swordForward) > moveForwardFloat;
-    }
+
     public bool CanSkewer()
     {
-        if (!IsExtended())
+        // Меч должен быть вытянут хотя бы на 50%.
+        if (ExtensionNormalized < minSkewerExtension)
             return false;
 
-        if (TipVelocity.magnitude < minSkewerSpeed)
+        // Меч должен продолжать выдвигаться.
+        if (ExtensionSpeed < minExtensionSpeed)
             return false;
 
-        //if (!IsMovingForward())
-        //    return false;
+        // Острие должно двигаться вперёд вдоль меча.
+        Vector2 swordForward = -transform.up;
+
+        float forwardSpeed = Vector2.Dot(
+            TipVelocity,
+            swordForward);
+        Debug.Log(forwardSpeed + " Forward speed|| " + ExtensionNormalized + " ExtensionNormalized|| " + ExtensionSpeed + " ExtensionSpeed");
+        if (forwardSpeed < minSkewerSpeed)
+            return false;
 
         return true;
     }

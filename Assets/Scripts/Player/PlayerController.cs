@@ -12,13 +12,6 @@ public class PlayerController : MonoBehaviour
     public SwordController swordController;
     [SerializeField] private Transform target;
     [SerializeField] private float deltaVelocityThreshold;
-    [SerializeField] private ForceWaveController forceContr;
-
-    [SerializeField] private float forceCooldown = 3f;
-
-    private float lastForceTime = -100f;
-
-    private NavMeshAgent agent;
 
 
     public event Action<bool> OnDragEvent;
@@ -26,9 +19,6 @@ public class PlayerController : MonoBehaviour
     public event Action OnAttackStartedEvent;
     public event Action OnAttackCanceledEvent;
 
-    public event Action OnForcePerformedEvent;
-
-    public event Action<bool> OnMoveEvent;
 
     private Vector3 lastPosition;
     private Vector3 lastVelocity;
@@ -36,17 +26,13 @@ public class PlayerController : MonoBehaviour
     public WeaponSlot CurrentWeaponSlot { get; set; }
 
     private bool draggingCheck;
-    private bool isCastingForce;
-    private bool movingCheck;
+
     private void Awake()
     {
         playerInput = new PlayerInput();
     }
     private void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
-        agent.updateRotation = false;
-        agent.updateUpAxis = false;
     }
 
 
@@ -58,15 +44,11 @@ public class PlayerController : MonoBehaviour
         playerInput.Player.Drag.started += OnDragStarted;
         playerInput.Player.Drag.canceled += OnDragCancelled;
 
-        //playerInput.Player.Drag.performed += OnForcePerformed;
-
 
         playerInput.Player.Attack.started += OnAttackStarted;
         playerInput.Player.Attack.canceled += OnAttackCanceled;
 
         playerInput.Player.Interact.performed += OnInteract;
-
-        //playerInput.Player.Move.performed += OnMove;
 
     }
     private void OnDisable()
@@ -74,14 +56,10 @@ public class PlayerController : MonoBehaviour
         playerInput.Player.Drag.started -= OnDragStarted;
         playerInput.Player.Drag.canceled -= OnDragCancelled;
 
-        //playerInput.Player.Drag.performed -= OnForcePerformed;
-
         playerInput.Player.Attack.started -= OnAttackStarted;
         playerInput.Player.Attack.canceled -= OnAttackCanceled;
 
         playerInput.Player.Interact.performed -= OnInteract;
-
-        //playerInput.Player.Move.performed -= OnMove;
 
         playerInput.Disable();
     }
@@ -102,16 +80,6 @@ public class PlayerController : MonoBehaviour
 
         OnDragEvent?.Invoke(draggingCheck);
     }
-    private void OnForcePerformed(InputAction.CallbackContext ctx)
-    {
-        if (isCastingForce)
-            return;
-        if (Time.time < lastForceTime + forceCooldown)
-            return;
-        lastForceTime = Time.time;
-
-        StartCoroutine(ForceCoroutine());
-    }
 
     private void OnAttackStarted(InputAction.CallbackContext ctx)
     {
@@ -129,31 +97,6 @@ public class PlayerController : MonoBehaviour
         CurrentInteractable?.Interact(this);
     }
 
-    //private void OnMove(InputAction.CallbackContext ctx)
-    //{
-    //    movingCheck = !movingCheck;
-    //    OnMoveEvent?.Invoke(movingCheck);
-    //}
-
-    private IEnumerator ForceCoroutine()
-    {
-        isCastingForce = true;
-        //animation trigger
-
-        yield return new WaitForSeconds(forceContr.forceDelay);
-
-        forceContr.TriggerWave();
-
-        yield return new WaitForSeconds(forceContr.forceDelay);
-
-        foreach (var hit in forceContr.hits)
-        {
-            var rb = hit.GetComponent<Rigidbody2D>();
-            rb.linearVelocity = Vector2.zero;
-        }
-
-        isCastingForce = false;
-    }
     private void SwordSwing()
     {
         if (Time.deltaTime <= Mathf.Epsilon)
@@ -166,24 +109,9 @@ public class PlayerController : MonoBehaviour
         Vector3 velocity =
         (transform.position - lastPosition) / Time.deltaTime;
 
-        //Vector3 deltaVelocity = velocity - lastVelocity;
+
         swordController.AddImpulse(velocity.x); 
         lastVelocity = velocity;
         lastPosition = transform.position;
-    }
-    public void NavMove()
-    {
-        if (target != null)
-        {
-            agent.isStopped = false;
-            agent.SetDestination(target.position);
-        }
-    }
-    public void NavStop()
-    {
-        if (target != null)
-        {
-            agent.isStopped = true;
-        }
     }
 }

@@ -4,7 +4,6 @@ using static UnityEditor.Timeline.TimelinePlaybackControls;
 public class FsmEnemyStateThrown : FsmState
 {
     private readonly EnemyController enemy;
-    [SerializeField] private float throwPower = 20f;
     private float timer;
 
     public FsmEnemyStateThrown(Fsm fsm, EnemyController enemy) : base(fsm)
@@ -33,11 +32,6 @@ public class FsmEnemyStateThrown : FsmState
 
         enemy.Rigidbody.linearVelocity = velocity;
 
-        //enemy.Rigidbody.linearVelocity = thrown.swordCntr.TipVelocity.normalized * throwPower;
-       
-
-
-        //enemy.Rigidbody.linearVelocity = thrown.swordCntr.TipVelocity;
         timer = 0f;
 
         //enemy.Animator.Play("Thrown")
@@ -48,7 +42,6 @@ public class FsmEnemyStateThrown : FsmState
     {
         Debug.Log("Thrown State [EXIT]");
         enemy.player.GetComponent<Rigidbody2D>().simulated = true;
-        //enemy.Chase.enabled = true;
 
         //enemy.Animator.Play("Walk");
     }

@@ -10,13 +10,28 @@ public class SwordTip : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        TrySkewerEnemy(other);
+    }
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        TrySkewerEnemy(other);
+    }
+
+    private void TrySkewerEnemy(Collider2D other)
+    {
+        if (!other.TryGetComponent(out EnemyController enemy))
+            return;
+
         if (!sword.CanSkewer())
             return;
 
-        if (!other.TryGetComponent(out EnemyController enemy))
+        if (!sword.TrySkewer(enemy))
             return;
+
         var spriteFlashContr = enemy.gameObject.GetComponent<SpriteFlash>();
-        spriteFlashContr.Flash();
+        if(spriteFlashContr != null)
+            spriteFlashContr.Flash();
+
         CameraShake.Instance.Shake(shakeDuration, shakeStrength);
         HitStop.Instance.StopHit(hitStopDuration);
         sword.TrySkewer(enemy);
