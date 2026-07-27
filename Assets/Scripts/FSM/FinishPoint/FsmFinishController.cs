@@ -4,8 +4,13 @@ using UnityEngine.UI;
 public class FsmFinishController : MonoBehaviour
 {
     public Fsm Fsm { get; private set; }
-    public float CaptureTime = 5f;
-    public float CurrentCaptureTime;
+    [SerializeField] private float playerCaptureSpeed = 1f;
+    [SerializeField] private float weaponCaptureSpeed = 0.4f;
+
+    public float PlayerCaptureSpeed => playerCaptureSpeed;
+    public float WeaponCaptureSpeed => weaponCaptureSpeed;
+    public float CaptureRequired = 5f;
+    public float CurrentCaptureProgress;
 
     public float CaptureSpeed = 1f;
     public float DecaySpeed = 1f;

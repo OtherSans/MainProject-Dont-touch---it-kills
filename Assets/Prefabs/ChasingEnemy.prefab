@@ -416,6 +416,7 @@ GameObject:
   - component: {fileID: 8753968891058517191}
   - component: {fileID: 6309243608903482070}
   - component: {fileID: 8030622097746198836}
+  - component: {fileID: 7461294674369220780}
   m_Layer: 7
   m_Name: ChasingEnemy
   m_TagString: Enemy
@@ -585,11 +586,11 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 2.06
+  m_Speed: 0.7
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0.5
+  m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -695,7 +696,7 @@ MonoBehaviour:
   rb: {fileID: 7198547518053088447}
   enemyContr: {fileID: 4719861292475305143}
   target: {fileID: 0}
-  force: 10
+  force: 25
   knockbackTimer: 0.3
   timer: 0
   knockbackIsRunning: 0
@@ -760,7 +761,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b20ed409a38ae42459df1aabcd740fff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDeathController
-  deathTime: 1
+  deathTime: 0.5
 --- !u!114 &8030622097746198836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -775,6 +776,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAttack
   attackDamage: 15
   targetTag: Player
+--- !u!114 &7461294674369220780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4762742735004683172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61899aca46fa2d2429ab23abd40083c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpriteFlash
+  sprite: {fileID: 1510178856459573626}
 --- !u!1 &6143916887486008687
 GameObject:
   m_ObjectHideFlags: 0

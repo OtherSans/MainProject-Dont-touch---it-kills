@@ -20,7 +20,7 @@ public class FsmFinishIdleState : FsmState
     public override void Update()
     {
             
-        if (finish.PlayerInside)
+        if (finish.PlayerInside || finish.WeaponPlaced)
             Fsm.SetState<FsmFinishCapturingState>();
 
     }
