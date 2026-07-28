@@ -32,13 +32,12 @@ public class SwordController : MonoBehaviour
     public float maxThrowSpeed = 20f; 
 
     [Header("Impact")]
+    [SerializeField] private CameraShake cameraShake;
     [SerializeField] private float maxSwordSpeed = 20f;
     [SerializeField] private float minHitStopDur = 0.01f;
     [SerializeField] private float maxHitStopDur = 0.02f;
-    [SerializeField] private float minShakeDur = 0.03f;
-    [SerializeField] private float maxShakeDur = 0.08f;
-    [SerializeField] private float minShakeStr = 0.03f;
-    [SerializeField] private float maxShakeStr = 0.08f;
+    [SerializeField] private float minShakeStr = 0.25f;
+    [SerializeField] private float maxShakeStr = 0.75f;
 
     [Header("Wall collision")]
     [SerializeField]
@@ -130,8 +129,7 @@ public class SwordController : MonoBehaviour
         HitStop.Instance.StopHit(
             Mathf.Lerp(minHitStopDur, maxHitStopDur, impact));
 
-        CameraShake.Instance.Shake(
-            Mathf.Lerp(minShakeDur, maxShakeDur, impact),
+        cameraShake.Shake(
             Mathf.Lerp(minShakeStr, maxShakeStr, impact));
     }
 
@@ -255,6 +253,7 @@ public class SwordController : MonoBehaviour
     {
         if (SkeweredEnemy != null)
             return false;
+        
 
         SkeweredEnemy = enemy;
 
@@ -275,6 +274,8 @@ public class SwordController : MonoBehaviour
     private void CheckThrow()
     {
         if (SkeweredEnemy == null)
+            return;
+        if (SkeweredEnemy.PetrifiedController.IsPetrified)
             return;
 
         if (Mathf.Abs(angularVelocity) < throwVelocity)
@@ -303,12 +304,14 @@ public class SwordController : MonoBehaviour
 
         lastTipPosition = skewerPoint.position;
     }
-    private float ExtensionNormalized =>
+    public float ExtensionNormalized =>
     Mathf.InverseLerp(minLength, maxLength, currentLength);
 
 
     public bool CanSkewer()
     {
+        
+
         // Меч должен быть вытянут хотя бы на 50%.
         if (ExtensionNormalized < minSkewerExtension)
             return false;

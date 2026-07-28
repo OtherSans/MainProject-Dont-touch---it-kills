@@ -8,13 +8,11 @@ public class SwordAttack : MonoBehaviour
     [SerializeField] private float minAttackDamage;
     [SerializeField] private float maxSwordSpeed;
     [SerializeField] private string targetTag;
-    //[SerializeField] private float hitStopDuration;
-    //[SerializeField] private float shakeDur;
-    //[SerializeField] private float shakeStrength;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (swordContr.SkeweredEnemy != null)
             return;
+        
 
         if (collision.gameObject.CompareTag(targetTag))
         {
@@ -25,9 +23,6 @@ public class SwordAttack : MonoBehaviour
             healthContr.TakeDamage(damage);
             spriteFlashContr.Flash();
             swordContr.PlayImpact();
-
-            //CameraShake.Instance.Shake(shakeDur, shakeStrength);
-            //HitStop.Instance.StopHit(hitStopDuration);
         }
     }
 }

@@ -11,8 +11,16 @@ public class FsmFinishCapturedState : FsmState
     {
         Debug.Log("FinishCaptured State [ENTER]");
 
-        Debug.Log("Level Complete");
+        Debug.Log("Room Complete");
+        finish.captureContr.CapturePerform();
 
+        foreach (var enemy in finish.captureContr.enemies)
+        {
+            enemy.PetrifiedController.Petrify();
+            //enemy.Fsm.SetState<FsmEnemyStatePetrified>();
+        }
+
+        finish.BlockWall.SetActive(false);
         // открыть победное окно
         // остановить игру
     }

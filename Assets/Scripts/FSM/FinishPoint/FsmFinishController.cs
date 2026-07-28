@@ -6,6 +6,8 @@ public class FsmFinishController : MonoBehaviour
     public Fsm Fsm { get; private set; }
     [SerializeField] private float playerCaptureSpeed = 1f;
     [SerializeField] private float weaponCaptureSpeed = 0.4f;
+    public GameObject BlockWall;
+    public CaptureController captureContr;
 
     public float PlayerCaptureSpeed => playerCaptureSpeed;
     public float WeaponCaptureSpeed => weaponCaptureSpeed;

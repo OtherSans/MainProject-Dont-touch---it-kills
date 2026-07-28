@@ -762,6 +762,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDeathController
   deathTime: 0.5
+  currencyPrefab: {fileID: 210690828687138050, guid: 6ee62da2bf27dfe449a98e5928ac8e2d, type: 3}
 --- !u!114 &8030622097746198836
 MonoBehaviour:
   m_ObjectHideFlags: 0

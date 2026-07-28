@@ -3,7 +3,7 @@ using UnityEngine;
 public class SwordTip : MonoBehaviour
 {
     [SerializeField] private SwordController sword;
-    [SerializeField] private float shakeDuration;
+    [SerializeField] private CameraShake cameraShake;
     [SerializeField] private float shakeStrength;
     [SerializeField] private float hitStopDuration;
 
@@ -22,6 +22,9 @@ public class SwordTip : MonoBehaviour
         if (!other.TryGetComponent(out EnemyController enemy))
             return;
 
+        if (enemy.PetrifiedController.IsPetrified)
+            return;
+
         if (!sword.CanSkewer())
             return;
 
@@ -32,7 +35,7 @@ public class SwordTip : MonoBehaviour
         if(spriteFlashContr != null)
             spriteFlashContr.Flash();
 
-        CameraShake.Instance.Shake(shakeDuration, shakeStrength);
+        cameraShake.Shake(shakeStrength);
         HitStop.Instance.StopHit(hitStopDuration);
         sword.TrySkewer(enemy);
     }

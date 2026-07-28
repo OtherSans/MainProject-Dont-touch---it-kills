@@ -63,6 +63,9 @@ TagManager:
   - name: PlayerUI
     uniqueID: 1151714867
     locked: 0
+  - name: Currency
+    uniqueID: 4022065639
+    locked: 0
   m_RenderingLayers:
   - Default
   m_MigratedRenderPipelines: []

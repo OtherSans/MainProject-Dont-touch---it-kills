@@ -1,38 +1,14 @@
 using UnityEngine;
+using Cinemachine;
 using System.Collections;
 
 public class CameraShake : MonoBehaviour
 {
-    public static CameraShake Instance;
-
-    private Vector3 startPos;
-
-    private void Awake()
+    [SerializeField] private CinemachineImpulseSource impulseSource;
+    public void Shake(float strength)
     {
-        Instance = this;
-        startPos = transform.localPosition;
-    }
-
-    public void Shake(float duration, float strength)
-    {
-        StartCoroutine(ShakeRoutine(duration, strength));
-    }
-
-    IEnumerator ShakeRoutine(float duration, float strength)
-    {
-        float timer = 0;
-
-        while (timer < duration)
-        {
-            transform.localPosition =
-                startPos +
-                (Vector3)Random.insideUnitCircle * strength;
-
-            timer += Time.unscaledDeltaTime;
-
-            yield return null;
-        }
-
-        transform.localPosition = startPos;
+        if (impulseSource == null)
+            return;
+        impulseSource.GenerateImpulse(strength);
     }
 }

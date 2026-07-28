@@ -19,10 +19,16 @@ public class EnemyKnockback : MonoBehaviour
         {
             return;
         }
+        if (enemyContr.Fsm.CurrentState is FsmEnemyStatePetrified)
+        {
+            return;
+        }
         enemyContr.Fsm.SetState<FsmEnemyStateKnockback>();
     }
     public void KnockbackPerform()
     {
+        if (enemyContr.PetrifiedController.IsPetrified)
+            return;
         timer = knockbackTimer;
         rb.linearVelocity = Vector2.zero;
         dir = transform.position - target.position;
