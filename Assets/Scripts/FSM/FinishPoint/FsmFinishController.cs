@@ -1,12 +1,15 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class FsmFinishController : MonoBehaviour
 {
+    public event Action Captured;
+    public bool IsCaptured { get; private set; }
     public Fsm Fsm { get; private set; }
     [SerializeField] private float playerCaptureSpeed = 1f;
     [SerializeField] private float weaponCaptureSpeed = 0.4f;
-    public GameObject BlockWall;
+    public RoomBarrier ExitBlock;
     public CaptureController captureContr;
 
     public float PlayerCaptureSpeed => playerCaptureSpeed;
@@ -34,6 +37,13 @@ public class FsmFinishController : MonoBehaviour
     private void Update()
     {
         Fsm.Update();
+    }
+    public void CompleteCapture()
+    {
+        if (IsCaptured)
+            return;
+        IsCaptured = true;
+        Captured?.Invoke();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

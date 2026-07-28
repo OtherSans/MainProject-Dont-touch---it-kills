@@ -20,7 +20,8 @@ public class FsmFinishCapturedState : FsmState
             //enemy.Fsm.SetState<FsmEnemyStatePetrified>();
         }
 
-        finish.BlockWall.SetActive(false);
+        finish.ExitBlock.Open();
+        finish.CompleteCapture();
         // открыть победное окно
         // остановить игру
     }
