@@ -47,24 +47,33 @@ public class WeaponSlot : MonoBehaviour, IInteractable
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!other.TryGetComponent(out PlayerController player))
+        PlayerController player =
+        other.GetComponent<PlayerController>();
+
+        if (player == null)
             return;
-        player.CurrentInteractable = this;
+
+        player.SetInteractable(this);
     }
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (!other.TryGetComponent(out PlayerController player))
+        PlayerController player =
+        other.GetComponent<PlayerController>();
+
+        if (player == null)
             return;
 
-        player.CurrentInteractable = this;
+        player.SetInteractable(this);
     }
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (!other.TryGetComponent(out PlayerController player))
+        PlayerController player =
+        other.GetComponent<PlayerController>();
+
+        if (player == null)
             return;
 
-        if (player.CurrentInteractable == this)
-            player.CurrentInteractable = null;
+        player.ClearInteractable(this);
     }
 
     public void Interact(PlayerController player)

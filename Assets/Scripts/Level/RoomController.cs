@@ -9,12 +9,9 @@ public abstract class RoomController : MonoBehaviour
     [Header("Optional content")]
     [SerializeField] private GameObject roomContent;
 
-    [Header("Transition")]
-    [SerializeField] private Transform entryPoint;
-    [SerializeField] private Collider2D cameraBounds;
-
-    public Transform EntryPoint => entryPoint;
-    public Collider2D CameraBounds => cameraBounds;
+    [Header("Camera")]
+    [SerializeField] private BoxCollider2D cameraBounds;
+    public BoxCollider2D CameraBounds => cameraBounds;
 
     private bool isActive;
     private bool isCompleted;

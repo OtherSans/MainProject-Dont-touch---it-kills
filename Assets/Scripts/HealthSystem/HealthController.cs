@@ -1,3 +1,4 @@
+using Unity.VectorGraphics;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -14,38 +15,59 @@ public class HealthController : MonoBehaviour
             return curHealth / maxHealth;
         }
     }
+    public bool IsDead => curHealth <= 0f;
+    public bool IsFull => curHealth >= maxHealth;
 
     public UnityEvent OnDied;
     public UnityEvent OnDamaged;
+
+    public UnityEvent OnHeal;
     public bool IsInvincible { get; set; }
 
     public void TakeDamage(float damageAmount)
     {
-        if (curHealth == 0)
+        if (IsDead)
             return;
 
         if (IsInvincible)
             return;
 
+        if (damageAmount <= 0f)
+            return;
+
         curHealth -= damageAmount;
+        curHealth = Mathf.Max(curHealth, 0f);
 
-        if (curHealth < 0)
-            curHealth = 0;
-
-        if (curHealth == 0)
+        if (IsDead)
             OnDied.Invoke();
         else
             OnDamaged.Invoke();
     }
     public void AddHealth(float amountToAdd)
     {
-        if (curHealth == maxHealth)
+        if (IsDead)
             return;
 
-        curHealth += amountToAdd;
+        if (amountToAdd <= 0f)
+            return;
 
-        if (curHealth > maxHealth)
-            curHealth = maxHealth;
+        if (IsFull)
+            return;
+
+        curHealth = Mathf.Min(
+            curHealth + amountToAdd,
+            maxHealth
+        );
+
+        OnHeal.Invoke();
+    }
+    public void Kill()
+    {
+        if (IsDead)
+            return;
+
+        curHealth = 0f;
+        OnDied.Invoke();
     }
 
 }

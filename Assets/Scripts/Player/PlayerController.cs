@@ -7,12 +7,20 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     private PlayerInput playerInput;
+    [Header("Interaction")]
     public IInteractable CurrentInteractable;
 
+    [Header("Health")]
+    public HealthController playerHealth;
+
+    [Header("Sword")]
     public SwordController swordController;
+
+
     [SerializeField] private Transform target;
     [SerializeField] private float deltaVelocityThreshold;
 
+    public HealthController PlayerHealth => playerHealth;
 
     public event Action<bool> OnDragEvent;
 
@@ -66,6 +74,16 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         SwordSwing();
+    }
+    public void SetInteractable(IInteractable interactable)
+    {
+        CurrentInteractable = interactable;
+    }
+    public void ClearInteractable(IInteractable interactable)
+    {
+        // Не очищаем ссылку, если другой объект уже занял её.
+        if (CurrentInteractable == interactable)
+            CurrentInteractable = null;
     }
     private void OnDragStarted(InputAction.CallbackContext ctx)
     {

@@ -54,4 +54,5 @@ public abstract class EnemyController : MonoBehaviour
     }
 
     protected abstract void RegisterSpecificStates();
+
 }

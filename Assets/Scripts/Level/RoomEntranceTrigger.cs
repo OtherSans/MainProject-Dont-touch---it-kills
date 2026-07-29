@@ -13,6 +13,6 @@ public class RoomEntranceTrigger : MonoBehaviour
 
         if (player == null) return;
 
-        roomManager.EnterRoom(targetRoom);
+        //roomManager.EnterRoom(targetRoom);
     }
 }

@@ -2,10 +2,21 @@ using UnityEngine;
 
 public class RoomTransition : MonoBehaviour
 {
+    [Header("Reference")]
     [SerializeField] private RoomManager roomManager;
     [SerializeField] private RoomController targetRoom;
 
-    private bool isTransitioning;
+    [Header("Current Room")]
+    [SerializeField] private Transform exitMovePoint;
+
+    [Header("Target Room")]
+    [Tooltip("Точка снаружи целевой комнаты, куда переносится игрок")]
+    [SerializeField] private Transform targetOutsidePoint;
+
+    [Tooltip("Точка внутри целевой комнаты, куда игрок автоматически залетает")]
+    [SerializeField] private Transform targetEntryPoint;
+
+    private bool isTriggered;
 
     private void Reset()
     {
@@ -15,7 +26,7 @@ public class RoomTransition : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (isTransitioning)
+        if (roomManager.IsTransitioning)
             return;
 
         PlayerController player =
@@ -24,7 +35,11 @@ public class RoomTransition : MonoBehaviour
         if (player == null)
             return;
 
-        if (roomManager == null || targetRoom == null)
+        if (roomManager == null || 
+            targetRoom == null || 
+            exitMovePoint == null || 
+            targetOutsidePoint == null ||
+            targetEntryPoint == null)
         {
             Debug.LogError(
                 $"RoomTransition {name} is not configured.",
@@ -34,7 +49,16 @@ public class RoomTransition : MonoBehaviour
             return;
         }
 
-        isTransitioning = true;
-        roomManager.EnterRoom(targetRoom);
+        //isTriggered = true;
+        roomManager.StartTransition(
+            targetRoom,
+            exitMovePoint,
+            targetOutsidePoint,
+            targetEntryPoint
+        );
+    }
+    private void OnTransitionFinished()
+    {
+        isTriggered = false;
     }
 }

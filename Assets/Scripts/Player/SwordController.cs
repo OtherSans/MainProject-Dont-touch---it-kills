@@ -267,6 +267,14 @@ public class SwordController : MonoBehaviour
         return true;
     }
 
+    public void ConsumeSkeweredEnemy(EnemyController enemy)
+    {
+        if (SkeweredEnemy != enemy)
+            return;
+
+        SkeweredEnemy = null;
+    }
+
     #endregion
 
     #region Throw
