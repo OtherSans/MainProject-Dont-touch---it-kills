@@ -26,7 +26,11 @@ public class RoomManager : MonoBehaviour
         CurrentRoom.EnterRoom();
 
         if (cameraController != null)
+        {
             cameraController.SetRoomBounds(startRoom.CameraBounds);
+            cameraController.SnapToPlayer();
+        }
+            
     }
     public void SetStartRoom(RoomController newRoom)
     {

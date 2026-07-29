@@ -11,13 +11,21 @@ public class ChaseController : MonoBehaviour
 
     private void Awake()
     {
-        
-    }
-    private void Start()
-    {
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+    }
+    private void Start()
+    {
+        
+    }
+    private void OnEnable()
+    {
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
+
+        transform.rotation = Quaternion.identity;
+
     }
 
     public void ChasePlayer()

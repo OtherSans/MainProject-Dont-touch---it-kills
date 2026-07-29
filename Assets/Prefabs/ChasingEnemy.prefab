@@ -412,11 +412,13 @@ GameObject:
   - component: {fileID: 7938760148144071629}
   - component: {fileID: 7198547518053088447}
   - component: {fileID: 8074440344224988305}
-  - component: {fileID: 1104383023325674862}
   - component: {fileID: 8753968891058517191}
   - component: {fileID: 6309243608903482070}
   - component: {fileID: 8030622097746198836}
   - component: {fileID: 7461294674369220780}
+  - component: {fileID: 3997564240427770861}
+  - component: {fileID: 713967913716512363}
+  - component: {fileID: 8514738953114873}
   m_Layer: 7
   m_Name: ChasingEnemy
   m_TagString: Enemy
@@ -586,7 +588,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 0.7
+  m_Speed: 3
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -654,6 +656,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnHeal:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!50 &7198547518053088447
 Rigidbody2D:
   serializedVersion: 5
@@ -700,42 +705,6 @@ MonoBehaviour:
   knockbackTimer: 0.3
   timer: 0
   knockbackIsRunning: 0
---- !u!58 &1104383023325674862
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4762742735004683172}
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 256
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.21133333}
-  m_Radius: 11.56
 --- !u!114 &8753968891058517191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -761,7 +730,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b20ed409a38ae42459df1aabcd740fff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDeathController
-  deathTime: 0.5
+  deathTime: 0.1
   currencyPrefab: {fileID: 210690828687138050, guid: 6ee62da2bf27dfe449a98e5928ac8e2d, type: 3}
 --- !u!114 &8030622097746198836
 MonoBehaviour:
@@ -790,6 +759,55 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpriteFlash
   sprite: {fileID: 1510178856459573626}
+  flashDur: 0.06
+--- !u!114 &3997564240427770861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4762742735004683172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b8c12f86c53a7a4d963b90ccf4bb2db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PetrifiedController
+  sprite: {fileID: 7461294674369220780}
+  stoneColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+--- !u!114 &713967913716512363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4762742735004683172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25155464bad7c7a47b2c101c37139b1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkeweredEnemyInteractable
+  restoredHealth: 5
+  enemy: {fileID: 4719861292475305143}
+  enemyHealth: {fileID: 7938760148144071629}
+--- !u!114 &8514738953114873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4762742735004683172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e772be7706dcf4547ae04e3a2b4986f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ThrownEnemyDamage
+  damage: 50
+  shakeStrength: 15
+  hitStopDuration: 0.03
+  minHitSpeed: 0.1
+  enemyRb: {fileID: 7198547518053088447}
+  ownerEnemy: {fileID: 4719861292475305143}
+  cameraShake: {fileID: 0}
 --- !u!1 &6143916887486008687
 GameObject:
   m_ObjectHideFlags: 0
@@ -857,4 +875,4 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0.21133333}
-  m_Radius: 11.56
+  m_Radius: 2.48
