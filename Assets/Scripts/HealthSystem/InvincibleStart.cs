@@ -1,17 +1,37 @@
-using Newtonsoft.Json.Bson;
 using UnityEngine;
 
 public class InvincibleStart : MonoBehaviour
 {
-    [SerializeField] private float invDuration;
+    [SerializeField, Min(0f)]
+    private float invincibilityDuration = 1f;
 
-    private InvincibilityController invContr;
+    [SerializeField]
+    private InvincibilityController invincibilityController;
+
     private void Awake()
     {
-        invContr = GetComponent<InvincibilityController>();
+        if (invincibilityController == null)
+        {
+            invincibilityController =
+                GetComponent<InvincibilityController>();
+        }
+
+        if (invincibilityController == null)
+        {
+            Debug.LogError(
+                $"{name}: InvincibilityController не найден.",
+                this
+            );
+        }
     }
+
     public void InvincibilityActivate()
     {
-        invContr.StartInvincibility(invDuration);
+        if (invincibilityController == null)
+            return;
+
+        invincibilityController.StartInvincibility(
+            invincibilityDuration
+        );
     }
 }

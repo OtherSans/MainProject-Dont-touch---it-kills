@@ -10,20 +10,23 @@ public class FsmFinishCapturedState : FsmState
     public override void Enter(FsmContext ctx)
     {
         Debug.Log("FinishCaptured State [ENTER]");
-
         Debug.Log("Room Complete");
-        finish.captureContr.CapturePerform();
 
-        foreach (var enemy in finish.captureContr.enemies)
+        finish.CaptureController.CapturePerform();
+
+        foreach (
+            EnemyController enemy
+            in finish.CaptureController.Enemies
+        )
         {
+            if (enemy == null)
+                continue;
+
             enemy.PetrifiedController.Petrify();
-            //enemy.Fsm.SetState<FsmEnemyStatePetrified>();
         }
 
         finish.ExitBlock.Open();
         finish.CompleteCapture();
-        // открыть победное окно
-        // остановить игру
     }
     public override void Exit()
     {

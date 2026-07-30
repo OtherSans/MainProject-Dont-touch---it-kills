@@ -16,6 +16,16 @@ public class PlayerController : MonoBehaviour
     [Header("Sword")]
     public SwordController swordController;
 
+    [SerializeField]
+    private PlayerVisualController visualController;
+    [SerializeField]
+    private InvincibilityController invincibilityController;
+
+    public InvincibilityController InvincibilityController =>
+        invincibilityController;
+
+    public PlayerVisualController VisualController => visualController;
+
 
     [SerializeField] private Transform target;
     [SerializeField] private float deltaVelocityThreshold;

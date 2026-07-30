@@ -22,7 +22,7 @@ public class WeaponSlot : MonoBehaviour, IInteractable
 
         sword.SetPlaced(true);
 
-        finishPoint.WeaponPlaced = true;
+        finishPoint.SetWeaponPlaced(true);
 
         return true;
     }
@@ -40,7 +40,7 @@ public class WeaponSlot : MonoBehaviour, IInteractable
 
         CurrentSword = null;
 
-        finishPoint.WeaponPlaced = false;
+        finishPoint.SetWeaponPlaced(false);
 
         return sword;
     }

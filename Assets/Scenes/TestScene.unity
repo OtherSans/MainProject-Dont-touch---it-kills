@@ -1345,6 +1345,10 @@ PrefabInstance:
       propertyPath: deathTime
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 6309243608903482070, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
+      propertyPath: captureController
+      value: 
+      objectReference: {fileID: 1755314865}
     - target: {fileID: 8030622097746198836, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -1397,6 +1401,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PetrifiedController
   sprite: {fileID: 262313213}
   stoneColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+--- !u!114 &262313215 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4719861292475305143, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
+  m_PrefabInstance: {fileID: 262313210}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 262313212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3211a0ad3c6f5e478deddd68367fed4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChaserController
 --- !u!1 &271458687
 GameObject:
   m_ObjectHideFlags: 0
@@ -1708,6 +1723,14 @@ PrefabInstance:
       propertyPath: cameraShake
       value: 
       objectReference: {fileID: 832722007}
+    - target: {fileID: 713967913716512363, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
+      propertyPath: consumeEffects.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 713967913716512363, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
+      propertyPath: 'consumeEffects.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1159882823}
     - target: {fileID: 1195825532041292806, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -1764,6 +1787,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ChasingEnemy (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6309243608903482070, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
+      propertyPath: captureController
+      value: 
+      objectReference: {fileID: 2034495016}
     - target: {fileID: 8074440344224988305, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
       propertyPath: target
       value: 
@@ -1771,8 +1798,22 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4762742735004683172, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1159882823}
   m_SourcePrefab: {fileID: 100100000, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
+--- !u!114 &340854159 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4719861292475305143, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
+  m_PrefabInstance: {fileID: 340854158}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 510779348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3211a0ad3c6f5e478deddd68367fed4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChaserController
 --- !u!1001 &349998162
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1861,6 +1902,10 @@ PrefabInstance:
       propertyPath: deathTime
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 6309243608903482070, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
+      propertyPath: captureController
+      value: 
+      objectReference: {fileID: 1755314865}
     - target: {fileID: 8030622097746198836, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -1913,6 +1958,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PetrifiedController
   sprite: {fileID: 349998165}
   stoneColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+--- !u!114 &349998167 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4719861292475305143, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
+  m_PrefabInstance: {fileID: 349998162}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 349998164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3211a0ad3c6f5e478deddd68367fed4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChaserController
 --- !u!1 &366650223
 GameObject:
   m_ObjectHideFlags: 0
@@ -2389,6 +2445,10 @@ PrefabInstance:
       propertyPath: deathTime
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 6309243608903482070, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
+      propertyPath: captureController
+      value: 
+      objectReference: {fileID: 1755314865}
     - target: {fileID: 8030622097746198836, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -2441,6 +2501,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PetrifiedController
   sprite: {fileID: 410996685}
   stoneColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+--- !u!114 &410996687 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4719861292475305143, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
+  m_PrefabInstance: {fileID: 410996682}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 410996684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3211a0ad3c6f5e478deddd68367fed4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChaserController
 --- !u!1 &437600812
 GameObject:
   m_ObjectHideFlags: 0
@@ -2581,6 +2652,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!1 &510779348 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4762742735004683172, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
+  m_PrefabInstance: {fileID: 340854158}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &543728226
 GameObject:
   m_ObjectHideFlags: 0
@@ -2821,11 +2897,6 @@ Canvas:
   m_SortingLayerID: -272901657
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!4 &585598281 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2036052734026748542, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
-  m_PrefabInstance: {fileID: 1587161288}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &599459277
 GameObject:
   m_ObjectHideFlags: 0
@@ -3723,7 +3794,6 @@ Transform:
   m_Children:
   - {fileID: 1399102815}
   - {fileID: 1159882808}
-  - {fileID: 585598281}
   m_Father: {fileID: 1455395849}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &982363502
@@ -4591,6 +4661,19 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2036052734026748542, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
   m_PrefabInstance: {fileID: 340854158}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1159882823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 510779348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d79572d50ff70f42b133dd328d3fcc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InvincibilityConsumeEffect
+  duration: 3
 --- !u!1 &1179709748
 GameObject:
   m_ObjectHideFlags: 0
@@ -5186,6 +5269,10 @@ PrefabInstance:
       propertyPath: deathTime
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 6309243608903482070, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
+      propertyPath: captureController
+      value: 
+      objectReference: {fileID: 1755314865}
     - target: {fileID: 8030622097746198836, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -5238,6 +5325,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PetrifiedController
   sprite: {fileID: 1441136039}
   stoneColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+--- !u!114 &1441136041 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4719861292475305143, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
+  m_PrefabInstance: {fileID: 1441136036}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1441136038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3211a0ad3c6f5e478deddd68367fed4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChaserController
 --- !u!1 &1451438020
 GameObject:
   m_ObjectHideFlags: 0
@@ -5592,83 +5690,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1587161288
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 968853145}
-    m_Modifications:
-    - target: {fileID: 1195825532041292806, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1195825532041292806, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1472025373146098553, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
-      propertyPath: target
-      value: 
-      objectReference: {fileID: 1971375231}
-    - target: {fileID: 2036052734026748542, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.35
-      objectReference: {fileID: 0}
-    - target: {fileID: 2036052734026748542, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 3.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2036052734026748542, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2036052734026748542, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2036052734026748542, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2036052734026748542, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2036052734026748542, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2036052734026748542, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2036052734026748542, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2036052734026748542, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4762742735004683172, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
-      propertyPath: m_Name
-      value: ChasingEnemy (2)
-      objectReference: {fileID: 0}
-    - target: {fileID: 7983893270228453219, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
-      propertyPath: cameraShake
-      value: 
-      objectReference: {fileID: 832722007}
-    - target: {fileID: 8074440344224988305, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
-      propertyPath: target
-      value: 
-      objectReference: {fileID: 1971375231}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
 --- !u!1 &1599007483
 GameObject:
   m_ObjectHideFlags: 0
@@ -5896,6 +5917,11 @@ Transform:
   - {fileID: 405028212}
   m_Father: {fileID: 366650224}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1706347524 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4762742735004683172, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
+  m_PrefabInstance: {fileID: 3289807058090282150}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1707908932
 GameObject:
   m_ObjectHideFlags: 0
@@ -6042,6 +6068,10 @@ PrefabInstance:
       propertyPath: deathTime
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 6309243608903482070, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
+      propertyPath: captureController
+      value: 
+      objectReference: {fileID: 1755314865}
     - target: {fileID: 8030622097746198836, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -6094,6 +6124,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PetrifiedController
   sprite: {fileID: 1719115090}
   stoneColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+--- !u!114 &1719115092 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4719861292475305143, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
+  m_PrefabInstance: {fileID: 1719115087}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1719115089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3211a0ad3c6f5e478deddd68367fed4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChaserController
 --- !u!1 &1730000668
 GameObject:
   m_ObjectHideFlags: 0
@@ -6277,6 +6318,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d09191541c8f08b458324dfe3a7e02f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CaptureController
+  enemies:
+  - {fileID: 349998167}
+  - {fileID: 1441136041}
+  - {fileID: 262313215}
+  - {fileID: 410996687}
+  - {fileID: 2007419854}
+  - {fileID: 1719115092}
 --- !u!1 &1759392218
 GameObject:
   m_ObjectHideFlags: 0
@@ -6599,6 +6647,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1607850200968748226, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
+      propertyPath: invincibilityDuration
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1607850200968748226, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
+      propertyPath: invincibilityController
+      value: 
+      objectReference: {fileID: 1971375247}
     - target: {fileID: 4784617449987125462, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
       propertyPath: OnHeal.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -6643,6 +6699,10 @@ PrefabInstance:
       propertyPath: playerHealth
       value: 
       objectReference: {fileID: 1971375240}
+    - target: {fileID: 6399058089455004984, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
+      propertyPath: visualController
+      value: 
+      objectReference: {fileID: 1971375251}
     - target: {fileID: 6950101497218981567, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
       propertyPath: m_Name
       value: MainChar
@@ -6691,6 +6751,14 @@ PrefabInstance:
       propertyPath: impulseMultiplier
       value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 8823516603395013250, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
+      propertyPath: healthController
+      value: 
+      objectReference: {fileID: 1971375240}
+    - target: {fileID: 8823516603395013250, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
+      propertyPath: visualController
+      value: 
+      objectReference: {fileID: 1971375251}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -6701,6 +6769,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6950101497218981567, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1971375232}
+    - targetCorrespondingSourceObject: {fileID: 6950101497218981567, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1971375251}
     - targetCorrespondingSourceObject: {fileID: 204727165651538750, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
       insertIndex: -1
       addedObject: {fileID: 330451766}
@@ -6765,6 +6836,37 @@ Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 5332527100501221205, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
   m_PrefabInstance: {fileID: 1971375228}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1971375247 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8823516603395013250, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
+  m_PrefabInstance: {fileID: 1971375228}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1971375229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9987d10263cd5ab4c82650cb8ad7737f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InvincibilityController
+--- !u!212 &1971375250 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 7887262548356318280, guid: 7cc3bf0a46cc05741bca3752294aecea, type: 3}
+  m_PrefabInstance: {fileID: 1971375228}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1971375251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1971375229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acc542737a1ac534494fa599aae61048, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerVisualController
+  spriteRenderer: {fileID: 1971375250}
+  blinkInterval: 0.12
+  invincibleColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!1 &1975566263
 GameObject:
   m_ObjectHideFlags: 0
@@ -7395,6 +7497,10 @@ PrefabInstance:
       propertyPath: deathTime
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 6309243608903482070, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
+      propertyPath: captureController
+      value: 
+      objectReference: {fileID: 1755314865}
     - target: {fileID: 8030622097746198836, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -7447,6 +7553,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PetrifiedController
   sprite: {fileID: 2007419852}
   stoneColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+--- !u!114 &2007419854 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4719861292475305143, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
+  m_PrefabInstance: {fileID: 2007419849}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2007419851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3211a0ad3c6f5e478deddd68367fed4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChaserController
 --- !u!1 &2015147414
 GameObject:
   m_ObjectHideFlags: 0
@@ -7495,6 +7612,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d09191541c8f08b458324dfe3a7e02f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CaptureController
+  enemies:
+  - {fileID: 3289807058090282151}
+  - {fileID: 340854159}
 --- !u!114 &2034495017 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8013302417902402148, guid: 3c9f3c90baf9ffd44942fc5feb42e681, type: 3}
@@ -8028,7 +8148,19 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1668812346}
     - target: {fileID: 8013302417902402148, guid: 3c9f3c90baf9ffd44942fc5feb42e681, type: 3}
+      propertyPath: exitBlock
+      value: 
+      objectReference: {fileID: 1668812346}
+    - target: {fileID: 8013302417902402148, guid: 3c9f3c90baf9ffd44942fc5feb42e681, type: 3}
+      propertyPath: captureBar
+      value: 
+      objectReference: {fileID: 3100976448386615354}
+    - target: {fileID: 8013302417902402148, guid: 3c9f3c90baf9ffd44942fc5feb42e681, type: 3}
       propertyPath: captureContr
+      value: 
+      objectReference: {fileID: 2034495016}
+    - target: {fileID: 8013302417902402148, guid: 3c9f3c90baf9ffd44942fc5feb42e681, type: 3}
+      propertyPath: captureController
       value: 
       objectReference: {fileID: 2034495016}
     - target: {fileID: 9121724533767160265, guid: 3c9f3c90baf9ffd44942fc5feb42e681, type: 3}
@@ -8079,6 +8211,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 2034495016}
   m_SourcePrefab: {fileID: 100100000, guid: 3c9f3c90baf9ffd44942fc5feb42e681, type: 3}
+--- !u!114 &3100976448386615354 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3784966447439211231, guid: 3c9f3c90baf9ffd44942fc5feb42e681, type: 3}
+  m_PrefabInstance: {fileID: 3100976448386615353}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1001 &3289807058090282150
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8091,6 +8234,14 @@ PrefabInstance:
       propertyPath: cameraShake
       value: 
       objectReference: {fileID: 832722007}
+    - target: {fileID: 713967913716512363, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
+      propertyPath: consumeEffects.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 713967913716512363, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
+      propertyPath: 'consumeEffects.Array.data[0]'
+      value: 
+      objectReference: {fileID: 3289807058090282166}
     - target: {fileID: 1195825532041292806, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -8147,6 +8298,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ChasingEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 6309243608903482070, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
+      propertyPath: captureController
+      value: 
+      objectReference: {fileID: 2034495016}
     - target: {fileID: 8074440344224988305, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
       propertyPath: target
       value: 
@@ -8154,8 +8309,35 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4762742735004683172, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3289807058090282166}
   m_SourcePrefab: {fileID: 100100000, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
+--- !u!114 &3289807058090282151 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4719861292475305143, guid: 9f9049efe5d0e3c48afaf4b0c47d0b05, type: 3}
+  m_PrefabInstance: {fileID: 3289807058090282150}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1706347524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3211a0ad3c6f5e478deddd68367fed4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChaserController
+--- !u!114 &3289807058090282166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1706347524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b08506fbf83d3a488f27fe885b5be16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealConsumeEffect
+  healAmount: 2
 --- !u!1001 &5641788365313455287
 PrefabInstance:
   m_ObjectHideFlags: 0

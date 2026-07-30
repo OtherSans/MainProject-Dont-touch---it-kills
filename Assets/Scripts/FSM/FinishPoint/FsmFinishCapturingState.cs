@@ -19,16 +19,7 @@ public class FsmFinishCapturingState : FsmState
     }
     public override void Update()
     {
-        float captureSpeed = 0f;
-
-        if (finish.PlayerInside)
-        {
-            captureSpeed = finish.PlayerCaptureSpeed;
-        }
-        else if (finish.WeaponPlaced)
-        {
-            captureSpeed = finish.WeaponCaptureSpeed;
-        }
+        float captureSpeed = GetCaptureSpeed();
 
         if (captureSpeed > 0f)
         {
@@ -38,29 +29,42 @@ public class FsmFinishCapturingState : FsmState
         else
         {
             finish.CurrentCaptureProgress -=
-            finish.DecaySpeed * Time.deltaTime;
+                finish.DecaySpeed * Time.deltaTime;
         }
 
-
-        finish.CurrentCaptureProgress =
-        Mathf.Clamp(
+        finish.CurrentCaptureProgress = Mathf.Clamp(
             finish.CurrentCaptureProgress,
-            0,
-            finish.CaptureRequired);
+            0f,
+            finish.CaptureRequired
+        );
 
-        finish.CaptureBar.fillAmount =
-            finish.CurrentCaptureProgress /
-            finish.CaptureRequired;
+        finish.UpdateCaptureBar();
 
-        if (finish.CurrentCaptureProgress <= 0)
+        if (finish.CurrentCaptureProgress >=
+            finish.CaptureRequired)
         {
-            Fsm.SetState<FsmFinishIdleState>();
+            Fsm.SetState<FsmFinishCapturedState>();
             return;
         }
 
-        if (finish.CurrentCaptureProgress >= finish.CaptureRequired)
+        if (finish.CurrentCaptureProgress <= 0f &&
+            !finish.CanCapture)
         {
-            Fsm.SetState<FsmFinishCapturedState>();
+            Fsm.SetState<FsmFinishIdleState>();
         }
+    }
+
+    private float GetCaptureSpeed()
+    {
+        // После зачистки комнаты игрок получает быструю скорость.
+        // Это условие имеет приоритет, даже если меч всё ещё в слоте.
+        if (finish.CanPlayerCapture)
+            return finish.PlayerCaptureSpeed;
+
+        // При живых врагах меч выполняет медленный захват.
+        if (finish.CanWeaponCapture)
+            return finish.WeaponCaptureSpeed;
+
+        return 0f;
     }
 }
