@@ -9,7 +9,14 @@ public class InvincibilityConsumeEffect : ConsumeEffect
     public override void Apply(PlayerController player)
     {
         if (player == null)
+        {
+            Debug.LogError(
+                $"{player.name}: Player не назначен.",
+                player
+            );
             return;
+        }
+            
 
         if (player.InvincibilityController == null)
         {

@@ -32,6 +32,12 @@ public abstract class RoomController : MonoBehaviour
             roomContent.SetActive(true);
         OnRoomEntered();
     }
+    public void PlayerArrived()
+    {
+        if (!isActive)
+            return;
+        OnPlayerArrived();
+    }
     public void ExitRoom()
     {
         if (!isActive)
@@ -48,6 +54,10 @@ public abstract class RoomController : MonoBehaviour
         Completed?.Invoke(this);
     }
     protected virtual void OnRoomEntered()
+    {
+
+    }
+    protected virtual void OnPlayerArrived()
     {
 
     }

@@ -1,17 +1,39 @@
+using System.Threading;
 using UnityEngine;
 
 public class CaptureCombatRoom : RoomController
 {
+    [Header("Capture")]
     [SerializeField] private FsmFinishController finishPoint;
+
+    [Header("Barriers")]
+    [SerializeField] private RoomBarrier[] roomBarriers;
     private bool isSubscribed;
     protected override void OnRoomEntered()
     {
+        OpenBarriers();
+
         if (IsCompleted)
+        {
+            OpenBarriers();
             return;
+        }
+
         Subscribe();
-        if (finishPoint.IsCaptured)
+
+        if (finishPoint != null && finishPoint.IsCaptured)
             HandleCaptured();
 
+    }
+    protected override void OnPlayerArrived()
+    {
+        if (IsCompleted)
+        {
+            OpenBarriers();
+            return;
+        }
+
+        CloseBarriers();
     }
     protected override void OnRoomExited()
     {
@@ -33,7 +55,31 @@ public class CaptureCombatRoom : RoomController
     }
     private void HandleCaptured()
     {
+        OpenBarriers();
         CompleteRoom();
+    }
+    private void CloseBarriers()
+    {
+        if (roomBarriers == null)
+            return;
+
+        foreach (RoomBarrier barrier in roomBarriers)
+        {
+            if (barrier != null)
+                barrier.Close();
+        }
+    }
+
+    private void OpenBarriers()
+    {
+        if (roomBarriers == null)
+            return;
+
+        foreach (RoomBarrier barrier in roomBarriers)
+        {
+            if (barrier != null)
+                barrier.Open();
+        }
     }
     protected override void OnRoomCompleted()
     {

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,14 +21,11 @@ public class FsmFinishController : MonoBehaviour
     private float decaySpeed = 1f;
 
     [Header("References")]
-    [SerializeField]
-    private RoomBarrier exitBlock;
+    [SerializeField] private RoomBarrier[] exitBlocks;
 
-    [SerializeField]
-    private CaptureController captureController;
+    [SerializeField] private CaptureController captureController;
 
-    [SerializeField]
-    private Image captureBar;
+    [SerializeField] private Image captureBar;
 
     public bool IsCaptured { get; private set; }
     public Fsm Fsm { get; private set; }
@@ -43,7 +41,7 @@ public class FsmFinishController : MonoBehaviour
     public bool WeaponPlaced { get; private set; }
 
     public Image CaptureBar => captureBar;
-    public RoomBarrier ExitBlock => exitBlock;
+    public RoomBarrier[] ExitBlocks => exitBlocks;
     public CaptureController CaptureController => captureController;
 
     /// <summary>

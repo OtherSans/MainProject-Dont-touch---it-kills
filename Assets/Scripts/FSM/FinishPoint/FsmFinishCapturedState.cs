@@ -25,7 +25,6 @@ public class FsmFinishCapturedState : FsmState
             enemy.PetrifiedController.Petrify();
         }
 
-        finish.ExitBlock.Open();
         finish.CompleteCapture();
     }
     public override void Exit()

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3417992606555464}
   - component: {fileID: 2483444921520671857}
   - component: {fileID: 8013302417902402148}
+  - component: {fileID: 1484940278044574251}
   m_Layer: 0
   m_Name: FinishPoint
   m_TagString: Finish
@@ -144,13 +145,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3cb821cdf9f4964e85c81affff6dcdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FsmFinishController
-  CaptureTime: 5
-  CurrentCaptureTime: 0
-  CaptureSpeed: 1
-  DecaySpeed: 1
-  PlayerInside: 0
-  WeaponPlaced: 0
-  CaptureBar: {fileID: 3784966447439211231}
+  playerCaptureSpeed: 2
+  weaponCaptureSpeed: 0.5
+  captureRequired: 5
+  decaySpeed: 1
+  exitBlock: []
+  captureController: {fileID: 1484940278044574251}
+  captureBar: {fileID: 3784966447439211231}
+--- !u!114 &1484940278044574251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2134278013297042970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d09191541c8f08b458324dfe3a7e02f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CaptureController
+  enemies:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &6126343067884741914
 GameObject:
   m_ObjectHideFlags: 0

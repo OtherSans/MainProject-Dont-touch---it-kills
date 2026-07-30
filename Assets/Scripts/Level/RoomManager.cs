@@ -123,6 +123,8 @@ public class RoomManager : MonoBehaviour
         yield return MovePlayerTo(targetEntryPoint.position);
 
         rb.linearVelocity = Vector2.zero;
+
+        CurrentRoom.PlayerArrived();
         //player.SetInputEnabled(true);
 
         isTransitioning = false;
