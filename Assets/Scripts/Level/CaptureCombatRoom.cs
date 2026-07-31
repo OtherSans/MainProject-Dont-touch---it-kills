@@ -8,6 +8,13 @@ public class CaptureCombatRoom : RoomController
 
     [Header("Barriers")]
     [SerializeField] private RoomBarrier[] roomBarriers;
+
+    [Header("Experience")]
+    [SerializeField, Min(0)] private int completionExperienceReward = 50;
+
+    [Header("Reward")]
+    [SerializeField] private RewardSpawner rewardSpawner;
+
     private bool isSubscribed;
     protected override void OnRoomEntered()
     {
@@ -84,8 +91,26 @@ public class CaptureCombatRoom : RoomController
     protected override void OnRoomCompleted()
     {
         Unsubscribe();
+        OpenBarriers();
 
-        Debug.Log($"Room {RoomID} completed");
+
+        rewardSpawner.SpawnReward();
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.Experience.AddExperience(
+                completionExperienceReward
+            );
+        }
+        else
+        {
+            Debug.LogError("GameManager не найден.", this);
+        }
+
+        Debug.Log(
+            $"Room {RoomID} completed. " +
+            $"Received {completionExperienceReward} XP"
+        );
     }
     private void OnDestroy()
     {

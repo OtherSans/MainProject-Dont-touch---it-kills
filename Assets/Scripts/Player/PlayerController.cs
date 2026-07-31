@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Health")]
     public HealthController playerHealth;
+    [SerializeField] private int levelUpHealth;
 
     [Header("Sword")]
     public SwordController swordController;
@@ -44,19 +45,26 @@ public class PlayerController : MonoBehaviour
     public WeaponSlot CurrentWeaponSlot { get; set; }
 
     private bool draggingCheck;
+    private bool swingInitialized;
 
     private void Awake()
     {
         playerInput = new PlayerInput();
+
+        lastPosition = transform.position;
+        lastVelocity = Vector3.zero;
     }
     private void Start()
     {
+        GameManager.Instance.Experience.LevelIncreased += HandleLevelUp;
     }
 
 
 
     private void OnEnable()
     {
+        swingInitialized = false;
+
         playerInput.Enable();
 
         playerInput.Player.Drag.started += OnDragStarted;
@@ -124,21 +132,32 @@ public class PlayerController : MonoBehaviour
             return;
         CurrentInteractable?.Interact(this);
     }
-
+    private void HandleLevelUp(int level)
+    {
+        playerHealth.IncreaseMaxHealth(levelUpHealth);
+    }
     private void SwordSwing()
     {
-        if (Time.deltaTime <= Mathf.Epsilon)
+        if (!swingInitialized)
         {
             lastPosition = transform.position;
             lastVelocity = Vector3.zero;
+            swingInitialized = true;
             return;
         }
+
+        if (Time.deltaTime <= Mathf.Epsilon)
+            return;
 
         Vector3 velocity =
         (transform.position - lastPosition) / Time.deltaTime;
 
+        Vector3 velocityDelta = velocity - lastVelocity;
 
-        swordController.AddImpulse(velocity.x); 
+        swordController.AddImpulse(velocityDelta.x);
+
+        //swordController.AddImpulse(velocity.x); 
+
         lastVelocity = velocity;
         lastPosition = transform.position;
     }

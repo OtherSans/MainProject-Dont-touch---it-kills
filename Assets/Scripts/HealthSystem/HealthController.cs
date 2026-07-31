@@ -15,6 +15,7 @@ public class HealthController : MonoBehaviour
             return curHealth / maxHealth;
         }
     }
+    public float MaxHealth => maxHealth;
     public bool IsDead => curHealth <= 0f;
     public bool IsFull => curHealth >= maxHealth;
 
@@ -60,6 +61,19 @@ public class HealthController : MonoBehaviour
         );
 
         OnHeal.Invoke();
+    }
+
+    public void IncreaseMaxHealth(int amount, bool healToFull = true)
+    {
+        if (amount <= 0)
+            return;
+
+        maxHealth += amount;
+
+        if (healToFull)
+            curHealth = maxHealth;
+
+        OnHeal?.Invoke();
     }
     public void Kill()
     {

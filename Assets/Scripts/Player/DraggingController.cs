@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using static Unity.U2D.Physics.PhysicsQuery;
 
 public class DraggingController : MonoBehaviour
 {
@@ -9,16 +10,31 @@ public class DraggingController : MonoBehaviour
     [Tooltip("Множитель скорости перемещения. 1 = персонаж двигается точно так же, как курсор")]
     [SerializeField, Range(0, 1)] private float dragSensitivity = 1f;
 
-    private Camera mainCamera;
-    private Vector3 lastMouseWorldPos;
+    [Tooltip("Слои, которые должны блокировать игрока")]
+    [SerializeField]
+    private LayerMask obstacleMask;
 
+    [Tooltip("Небольшое расстояние между игроком и стеной")]
+    [SerializeField]
+    private float collisionOffset = 0.01f;
+
+    private Camera mainCamera;
+    private Rigidbody2D rb;
+    private Collider2D playerCollider;
+
+
+    private Vector3 lastMouseWorldPos;
     private bool isDragging;
 
-    private void Start()
+    private readonly RaycastHit2D[] castResults = new RaycastHit2D[8];
+
+    private void Awake()
     {
         mainCamera = Camera.main;
+        rb = GetComponent<Rigidbody2D>();
+        playerCollider = GetComponent<Collider2D>();
 
-        
+
     }
     private void OnEnable()
     {
@@ -38,7 +54,15 @@ public class DraggingController : MonoBehaviour
     }
     private void Update()
     {
-        DragControl();
+        if (!isDragging)
+            return;
+
+        Vector3 currentMouseWorldPos = GetMouseWorldPosition();
+        Vector2 mouseDelta = currentMouseWorldPos - lastMouseWorldPos;
+
+        MoveWithCollisions(mouseDelta * dragSensitivity);
+
+        lastMouseWorldPos = currentMouseWorldPos;
     }
     private void DragCheck(bool dragCheck)
     {
@@ -46,19 +70,37 @@ public class DraggingController : MonoBehaviour
         if(isDragging)
             lastMouseWorldPos = GetMouseWorldPosition();
     }
-    private void DragControl()
+    private void MoveWithCollisions(Vector2 movement)
     {
-        
-        if (isDragging)
+        float distance = movement.magnitude;
+
+        if (distance <= Mathf.Epsilon)
+            return;
+
+        Vector2 direction = movement / distance;
+
+        ContactFilter2D filter = new ContactFilter2D();
+        filter.SetLayerMask(obstacleMask);
+        filter.useTriggers = false;
+
+        int hitCount = playerCollider.Cast(
+            direction,
+            filter,
+            castResults,
+            distance + collisionOffset
+        );
+
+        float allowedDistance = distance;
+
+        for (int i = 0; i < hitCount; i++)
         {
-            
-            Vector3 currentMouseWorldPos = GetMouseWorldPosition();
-            Vector3 delta = currentMouseWorldPos - lastMouseWorldPos;
+            float hitDistance = castResults[i].distance - collisionOffset;
 
-            transform.position += delta * dragSensitivity;
-
-            lastMouseWorldPos = currentMouseWorldPos;
+            if (hitDistance < allowedDistance)
+                allowedDistance = Mathf.Max(0f, hitDistance);
         }
+
+        rb.MovePosition(rb.position + direction * allowedDistance);
     }
 
     private Vector3 GetMouseWorldPosition()

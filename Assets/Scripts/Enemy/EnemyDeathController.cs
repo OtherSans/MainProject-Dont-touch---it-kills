@@ -5,6 +5,9 @@ public class EnemyDeathController : MonoBehaviour
     [SerializeField] private float deathTime;
     [SerializeField] private GameObject currencyPrefab;
     [SerializeField] private CaptureController captureController;
+    [Header("XP")]
+    [SerializeField] private XPManager experienceManager;
+    [SerializeField] private int experienceReward = 10;
 
     private bool deathReported;
     private PetrifiedController petrifiedContr;
@@ -22,6 +25,8 @@ public class EnemyDeathController : MonoBehaviour
         deathReported = true;
 
         captureController.NotifyEnemyDied(GetComponent<EnemyController>());
+
+        experienceManager.AddExperience(experienceReward);
 
         Destroy(gameObject, deathTime);
         if(!petrifiedContr.IsPetrified)
