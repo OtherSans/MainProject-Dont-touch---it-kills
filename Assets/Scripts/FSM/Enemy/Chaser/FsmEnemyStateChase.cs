@@ -19,7 +19,7 @@ public class FsmEnemyStateChase : FsmState
             Debug.LogError("SkewerContext expected.");
             return;
         }
-
+        enemy.Rigidbody.bodyType = RigidbodyType2D.Kinematic;
         chaseCont = chase.chaseContr;
         
     }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
@@ -7,6 +8,9 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     private PlayerInput playerInput;
+
+    private Rigidbody2D rb;
+
     [Header("Interaction")]
     public IInteractable CurrentInteractable;
 
@@ -33,11 +37,15 @@ public class PlayerController : MonoBehaviour
 
     public HealthController PlayerHealth => playerHealth;
 
+    public event Action OnMoveEvent;
+
     public event Action<bool> OnDragEvent;
 
     public event Action OnAttackStartedEvent;
     public event Action OnAttackCanceledEvent;
 
+    private Vector2 movePosition;
+    public Vector2 MovePosition => movePosition;
 
     private Vector3 lastPosition;
     private Vector3 lastVelocity;
@@ -50,6 +58,8 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         playerInput = new PlayerInput();
+
+        rb = GetComponent<Rigidbody2D>();
 
         lastPosition = transform.position;
         lastVelocity = Vector3.zero;
@@ -79,6 +89,7 @@ public class PlayerController : MonoBehaviour
     }
     private void OnDisable()
     {
+
         playerInput.Player.Drag.started -= OnDragStarted;
         playerInput.Player.Drag.canceled -= OnDragCancelled;
 
@@ -91,7 +102,18 @@ public class PlayerController : MonoBehaviour
     }
     private void Update()
     {
-        SwordSwing();
+        if (draggingCheck)
+            SwordSwing();
+        else
+            ResetSwordSwingTracking();
+    }
+    private void FixedUpdate()
+    {
+        if (draggingCheck)
+        {
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
     }
     public void SetInteractable(IInteractable interactable)
     {
@@ -103,9 +125,17 @@ public class PlayerController : MonoBehaviour
         if (CurrentInteractable == interactable)
             CurrentInteractable = null;
     }
+    private void ResetSwordSwingTracking()
+    {
+        lastPosition = transform.position;
+        lastVelocity = Vector3.zero;
+    }
     private void OnDragStarted(InputAction.CallbackContext ctx)
     {
         draggingCheck = true;
+        rb.linearVelocity = Vector2.zero;
+
+        ResetSwordSwingTracking();
 
         OnDragEvent?.Invoke(draggingCheck);
         
@@ -113,6 +143,8 @@ public class PlayerController : MonoBehaviour
     private void OnDragCancelled(InputAction.CallbackContext ctx)
     {
         draggingCheck = false;
+
+        ResetSwordSwingTracking();
 
         OnDragEvent?.Invoke(draggingCheck);
     }
@@ -138,25 +170,17 @@ public class PlayerController : MonoBehaviour
     }
     private void SwordSwing()
     {
-        if (!swingInitialized)
-        {
-            lastPosition = transform.position;
-            lastVelocity = Vector3.zero;
-            swingInitialized = true;
-            return;
-        }
 
         if (Time.deltaTime <= Mathf.Epsilon)
+        {
+            ResetSwordSwingTracking();
             return;
+        }
 
         Vector3 velocity =
         (transform.position - lastPosition) / Time.deltaTime;
 
-        Vector3 velocityDelta = velocity - lastVelocity;
-
-        swordController.AddImpulse(velocityDelta.x);
-
-        //swordController.AddImpulse(velocity.x); 
+        swordController.AddImpulse(velocity.x);
 
         lastVelocity = velocity;
         lastPosition = transform.position;

@@ -20,7 +20,7 @@ public class FsmEnemyStateThrown : FsmState
             Debug.LogError("ThrownContext expected.");
             return;
         }
-        
+        enemy.Rigidbody.bodyType = RigidbodyType2D.Dynamic;
         enemy.transform.SetParent(null);
         enemy.Rigidbody.simulated = true;
         enemy.Collider.enabled = true;
@@ -47,6 +47,8 @@ public class FsmEnemyStateThrown : FsmState
     {
         Debug.Log("Thrown State [EXIT]");
         enemy.player.GetComponent<Rigidbody2D>().simulated = true;
+
+        enemy.Rigidbody.bodyType = RigidbodyType2D.Kinematic;
 
         if (thrownDamage != null)
             thrownDamage.DisableDamage();

@@ -55,13 +55,13 @@ public class PlayerXP : MonoBehaviour
         if (experienceText != null)
         {
             experienceText.text =
-                $"{currentExperience} / {experienceToNextLevel}";
+                $"XP: {currentExperience} / {experienceToNextLevel}";
         }
     }
 
     private void UpdateLevel(int level)
     {
         if (levelText != null)
-            levelText.text = $"Уровень {level}";
+            levelText.text = $"Player LVL {level}";
     }
 }

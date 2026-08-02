@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using static Cinemachine.DocumentationSortingAttribute;
 
 public class PlayerCurrencyCounter : MonoBehaviour
 {
@@ -18,6 +19,6 @@ public class PlayerCurrencyCounter : MonoBehaviour
     }
     private void UpdateCurrencyText(int amount)
     {
-        currencyText.text = amount.ToString();
+        currencyText.text = $"Gold {amount.ToString()}";
     }
 }

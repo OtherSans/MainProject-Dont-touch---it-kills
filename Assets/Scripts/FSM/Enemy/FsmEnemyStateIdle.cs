@@ -10,6 +10,7 @@ public class FsmEnemyStateIdle : FsmState
     public override void Enter(FsmContext ctx)
     {
         Debug.Log("Idle State [ENTER]");
+        enemy.Rigidbody.bodyType = RigidbodyType2D.Kinematic;
     }
     public override void Exit()
     {
