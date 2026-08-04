@@ -50,6 +50,20 @@ public class SwordController : MonoBehaviour
     [SerializeField]
     private float wallResistance = 20f;
 
+    [Header("Sword wall blocking")]
+    [SerializeField]
+    private LayerMask swordObstacleMask;
+    [SerializeField, Min(0f)]
+    private float wallOffset = 0.05f;
+    [SerializeField, Min(0f)]
+    private float swordLengthMultiplier = 1f;
+    [SerializeField]
+    private Transform swordBase;
+    private float baseSwordWorldLength;
+
+    private bool isExtensionBlocked;
+    private float blockedLength;
+
     [Header("Door skewer")]
     [SerializeField, Min(0f)]
     private float minDoorExtensionSpeed = 2f;
@@ -135,6 +149,16 @@ public class SwordController : MonoBehaviour
 
         angularVelocity *= wallMaterial.velocityMultiplier;
     }
+    public void SetExtensionBlocked(bool blocked)
+    {
+        if (blocked && !isExtensionBlocked)
+        {
+            // Запоминаем длину, на которой меч коснулся стены.
+            blockedLength = currentLength;
+        }
+
+        isExtensionBlocked = blocked;
+    }
     public void OnWallHitEnd()
     {
         Debug.Log("WALL EXIT");
@@ -165,11 +189,26 @@ public class SwordController : MonoBehaviour
     private void UpdateLength()
     {
         bool wantsToAttack = attackBool.isAttacking;
-        bool canExtend = CanExtendSword(wantsToAttack);
 
-        targetLength = canExtend
-            ? maxLength
-            : minLength;
+        if (!wantsToAttack)
+        {
+            // Кнопка отпущена — меч втягивается.
+            targetLength = minLength;
+        }
+        else if (isExtensionBlocked)
+        {
+            // Кончик упёрся в стену — дальше не вытягиваем.
+            targetLength = blockedLength;
+        }
+        else
+        {
+            // Здесь оставь свою проверку стамины, если уже добавил её.
+            bool canExtend = CanExtendSword(wantsToAttack);
+
+            targetLength = canExtend
+                ? maxLength
+                : minLength;
+        }
 
         float speed = targetLength > currentLength
             ? extendSpeed
@@ -180,7 +219,8 @@ public class SwordController : MonoBehaviour
         currentLength = Mathf.MoveTowards(
             currentLength,
             targetLength,
-            speed * Time.deltaTime);
+            speed * Time.deltaTime
+        );
 
         if (Time.deltaTime > Mathf.Epsilon)
         {
@@ -192,7 +232,8 @@ public class SwordController : MonoBehaviour
         sword.localScale = new Vector3(
             sword.localScale.x,
             currentLength,
-            sword.localScale.z);
+            sword.localScale.z
+        );
     }
     private bool CanExtendSword(bool wantsToAttack)
     {
@@ -221,6 +262,48 @@ public class SwordController : MonoBehaviour
             staminaCostPerSecond * Time.deltaTime;
 
         return staminaController.TrySpend(cost);
+    }
+    private float GetAllowedSwordLength(float desiredLength)
+    {
+        // При втягивании стену проверять не нужно.
+        if (desiredLength <= currentLength)
+            return desiredLength;
+
+        Vector2 origin = transform.position;
+
+        /*
+         * У тебя направление нанизывания было -transform.up,
+         * поэтому используем такое же направление.
+         */
+        Vector2 direction = -transform.up;
+
+        float desiredWorldDistance =
+            desiredLength * swordLengthMultiplier;
+
+        RaycastHit2D hit = Physics2D.Raycast(
+            origin,
+            direction,
+            desiredWorldDistance,
+            swordObstacleMask
+        );
+
+        if (hit.collider == null)
+            return desiredLength;
+
+        float allowedWorldDistance =
+            Mathf.Max(
+                minLength * swordLengthMultiplier,
+                hit.distance - wallOffset
+            );
+
+        float allowedLength =
+            allowedWorldDistance / swordLengthMultiplier;
+
+        return Mathf.Clamp(
+            allowedLength,
+            minLength,
+            desiredLength
+        );
     }
     #endregion
 

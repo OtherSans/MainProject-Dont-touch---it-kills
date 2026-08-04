@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1963936397227592816}
   - component: {fileID: 7837054515196157121}
   - component: {fileID: 1053497340092816912}
+  - component: {fileID: 2129719724952319596}
   m_Layer: 0
   m_Name: SkewerableDoor
   m_TagString: Untagged
@@ -183,4 +184,22 @@ MonoBehaviour:
   blockingCollider: {fileID: 1963936397227592816}
   rigidbody2D: {fileID: 7837054515196157121}
   destroyOnInteract: 1
+  skeweredLocalPosition: {x: 0, y: 0, z: 0}
+  skeweredLocalRotation: 90
   destroyDelay: 0
+--- !u!114 &2129719724952319596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7325419132581449870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshPlus::NavMeshPlus.Components.NavMeshModifier
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff

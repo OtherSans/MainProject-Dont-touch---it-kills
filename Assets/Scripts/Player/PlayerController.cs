@@ -37,8 +37,6 @@ public class PlayerController : MonoBehaviour
 
     public HealthController PlayerHealth => playerHealth;
 
-    public event Action OnMoveEvent;
-
     public event Action<bool> OnDragEvent;
 
     public event Action OnAttackStartedEvent;

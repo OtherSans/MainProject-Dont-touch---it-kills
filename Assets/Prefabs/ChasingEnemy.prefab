@@ -588,7 +588,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3
+  m_Speed: 2.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -732,6 +732,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDeathController
   deathTime: 0.1
   currencyPrefab: {fileID: 210690828687138050, guid: 6ee62da2bf27dfe449a98e5928ac8e2d, type: 3}
+  captureController: {fileID: 0}
+  experienceManager: {fileID: 0}
+  experienceReward: 10
 --- !u!114 &8030622097746198836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -786,9 +789,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25155464bad7c7a47b2c101c37139b1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkeweredEnemyInteractable
-  restoredHealth: 5
   enemy: {fileID: 4719861292475305143}
   enemyHealth: {fileID: 7938760148144071629}
+  consumeEffects: []
 --- !u!114 &8514738953114873
 MonoBehaviour:
   m_ObjectHideFlags: 0

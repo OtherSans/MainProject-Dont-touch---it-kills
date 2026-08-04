@@ -16,8 +16,6 @@ public class RoomTransition : MonoBehaviour
     [Tooltip("Точка внутри целевой комнаты, куда игрок автоматически залетает")]
     [SerializeField] private Transform targetEntryPoint;
 
-    private bool isTriggered;
-
     private void Reset()
     {
         Collider2D trigger = GetComponent<Collider2D>();
@@ -56,9 +54,5 @@ public class RoomTransition : MonoBehaviour
             targetOutsidePoint,
             targetEntryPoint
         );
-    }
-    private void OnTransitionFinished()
-    {
-        isTriggered = false;
     }
 }

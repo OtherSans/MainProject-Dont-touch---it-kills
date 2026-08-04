@@ -7,10 +7,17 @@ public class DraggingController : MonoBehaviour
 {
     [SerializeField] private PlayerController playerController;
 
-    [SerializeField, Range(0f, 1f)]
-    private float edgeDirectionSensitivity = 0.02f;
-
     private Vector2 storedEdgeDirection;
+
+    [Header("Camera edge movement")]
+
+    [Tooltip("Насколько близко персонаж должен быть к краю камеры")]
+    [SerializeField, Range(0.001f, 0.2f)]
+    private float playerViewportEdge = 0.05f;
+
+    [Tooltip("Минимальное расстояние курсора от персонажа для автодвижения")]
+    [SerializeField, Min(0f)]
+    private float minimumCursorDistance = 20f;
 
 
     [Header("Drag")]
@@ -19,10 +26,6 @@ public class DraggingController : MonoBehaviour
     private float maxDragDistancePerFrame = 0.5f;
 
     [Header("Screen edge movement")]
-    [Tooltip("Ширина области у края экрана, которая включает автодвижение")]
-    [SerializeField, Min(1f)]
-    private float edgeSize = 50f;
-
     [Tooltip("Скорость движения, когда курсор находится у края экрана")]
     [SerializeField, Min(0f)]
     private float edgeMoveSpeed = 7f;
@@ -41,8 +44,6 @@ public class DraggingController : MonoBehaviour
 
     [SerializeField, Min(0f)]
     private float maxVirtualCursorDistance = 1000f;
-    [SerializeField, Min(0f)]
-    private float virtualCursorReturnSpeed = 10f;
 
     private Vector2 virtualMouseScreenPosition;
     private bool isUsingVirtualCursor;
@@ -52,9 +53,6 @@ public class DraggingController : MonoBehaviour
     private Collider2D playerCollider;
 
     private Vector2 edgeMoveDirection;
-
-
-    private Vector3 lastMouseWorldPos;
 
 
     private bool isDragging;
@@ -104,23 +102,24 @@ public class DraggingController : MonoBehaviour
             edgeMoveDirection =
                 currentEdgeDirection.normalized;
 
-            lastMouseWorldPos =
-                GetMouseWorldPosition();
-
             return;
         }
 
         edgeMoveDirection = Vector2.zero;
 
-        Vector3 currentMouseWorldPosition =
-            GetMouseWorldPosition();
+        Vector2 mousePixelDelta =
+            Mouse.current != null
+                ? Mouse.current.delta.ReadValue()
+                : Vector2.zero;
 
-        Vector2 mouseDelta =
-            currentMouseWorldPosition -
-            lastMouseWorldPos;
+        float worldUnitsPerPixel =
+            mainCamera.orthographicSize * 2f /
+            Screen.height;
 
         Vector2 dragMovement =
-            mouseDelta * dragSensitivity;
+            mousePixelDelta *
+            worldUnitsPerPixel *
+            dragSensitivity;
 
         dragMovement = Vector2.ClampMagnitude(
             dragMovement,
@@ -128,9 +127,6 @@ public class DraggingController : MonoBehaviour
         );
 
         MoveWithCollisions(dragMovement);
-
-        lastMouseWorldPos =
-            currentMouseWorldPosition;
     }
     private void FixedUpdate()
     {
@@ -160,49 +156,78 @@ public class DraggingController : MonoBehaviour
         if (!isDragging)
             return;
 
-        lastMouseWorldPos = GetMouseWorldPosition();
-        virtualMouseScreenPosition = Input.mousePosition;
+        virtualMouseScreenPosition =
+            Mouse.current != null
+                ? Mouse.current.position.ReadValue()
+                : (Vector2)Input.mousePosition;
     }
     private Vector2 GetScreenEdgeDirection()
     {
-        Vector2 realMousePosition = Input.mousePosition;
+        Vector3 playerViewportPosition =
+        mainCamera.WorldToViewportPoint(rb.position);
 
-        bool nearLeft =
-            realMousePosition.x <= edgeSize;
+        bool playerNearLeft =
+            playerViewportPosition.x <= playerViewportEdge;
 
-        bool nearRight =
-            realMousePosition.x >= Screen.width - edgeSize;
+        bool playerNearRight =
+            playerViewportPosition.x >= 1f - playerViewportEdge;
 
-        bool nearBottom =
-            realMousePosition.y <= edgeSize;
+        bool playerNearBottom =
+            playerViewportPosition.y <= playerViewportEdge;
 
-        bool nearTop =
-            realMousePosition.y >= Screen.height - edgeSize;
+        bool playerNearTop =
+            playerViewportPosition.y >= 1f - playerViewportEdge;
 
-        bool nearAnyEdge =
-            nearLeft || nearRight || nearBottom || nearTop;
+        bool playerNearAnyEdge =
+            playerNearLeft ||
+            playerNearRight ||
+            playerNearBottom ||
+            playerNearTop;
 
-        // Курсор вернулся внутрь экрана.
-        if (!nearAnyEdge)
+        if (!playerNearAnyEdge)
         {
-            wasNearEdge = false;
-            isUsingVirtualCursor = false;
+            ResetEdgeMovement();
+            return Vector2.zero;
+        }
 
-            // Важно: полностью синхронизируем виртуальный курсор.
-            virtualMouseScreenPosition = realMousePosition;
+        Vector2 mouseScreenPosition =
+            Mouse.current != null
+                ? Mouse.current.position.ReadValue()
+                : (Vector2)Input.mousePosition;
 
+        Vector2 playerScreenPosition =
+            mainCamera.WorldToScreenPoint(rb.position);
+
+        Vector2 directionToCursor =
+            mouseScreenPosition - playerScreenPosition;
+
+        if (directionToCursor.magnitude < minimumCursorDistance)
+        {
+            ResetEdgeMovement();
             return Vector2.zero;
         }
 
         /*
-         * Курсор только что вошёл в краевую зону.
-         * Старая виртуальная позиция больше не используется.
+         * Проверяем, действительно ли курсор тянет персонажа
+         * наружу через тот край, к которому он подошёл.
          */
+        bool pushingOutside =
+            playerNearLeft && directionToCursor.x < 0f ||
+            playerNearRight && directionToCursor.x > 0f ||
+            playerNearBottom && directionToCursor.y < 0f ||
+            playerNearTop && directionToCursor.y > 0f;
+
+        if (!pushingOutside)
+        {
+            ResetEdgeMovement();
+            return Vector2.zero;
+        }
+
         if (!wasNearEdge)
         {
             wasNearEdge = true;
             isUsingVirtualCursor = true;
-            virtualMouseScreenPosition = realMousePosition;
+            virtualMouseScreenPosition = mouseScreenPosition;
         }
 
         Vector2 mouseDelta =
@@ -214,61 +239,38 @@ public class DraggingController : MonoBehaviour
             mouseDelta * virtualCursorSensitivity;
 
         /*
-         * Принудительно удерживаем виртуальный курсор
-         * за той границей, возле которой находится настоящий курсор.
+         * Не позволяем виртуальному курсору перейти
+         * на противоположную от активной границы сторону.
          */
-        if (nearLeft)
+        if (playerNearLeft)
         {
-            virtualMouseScreenPosition.x =
-                Mathf.Min(
-                    virtualMouseScreenPosition.x,
-                    edgeSize
-                );
+            virtualMouseScreenPosition.x = Mathf.Min(
+                virtualMouseScreenPosition.x,
+                playerScreenPosition.x
+            );
         }
-        else if (nearRight)
+        else if (playerNearRight)
         {
-            virtualMouseScreenPosition.x =
-                Mathf.Max(
-                    virtualMouseScreenPosition.x,
-                    Screen.width - edgeSize
-                );
+            virtualMouseScreenPosition.x = Mathf.Max(
+                virtualMouseScreenPosition.x,
+                playerScreenPosition.x
+            );
         }
 
-        if (nearBottom)
+        if (playerNearBottom)
         {
-            virtualMouseScreenPosition.y =
-                Mathf.Min(
-                    virtualMouseScreenPosition.y,
-                    edgeSize
-                );
+            virtualMouseScreenPosition.y = Mathf.Min(
+                virtualMouseScreenPosition.y,
+                playerScreenPosition.y
+            );
         }
-        else if (nearTop)
+        else if (playerNearTop)
         {
-            virtualMouseScreenPosition.y =
-                Mathf.Max(
-                    virtualMouseScreenPosition.y,
-                    Screen.height - edgeSize
-                );
+            virtualMouseScreenPosition.y = Mathf.Max(
+                virtualMouseScreenPosition.y,
+                playerScreenPosition.y
+            );
         }
-
-        Vector2 screenCenter = new Vector2(
-            Screen.width * 0.5f,
-            Screen.height * 0.5f
-        );
-
-        Vector2 fromCenter =
-            virtualMouseScreenPosition - screenCenter;
-
-        fromCenter = Vector2.ClampMagnitude(
-            fromCenter,
-            maxVirtualCursorDistance
-        );
-
-        virtualMouseScreenPosition =
-            screenCenter + fromCenter;
-
-        Vector2 playerScreenPosition =
-            mainCamera.WorldToScreenPoint(rb.position);
 
         Vector2 direction =
             virtualMouseScreenPosition -
@@ -278,6 +280,17 @@ public class DraggingController : MonoBehaviour
             return Vector2.zero;
 
         return direction.normalized;
+    }
+
+    private void ResetEdgeMovement()
+    {
+        wasNearEdge = false;
+        isUsingVirtualCursor = false;
+        storedEdgeDirection = Vector2.zero;
+        virtualMouseScreenPosition =
+            Mouse.current != null
+                ? Mouse.current.position.ReadValue()
+                : (Vector2)Input.mousePosition;
     }
     private void MoveWithCollisions(Vector2 movement)
     {
@@ -319,13 +332,5 @@ public class DraggingController : MonoBehaviour
             rb.position +
             direction * allowedDistance
         );
-    }
-
-    private Vector3 GetMouseWorldPosition()
-    {
-        Vector3 screenPos = Input.mousePosition;
-        Vector3 worldPos = mainCamera.ScreenToWorldPoint(screenPos);
-        worldPos.z = transform.position.z; // сохраняем исходную глубину персонажа
-        return worldPos;
     }
 }
