@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1769707353997759686}
   - component: {fileID: 5205321976925156495}
   - component: {fileID: 4372644698099403091}
+  - component: {fileID: 3460601548644275338}
   m_Layer: 8
   m_Name: Sword
   m_TagString: Player
@@ -35,6 +36,7 @@ Transform:
   m_Children:
   - {fileID: 5330881254652534118}
   - {fileID: 1010495936072833384}
+  - {fileID: 1933138223151897260}
   m_Father: {fileID: 6783736041105373723}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6826100121179559086
@@ -113,7 +115,7 @@ BoxCollider2D:
     m_Bits: 128
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 3072
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -173,6 +175,59 @@ MonoBehaviour:
   minAttackDamage: 5
   maxSwordSpeed: 20
   targetTag: Enemy
+--- !u!114 &3460601548644275338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 204727165651538750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Cinemachine::Cinemachine.CinemachineImpulseSource
+  m_ImpulseDefinition:
+    m_ImpulseChannel: 1
+    m_ImpulseShape: 1
+    m_CustomImpulseShape:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_ImpulseDuration: 0.2
+    m_ImpulseType: 1
+    m_DissipationRate: 0.25
+    m_RawSignal: {fileID: 0}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 1
+    m_RepeatMode: 0
+    m_Randomize: 1
+    m_TimeEnvelope:
+      m_AttackShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_DecayShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_AttackTime: 0
+      m_SustainTime: 0.2
+      m_DecayTime: 0.7
+      m_ScaleWithImpact: 1
+      m_HoldForever: 0
+    m_ImpactRadius: 100
+    m_DirectionMode: 0
+    m_DissipationMode: 2
+    m_DissipationDistance: 100
+    m_PropagationSpeed: 343
+  m_DefaultVelocity: {x: 0, y: -1, z: 0}
 --- !u!1 &1103423864967220881
 GameObject:
   m_ObjectHideFlags: 0
@@ -377,24 +432,23 @@ MonoBehaviour:
   minLength: 1
   maxLength: 7
   extendSpeed: 35
-  retractSpeed: 15
-  spring: 35
+  retractSpeed: 7
+  spring: 55
   damping: 0.98
-  impulseMultiplier: 3
+  impulseMultiplier: 1.5
   impulseThreshold: 0.1
   minSkewerSpeed: 12
   minExtensionSpeed: 30
   minSkewerExtension: 0.35
-  throwVelocity: 20
-  minThrowSpeed: 100
-  maxThrowSpeed: 25
+  throwVelocity: 500
+  minThrowSpeed: 75
+  maxThrowSpeed: 20
+  cameraShake: {fileID: 0}
   maxSwordSpeed: 20
   minHitStopDur: 0.01
   maxHitStopDur: 0.02
-  minShakeDur: 0.03
-  maxShakeDur: 0.08
-  minShakeStr: 0.03
-  maxShakeStr: 0.08
+  minShakeStr: 0.25
+  maxShakeStr: 0.75
   wallResistance: 10
 --- !u!1 &4953256125700748966
 GameObject:
@@ -478,9 +532,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwordTip
   sword: {fileID: 8368833187745118706}
-  shakeDuration: 0.08
-  shakeStrength: 0.08
+  cameraShake: {fileID: 0}
+  shakeStrength: 0.5
   hitStopDuration: 0.015
+  playerController: {fileID: 0}
 --- !u!1 &4983684166364023703
 GameObject:
   m_ObjectHideFlags: 0
@@ -636,6 +691,89 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Sword
   swordTargetScale: {x: 0.46, y: 3.48, z: 1}
   scaleTime: 1.54
+--- !u!1 &6214751924020279108
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1933138223151897260}
+  - component: {fileID: 7745497993750847007}
+  - component: {fileID: 5423724857612383611}
+  m_Layer: 8
+  m_Name: ShopCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1933138223151897260
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6214751924020279108}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 6.64, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 79023493691615763}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &7745497993750847007
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6214751924020279108}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.88
+--- !u!114 &5423724857612383611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6214751924020279108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 161f97a5f275f80488cb58476d0541bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SwordShopDetector
+  <Sword>k__BackingField: {fileID: 8368833187745118706}
+  purchaseCooldown: 1
 --- !u!1 &6950101497218981567
 GameObject:
   m_ObjectHideFlags: 0
@@ -656,6 +794,8 @@ GameObject:
   - component: {fileID: 1607850200968748226}
   - component: {fileID: 5852138527718163122}
   - component: {fileID: 1157227135620640955}
+  - component: {fileID: 8021764628585431461}
+  - component: {fileID: 2276901003928403511}
   m_Layer: 0
   m_Name: MainChar
   m_TagString: Player
@@ -763,7 +903,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
@@ -779,7 +919,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab44b2ae1f8389843bf093d437d97816, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  playerHealth: {fileID: 4784617449987125462}
+  levelUpHealth: 10
   swordController: {fileID: 8368833187745118706}
+  visualController: {fileID: 2276901003928403511}
+  invincibilityController: {fileID: 8823516603395013250}
   target: {fileID: 0}
   deltaVelocityThreshold: 0.3
 --- !u!114 &8235511576955612494
@@ -795,7 +939,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DraggingController
   playerController: {fileID: 6399058089455004984}
-  dragSensitivity: 0.45
+  edgeDirectionSensitivity: 0.02
+  dragSensitivity: 1.7
+  maxDragDistancePerFrame: 0.3
+  edgeSize: 1
+  edgeMoveSpeed: 10
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  collisionOffset: 0.01
+  virtualCursorSensitivity: 1.5
+  maxVirtualCursorDistance: 1000
+  virtualCursorReturnSpeed: 500
 --- !u!58 &6972676475072440962
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -888,6 +1043,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnHeal:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8335405671220886398}
+        m_TargetAssemblyTypeName: PlayerHealthBar, Assembly-CSharp
+        m_MethodName: UpdatePlayerHealth
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &8335405671220886398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -914,6 +1084,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9987d10263cd5ab4c82650cb8ad7737f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InvincibilityController
+  healthController: {fileID: 4784617449987125462}
+  visualController: {fileID: 2276901003928403511}
 --- !u!114 &1607850200968748226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -926,7 +1098,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf52cc6a922350b459c026c58c0c2c0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InvincibleStart
-  invDuration: 1
+  invincibilityDuration: 3
+  invincibilityController: {fileID: 8823516603395013250}
 --- !u!114 &5852138527718163122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -952,6 +1125,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AttackController
   playerController: {fileID: 6399058089455004984}
+--- !u!114 &8021764628585431461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6950101497218981567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6345906fdff48d744b61430b20a64080, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CurrencyCollector
+--- !u!114 &2276901003928403511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6950101497218981567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acc542737a1ac534494fa599aae61048, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerVisualController
+  spriteRenderer: {fileID: 7887262548356318280}
+  blinkInterval: 0.2
+  invincibleColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &7691531742830719770
 GameObject:
   m_ObjectHideFlags: 0

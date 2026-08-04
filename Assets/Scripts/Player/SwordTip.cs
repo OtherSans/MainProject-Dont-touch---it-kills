@@ -6,6 +6,8 @@ public class SwordTip : MonoBehaviour
     [SerializeField] private CameraShake cameraShake;
     [SerializeField] private float shakeStrength;
     [SerializeField] private float hitStopDuration;
+    [SerializeField]
+    private PlayerController playerController;
 
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -19,6 +21,22 @@ public class SwordTip : MonoBehaviour
 
     private void TrySkewerEnemy(Collider2D other)
     {
+        SkewerableDoor door =
+       other.GetComponentInParent<SkewerableDoor>();
+
+        if (door != null)
+        {
+            if (!sword.CanSkewerDoor())
+                return;
+
+            sword.TrySkewerDoor(
+                door,
+                playerController
+            );
+
+            return;
+        }
+
         if (!other.TryGetComponent(out EnemyController enemy))
             return;
 

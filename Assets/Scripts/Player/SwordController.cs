@@ -39,9 +39,23 @@ public class SwordController : MonoBehaviour
     [SerializeField] private float minShakeStr = 0.25f;
     [SerializeField] private float maxShakeStr = 0.75f;
 
+    [Header("Stamina")]
+    [SerializeField]
+    private StaminaController staminaController;
+    [Tooltip("Расход стамины за секунду выдвижения меча")]
+    [SerializeField, Min(0f)]
+    private float staminaCostPerSecond = 35f;
+
     [Header("Wall collision")]
     [SerializeField]
     private float wallResistance = 20f;
+
+    [Header("Door skewer")]
+    [SerializeField, Min(0f)]
+    private float minDoorExtensionSpeed = 2f;
+
+    [SerializeField, Range(0f, 1f)]
+    private float minDoorExtension = 0.5f;
 
 
     private bool blocked;
@@ -67,6 +81,15 @@ public class SwordController : MonoBehaviour
     private float previousLength;
     public float ExtensionSpeed { get; private set; }
 
+    public SkewerableDoor SkeweredDoor { get; private set; }
+
+    public bool HasSkeweredObject =>
+        SkeweredEnemy != null ||
+        SkeweredDoor != null;
+    public bool IsExtending =>
+    attackBool.isAttacking &&
+    currentLength < maxLength;
+
 
 
     private void Awake()
@@ -74,6 +97,10 @@ public class SwordController : MonoBehaviour
         currentLength = minLength;
         targetLength = minLength;
         previousLength = currentLength;
+
+        if (staminaController == null)
+            staminaController = GetComponentInParent<StaminaController>();
+
     }
     private void Start()
     {
@@ -137,7 +164,10 @@ public class SwordController : MonoBehaviour
 
     private void UpdateLength()
     {
-        targetLength = attackBool.isAttacking
+        bool wantsToAttack = attackBool.isAttacking;
+        bool canExtend = CanExtendSword(wantsToAttack);
+
+        targetLength = canExtend
             ? maxLength
             : minLength;
 
@@ -164,7 +194,34 @@ public class SwordController : MonoBehaviour
             currentLength,
             sword.localScale.z);
     }
+    private bool CanExtendSword(bool wantsToAttack)
+    {
+        if (!wantsToAttack)
+            return false;
 
+        if (staminaController == null)
+            return true;
+
+        bool isStartingNewAttack =
+            currentLength <= minLength + 0.01f;
+
+        if (isStartingNewAttack &&
+            !staminaController.CanStartAttack)
+        {
+            return false;
+        }
+
+        bool isStillExtending =
+            currentLength < maxLength - 0.01f;
+
+        if (!isStillExtending)
+            return true;
+
+        float cost =
+            staminaCostPerSecond * Time.deltaTime;
+
+        return staminaController.TrySpend(cost);
+    }
     #endregion
 
     #region Swing
@@ -248,12 +305,61 @@ public class SwordController : MonoBehaviour
     #endregion
 
     #region Skewer
+    public bool CanSkewerDoor()
+    {
+        // На мече уже что-то находится.
+        if (SkeweredEnemy != null || SkeweredDoor != null)
+            return false;
 
+        if (!IsExtending)
+            return false;
+
+        // Меч должен быть вытянут хотя бы на заданную часть.
+        if (ExtensionNormalized < minDoorExtension)
+            return false;
+
+        // Главное условие: меч должен прямо сейчас выдвигаться.
+        if (ExtensionSpeed < minDoorExtensionSpeed)
+            return false;
+
+        return true;
+    }
+    public bool TrySkewerDoor(
+    SkewerableDoor door,
+    PlayerController player)
+    {
+        if (door == null || player == null)
+            return false;
+
+        // На мече уже что-то находится.
+        if (SkeweredEnemy != null || SkeweredDoor != null)
+            return false;
+
+        bool success = door.TrySkewer(
+            this,
+            player,
+            skewerPoint
+        );
+
+        if (!success)
+            return false;
+
+        SkeweredDoor = door;
+        return true;
+    }
+
+    public void RemoveSkeweredDoor(SkewerableDoor door)
+    {
+        if (SkeweredDoor != door)
+            return;
+
+        SkeweredDoor = null;
+    }
     public bool TrySkewer(EnemyController enemy)
     {
-        if (SkeweredEnemy != null)
+        if (SkeweredEnemy != null || SkeweredDoor != null)
             return false;
-        
+
 
         SkeweredEnemy = enemy;
 
