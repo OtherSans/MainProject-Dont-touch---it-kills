@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class CaptureCombatRoom : RoomController
 {
+    [SerializeField]
+    private RoomAlarmController roomAlarmController;
+
     [Header("Capture")]
     [SerializeField] private FsmFinishController finishPoint;
 
@@ -18,6 +21,8 @@ public class CaptureCombatRoom : RoomController
     private bool isSubscribed;
     protected override void OnRoomEntered()
     {
+        roomAlarmController.PrepareRoom();
+
         OpenBarriers();
 
         if (IsCompleted)

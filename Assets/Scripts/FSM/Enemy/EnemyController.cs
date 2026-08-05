@@ -16,8 +16,11 @@ public abstract class EnemyController : MonoBehaviour
     public EnemyKnockback Knockback { get; private set; }
     public Fsm Fsm { get; private set; }
 
+    public bool IsSleeping { get; private set; }
+
     protected virtual void Awake()
     {
+
         Rigidbody = GetComponent<Rigidbody2D>();
         EnemyAttack = GetComponent<EnemyAttack>();
         EnemyUI = GetComponentInChildren<Canvas>();
@@ -45,14 +48,63 @@ public abstract class EnemyController : MonoBehaviour
     protected virtual void RegisterCommonStates()
     {
         Fsm.AddState(new FsmEnemyStateIdle(Fsm, this));
+        Fsm.AddState(new FsmEnemyStateSleep(Fsm, this));
         Fsm.AddState(new FsmEnemyStateWalk(Fsm, this));
         Fsm.AddState(new FsmEnemyStateKnockback(Fsm, this));
         Fsm.AddState(new FsmEnemyStateSkewered(Fsm, this));
         Fsm.AddState(new FsmEnemyStateThrown(Fsm, this));
+        Fsm.AddState(new FsmEnemyStateStun(Fsm, this));
         Fsm.AddState(new FsmEnemyStatePetrified(Fsm, this));
         //Fsm.AddState(new FsmEnemyStateDead(Fsm, this));
     }
+    public virtual void Stun(float duration)
+    {
+        if (duration <= 0f)
+            return;
 
+        /*
+         * Окаменевших и уже нанизанных врагов
+         * повторно оглушать не нужно.
+         *
+         * Если у твоего Fsm нет CurrentState,
+         * этот блок пока можно не добавлять.
+         */
+
+        Fsm.SetState<FsmEnemyStateStun>(
+            new FsmStunContext
+            {
+                Duration = duration
+            }
+        );
+    }
+
+    public virtual void OnStunFinished()
+    {
+        Fsm.SetState<FsmEnemyStateIdle>();
+    }
+    public virtual void EnterSleepState()
+    {
+        IsSleeping = true;
+
+        if (Agent != null)
+        {
+            Agent.ResetPath();
+            Agent.isStopped = true;
+        }
+
+        Fsm.SetState<FsmEnemyStateSleep>();
+    }
+
+    public virtual void WakeUp()
+    {
+        if (!IsSleeping)
+            return;
+
+        IsSleeping = false;
+
+        if (Agent != null)
+            Agent.isStopped = false;
+    }
     protected abstract void RegisterSpecificStates();
 
 }

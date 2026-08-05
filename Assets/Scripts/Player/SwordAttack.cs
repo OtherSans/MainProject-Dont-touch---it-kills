@@ -4,6 +4,7 @@ using UnityEngine;
 public class SwordAttack : MonoBehaviour
 {
     [SerializeField] private SwordController swordContr;
+    [SerializeField] private RoomAlarmController roomAlarmController;
     [SerializeField] private float maxAttackDamage;
     [SerializeField] private float minAttackDamage;
     [SerializeField] private float maxSwordSpeed;
@@ -16,6 +17,8 @@ public class SwordAttack : MonoBehaviour
 
         if (collision.gameObject.CompareTag(targetTag))
         {
+            roomAlarmController?.RaiseAlarm();
+
             var healthContr = collision.gameObject.GetComponent<HealthController>();
             var spriteFlashContr = collision.gameObject.GetComponent<SpriteFlash>();
             float speed = swordContr.TipVelocity.magnitude;

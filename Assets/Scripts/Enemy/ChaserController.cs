@@ -21,5 +21,17 @@ public class ChaserController : EnemyController
     {
         Fsm.SetState<FsmChaserStateIdle>();
     }
+    public override void WakeUp()
+    {
+        if (!IsSleeping)
+            return;
 
+        base.WakeUp();
+
+        Fsm.SetState<FsmChaserStateIdle>();
+    }
+    public override void OnStunFinished()
+    {
+        Fsm.SetState<FsmChaserStateIdle>();
+    }
 }

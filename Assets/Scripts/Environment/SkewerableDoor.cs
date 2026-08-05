@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
@@ -6,6 +7,23 @@ public class SkewerableDoor : MonoBehaviour, IInteractable
     [Header("References")]
     [SerializeField] private Collider2D blockingCollider;
     [SerializeField] private Rigidbody2D rigidbody2D;
+
+    [Header("Stun explosion")]
+
+    [SerializeField, Min(0f)]
+    private float stunRadius = 3f;
+
+    [SerializeField, Min(0f)]
+    private float stunDuration = 2f;
+
+    [SerializeField]
+    private LayerMask enemyMask;
+
+    [SerializeField, Min(1)]
+    private int maximumEnemies = 20;
+
+    private readonly Collider2D[] stunResults =
+        new Collider2D[32];
 
     [Header("Settings")]
     [SerializeField] private bool destroyOnInteract = true;
@@ -79,7 +97,33 @@ public class SkewerableDoor : MonoBehaviour, IInteractable
 
         return true;
     }
+    private void StunNearbyEnemies()
+    {
+        Vector2 center = transform.position;
 
+        Collider2D[] hits = Physics2D.OverlapCircleAll(
+    transform.position,
+    stunRadius,
+    enemyMask
+);
+
+        HashSet<EnemyController> stunnedEnemies = new();
+
+        foreach (Collider2D hit in hits)
+        {
+            EnemyController enemy =
+                hit.GetComponentInParent<EnemyController>();
+
+            if (enemy == null)
+                continue;
+
+            if (!stunnedEnemies.Add(enemy))
+                continue;
+
+            enemy.Stun(stunDuration);
+
+        }
+    }
     public void Interact(PlayerController player)
     {
         if (!isSkewered || isDestroyed)
@@ -87,7 +131,7 @@ public class SkewerableDoor : MonoBehaviour, IInteractable
 
         if (player != currentPlayer)
             return;
-
+        StunNearbyEnemies();
         DestroyDoor();
     }
 
@@ -120,5 +164,14 @@ public class SkewerableDoor : MonoBehaviour, IInteractable
     {
         if (currentPlayer != null)
             currentPlayer.ClearInteractable(this);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+
+        Gizmos.DrawWireSphere(
+            transform.position,
+            stunRadius
+        );
     }
 }
