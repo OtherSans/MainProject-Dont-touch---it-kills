@@ -17,6 +17,11 @@ public class ChaserController : EnemyController
         Fsm.AddState(new FsmEnemyStateChase(Fsm, this));
         Fsm.AddState(new FsmChaserStateIdle(Fsm, this));
     }
+
+    public override void OnKnockbackFinished()
+    {
+        Fsm.SetState<FsmChaserStateIdle>();
+    }
     protected override void SetInitialState()
     {
         Fsm.SetState<FsmChaserStateIdle>();
@@ -28,6 +33,10 @@ public class ChaserController : EnemyController
 
         base.WakeUp();
 
+        Fsm.SetState<FsmChaserStateIdle>();
+    }
+    public override void OnThrownFinished()
+    {
         Fsm.SetState<FsmChaserStateIdle>();
     }
     public override void OnStunFinished()

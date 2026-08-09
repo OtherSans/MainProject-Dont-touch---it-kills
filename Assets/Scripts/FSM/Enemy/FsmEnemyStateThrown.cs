@@ -7,7 +7,10 @@ public class FsmEnemyStateThrown : FsmState
     private ThrownEnemyDamage thrownDamage;
     private float timer;
 
-    public FsmEnemyStateThrown(Fsm fsm, EnemyController enemy) : base(fsm)
+    public FsmEnemyStateThrown(
+        Fsm fsm,
+        EnemyController enemy)
+        : base(fsm)
     {
         this.enemy = enemy;
     }
@@ -15,54 +18,60 @@ public class FsmEnemyStateThrown : FsmState
     public override void Enter(FsmContext ctx)
     {
         Debug.Log("Thrown State [ENTER]");
+
         if (ctx is not FsmThrownContext thrown)
         {
             Debug.LogError("ThrownContext expected.");
             return;
         }
-        enemy.Rigidbody.bodyType = RigidbodyType2D.Dynamic;
+
+        enemy.Rigidbody.bodyType =
+            RigidbodyType2D.Dynamic;
+
         enemy.transform.SetParent(null);
         enemy.Rigidbody.simulated = true;
         enemy.Collider.enabled = true;
 
-        enemy.player.GetComponent<Rigidbody2D>().simulated = false;
+        Vector2 velocity =
+            thrown.swordCntr.TipVelocity;
 
-        Vector2 velocity = thrown.swordCntr.TipVelocity;
+        velocity = Vector2.ClampMagnitude(
+            velocity,
+            thrown.swordCntr.maxThrowSpeed
+        );
 
-        velocity = Vector2.ClampMagnitude(velocity, thrown.swordCntr.maxThrowSpeed);
+        enemy.Rigidbody.linearVelocity =
+            velocity;
 
-        enemy.Rigidbody.linearVelocity = velocity;
         thrownDamage =
-        enemy.GetComponent<ThrownEnemyDamage>();
+            enemy.GetComponent<ThrownEnemyDamage>();
 
         if (thrownDamage != null)
             thrownDamage.EnableDamage();
+
         timer = 0f;
-
-        //enemy.Animator.Play("Thrown")
-
-
     }
+
+    public override void Update()
+    {
+        timer += Time.deltaTime;
+
+        if (timer <= 0.8f)
+            return;
+
+        enemy.OnThrownFinished();
+    }
+
     public override void Exit()
     {
         Debug.Log("Thrown State [EXIT]");
-        enemy.player.GetComponent<Rigidbody2D>().simulated = true;
 
-        enemy.Rigidbody.bodyType = RigidbodyType2D.Kinematic;
+        enemy.Rigidbody.bodyType =
+            RigidbodyType2D.Kinematic;
 
         if (thrownDamage != null)
             thrownDamage.DisableDamage();
 
         thrownDamage = null;
-        //enemy.Animator.Play("Walk");
-    }
-    public override void Update()
-    {
-        timer += Time.deltaTime;
-
-        if (timer > 0.8f)
-        {
-            Fsm.SetState<FsmChaserStateIdle>();
-        }
     }
 }

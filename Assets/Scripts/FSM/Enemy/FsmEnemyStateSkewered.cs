@@ -29,7 +29,9 @@ public class FsmEnemyStateSkewered : FsmState
             enemy.GetComponent<SkeweredEnemyInteractable>();
 
         //enemy.Chase.enabled = false;
-        enemy.Agent.enabled = false;
+        if(enemy.Agent != null)
+            enemy.Agent.enabled = false;
+
         enemy.Rigidbody.simulated = false;
         enemy.Rigidbody.linearVelocity = Vector2.zero;
         enemy.Collider.enabled = false;
@@ -69,7 +71,9 @@ public class FsmEnemyStateSkewered : FsmState
         enemy.transform.SetParent(null);
         enemy.Collider.enabled = true;
         enemy.Rigidbody.simulated = true;
-        enemy.Agent.enabled = true;
+
+        if (enemy.Agent != null)
+            enemy.Agent.enabled = true;
 
         interactable = null;
         player = null;

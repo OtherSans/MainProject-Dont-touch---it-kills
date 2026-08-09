@@ -4,6 +4,10 @@ using UnityEngine;
 public class SwordAttack : MonoBehaviour
 {
     [SerializeField] private SwordController swordContr;
+
+    [SerializeField, Min(0f)]
+    private float minDamageSpeed = 3f;
+
     [SerializeField] private RoomAlarmController roomAlarmController;
     [SerializeField] private float maxAttackDamage;
     [SerializeField] private float minAttackDamage;
@@ -13,7 +17,9 @@ public class SwordAttack : MonoBehaviour
     {
         if (swordContr.SkeweredEnemy != null)
             return;
-        
+
+        if (swordContr.TipSpeed < minDamageSpeed)
+            return;
 
         if (collision.gameObject.CompareTag(targetTag))
         {

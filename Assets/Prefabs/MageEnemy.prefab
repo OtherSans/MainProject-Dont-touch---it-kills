@@ -583,9 +583,9 @@ MonoBehaviour:
   OnDamaged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8076178234910619695}
-        m_TargetAssemblyTypeName: EnemyKnockback, Assembly-CSharp
-        m_MethodName: SetState
+      - m_Target: {fileID: 9205273730197965834}
+        m_TargetAssemblyTypeName: FloatingHealthBar, Assembly-CSharp
+        m_MethodName: UpdateHealthBar
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -595,9 +595,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 9205273730197965834}
-        m_TargetAssemblyTypeName: FloatingHealthBar, Assembly-CSharp
-        m_MethodName: UpdateHealthBar
+      - m_Target: {fileID: 8076178234910619695}
+        m_TargetAssemblyTypeName: EnemyKnockback, Assembly-CSharp
+        m_MethodName: SetState
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -633,10 +633,10 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 6
+  m_Constraints: 4
 --- !u!114 &8076178234910619695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -652,7 +652,7 @@ MonoBehaviour:
   rb: {fileID: 6000066984397956659}
   enemyContr: {fileID: 8007704669657562126}
   target: {fileID: 0}
-  force: 25
+  force: 10
   knockbackTimer: 0.3
   timer: 0
   knockbackIsRunning: 0
@@ -775,12 +775,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 685d57735d0c3cb4f8cf291b72f940eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MageController
+  roomAlarmController: {fileID: 0}
   attackPrefab: {fileID: 7718794859783285375, guid: 4d22c74fc444c624ea531a3f1fc6d0df, type: 3}
   attackContainer: {fileID: 5004251619281875593}
   attackInterval: 3
   firstAttackDelay: 1
   positionRandomRadius: 1
-  roomAlarmController: {fileID: 0}
 --- !u!1 &8052190569427612926
 GameObject:
   m_ObjectHideFlags: 0

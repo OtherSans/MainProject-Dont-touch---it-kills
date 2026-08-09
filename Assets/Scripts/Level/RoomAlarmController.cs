@@ -19,8 +19,12 @@ public class RoomAlarmController : MonoBehaviour
 
     private void Awake()
     {
-        if (sleepingEnemies.Count > 0)
-            return;
+        CollectEnemies();
+    }
+
+    private void CollectEnemies()
+    {
+        sleepingEnemies.Clear();
 
         EnemyController[] foundEnemies =
             GetComponentsInChildren<EnemyController>(true);
@@ -31,10 +35,20 @@ public class RoomAlarmController : MonoBehaviour
                 continue;
 
             if (enemy is PatrolerController)
+            {
+                if (patroler == null)
+                    patroler = enemy as PatrolerController;
+
                 continue;
+            }
 
             sleepingEnemies.Add(enemy);
         }
+
+        Debug.Log(
+            $"{name}: найдено спящих врагов — {sleepingEnemies.Count}",
+            this
+        );
     }
 
     public void PrepareRoom()
@@ -62,10 +76,18 @@ public class RoomAlarmController : MonoBehaviour
 
         isAlarmRaised = true;
 
+        Debug.Log(
+            $"{name}: тревога! Пробуждаем {sleepingEnemies.Count} врагов.",
+            this
+        );
+
         foreach (EnemyController enemy in sleepingEnemies)
         {
-            if (enemy != null)
-                enemy.WakeUp();
+            if (enemy == null)
+                continue;
+
+            Debug.Log($"Пробуждение: {enemy.name}", enemy);
+            enemy.WakeUp();
         }
 
         if (patroler != null)

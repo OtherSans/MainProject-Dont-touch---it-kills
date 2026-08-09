@@ -12,13 +12,10 @@ public class MageAreaAttack : MonoBehaviour
 
     [Header("Damage")]
     [SerializeField, Min(0f)]
-    private float damage = 1f;
-
-    [SerializeField]
-    private LayerMask playerMask;
+    private float damage = 10f;
 
     [Header("Visuals")]
-    [SerializeField]
+    [SerializeField] 
     private GameObject warningVisual;
 
     [SerializeField]
@@ -82,12 +79,6 @@ public class MageAreaAttack : MonoBehaviour
     private void TryDamagePlayer(Collider2D other)
     {
         if (hasDealtDamage)
-            return;
-
-        int layerBit =
-            1 << other.gameObject.layer;
-
-        if ((playerMask.value & layerBit) == 0)
             return;
 
         PlayerController player =

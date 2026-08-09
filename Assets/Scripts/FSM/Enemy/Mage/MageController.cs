@@ -18,10 +18,6 @@ public class MageController : EnemyController
     [SerializeField, Min(0f)]
     private float positionRandomRadius = 1f;
 
-    [Header("Room")]
-    [SerializeField]
-    private RoomAlarmController roomAlarmController;
-
     public MageAreaAttack AttackPrefab => attackPrefab;
     public Transform AttackContainer => attackContainer;
     public float AttackInterval => attackInterval;
@@ -32,17 +28,24 @@ public class MageController : EnemyController
     {
         base.Awake();
 
-        if (roomAlarmController == null)
-        {
-            roomAlarmController =
-                GetComponentInParent<RoomAlarmController>();
-        }
-
         if (Agent != null)
         {
             Agent.ResetPath();
             Agent.isStopped = true;
             Agent.enabled = false;
+        }
+    }
+
+    public override void OnThrownFinished()
+    {
+        if (_RoomAlarmController != null &&
+            _RoomAlarmController.IsAlarmRaised)
+        {
+            Fsm.SetState<FsmMageStateCast>();
+        }
+        else
+        {
+            EnterSleepState();
         }
     }
 
@@ -52,7 +55,18 @@ public class MageController : EnemyController
             new FsmMageStateCast(Fsm, this)
         );
     }
-
+    public override void OnKnockbackFinished()
+    {
+        if (_RoomAlarmController != null &&
+        _RoomAlarmController.IsAlarmRaised)
+        {
+            Fsm.SetState<FsmMageStateCast>();
+        }
+        else
+        {
+            EnterSleepState();
+        }
+    }
     protected override void SetInitialState()
     {
         /*

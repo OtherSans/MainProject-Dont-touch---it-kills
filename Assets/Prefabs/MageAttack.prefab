@@ -177,10 +177,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MageAreaAttack
   warningDuration: 1
   activeDuration: 0.15
-  damage: 1
-  playerMask:
-    serializedVersion: 2
-    m_Bits: 4096
+  damage: 10
   warningVisual: {fileID: 3970171980021158482}
   explosionVisual: {fileID: 37965113780643931}
 --- !u!1 &3970171980021158482

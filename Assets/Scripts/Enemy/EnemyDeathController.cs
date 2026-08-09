@@ -24,7 +24,8 @@ public class EnemyDeathController : MonoBehaviour
 
         deathReported = true;
 
-        captureController.NotifyEnemyDied(GetComponent<EnemyController>());
+        if(captureController != null)
+            captureController.NotifyEnemyDied(GetComponent<EnemyController>());
 
         experienceManager.AddExperience(experienceReward);
 

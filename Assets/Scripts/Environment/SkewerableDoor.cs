@@ -1,5 +1,7 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 [RequireComponent(typeof(Collider2D))]
 public class SkewerableDoor : MonoBehaviour, IInteractable
@@ -7,6 +9,20 @@ public class SkewerableDoor : MonoBehaviour, IInteractable
     [Header("References")]
     [SerializeField] private Collider2D blockingCollider;
     [SerializeField] private Rigidbody2D rigidbody2D;
+    [SerializeField] private Collider2D doorCollider;
+    [SerializeField] private NavMeshObstacle navMeshObstacle;
+    [SerializeField]
+    private SkewerableDoorWallSensor wallSensor;
+
+
+
+
+    [SerializeField]
+    private WallMaterial swordWallMaterial;
+
+    public WallMaterial SwordWallMaterial =>
+        swordWallMaterial;
+
 
     [Header("Stun explosion")]
 
@@ -27,6 +43,11 @@ public class SkewerableDoor : MonoBehaviour, IInteractable
 
     [Header("Settings")]
     [SerializeField] private bool destroyOnInteract = true;
+    [SerializeField, Min(0.05f)]
+    private float pullOutDuration = 0.2f;
+    [SerializeField]
+    private AnimationCurve pullOutCurve =
+        AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
 
     [Header("Position on sword")]
     [SerializeField]
@@ -47,13 +68,29 @@ public class SkewerableDoor : MonoBehaviour, IInteractable
 
     private void Awake()
     {
+        if (swordWallMaterial == null)
+            swordWallMaterial = GetComponent<WallMaterial>();
+
+        if (wallSensor == null)
+        {
+            wallSensor =
+                GetComponentInChildren<SkewerableDoorWallSensor>(true);
+        }
+
         if (blockingCollider == null)
             blockingCollider = GetComponent<Collider2D>();
 
         if (rigidbody2D == null)
             rigidbody2D = GetComponent<Rigidbody2D>();
     }
+    private void OpenPassage()
+    {
+        if (doorCollider != null)
+            doorCollider.enabled = false;
 
+        if (navMeshObstacle != null)
+            navMeshObstacle.enabled = false;
+    }
     public bool TrySkewer(
         SwordController sword,
         PlayerController player,
@@ -73,6 +110,8 @@ public class SkewerableDoor : MonoBehaviour, IInteractable
         if (blockingCollider != null)
             blockingCollider.enabled = false;
 
+        OpenPassage();
+
         if (rigidbody2D != null)
         {
             rigidbody2D.linearVelocity = Vector2.zero;
@@ -81,16 +120,10 @@ public class SkewerableDoor : MonoBehaviour, IInteractable
             rigidbody2D.simulated = false;
         }
 
-        // Закрепляем дверь на конце меча.
-        transform.SetParent(skewerPoint);
+        StartCoroutine(
+    PullDoorToSword(skewerPoint)
+);
 
-        transform.localPosition = skeweredLocalPosition;
-
-        transform.localRotation = Quaternion.Euler(
-            0f,
-            0f,
-            skeweredLocalRotation
-        );
 
         // Теперь Space взаимодействует с дверью.
         currentPlayer.SetInteractable(this);
@@ -102,15 +135,18 @@ public class SkewerableDoor : MonoBehaviour, IInteractable
         Vector2 center = transform.position;
 
         Collider2D[] hits = Physics2D.OverlapCircleAll(
-    transform.position,
-    stunRadius,
-    enemyMask
-);
+            center,
+            stunRadius,
+            enemyMask
+        );
 
         HashSet<EnemyController> stunnedEnemies = new();
 
         foreach (Collider2D hit in hits)
         {
+            if (hit == null)
+                continue;
+
             EnemyController enemy =
                 hit.GetComponentInParent<EnemyController>();
 
@@ -120,8 +156,29 @@ public class SkewerableDoor : MonoBehaviour, IInteractable
             if (!stunnedEnemies.Add(enemy))
                 continue;
 
-            enemy.Stun(stunDuration);
+            /*
+             * OverlapCircle мог попасть в большой дочерний
+             * триггер врага. Поэтому дополнительно проверяем
+             * расстояние именно до основного коллайдера.
+             */
+            Collider2D enemyBodyCollider = enemy.Collider;
 
+            if (enemyBodyCollider == null ||
+                !enemyBodyCollider.enabled)
+            {
+                continue;
+            }
+
+            Vector2 closestPoint =
+                enemyBodyCollider.ClosestPoint(center);
+
+            float distanceToEnemy =
+                Vector2.Distance(center, closestPoint);
+
+            if (distanceToEnemy > stunRadius)
+                continue;
+
+            enemy.Stun(stunDuration);
         }
     }
     public void Interact(PlayerController player)
@@ -134,13 +191,23 @@ public class SkewerableDoor : MonoBehaviour, IInteractable
         StunNearbyEnemies();
         DestroyDoor();
     }
+    public void BreakFromWallImpact()
+    {
+        if (!isSkewered || isDestroyed)
+            return;
 
+        StunNearbyEnemies();
+        DestroyDoor();
+    }
     private void DestroyDoor()
     {
         if (isDestroyed)
             return;
 
         isDestroyed = true;
+
+        if (wallSensor != null)
+            wallSensor.DisableSensor();
 
         if (currentPlayer != null)
             currentPlayer.ClearInteractable(this);
@@ -173,5 +240,104 @@ public class SkewerableDoor : MonoBehaviour, IInteractable
             transform.position,
             stunRadius
         );
+    }
+
+    private IEnumerator PullDoorToSword(
+    Transform skewerPoint)
+    {
+        Vector3 startPosition = transform.position;
+        Quaternion startRotation = transform.rotation;
+
+        Vector3 targetPosition =
+            skewerPoint.TransformPoint(skeweredLocalPosition);
+
+        Quaternion targetRotation =
+            skewerPoint.rotation *
+            Quaternion.Euler(
+                0f,
+                0f,
+                skeweredLocalRotation
+            );
+
+        // Направление, в котором дверь вырывается.
+        Vector3 pullDirection =
+            (skewerPoint.position - startPosition).normalized;
+
+        // Сначала дверь немного выдёргивается из проёма.
+        Vector3 breakPosition =
+            startPosition +
+            pullDirection * 0.25f;
+
+        float timer = 0f;
+
+        while (timer < pullOutDuration)
+        {
+            timer += Time.deltaTime;
+
+            float normalizedTime =
+                Mathf.Clamp01(
+                    timer / pullOutDuration
+                );
+
+            float t =
+                pullOutCurve.Evaluate(normalizedTime);
+
+            // ПЕРВАЯ ФАЗА:
+            // дверь вырывается из проёма.
+            if (t < 0.25f)
+            {
+                float phase =
+                    t / 0.25f;
+
+                transform.position =
+                    Vector3.Lerp(
+                        startPosition,
+                        breakPosition,
+                        phase
+                    );
+            }
+
+            // ВТОРАЯ ФАЗА:
+            // дверь летит к кончику меча.
+            else
+            {
+                float phase =
+                    (t - 0.25f) / 0.75f;
+
+                transform.position =
+                    Vector3.Lerp(
+                        breakPosition,
+                        targetPosition,
+                        phase
+                    );
+            }
+
+            // Одновременно постепенно поворачиваем дверь.
+            transform.rotation =
+                Quaternion.Lerp(
+                    startRotation,
+                    targetRotation,
+                    t
+                );
+
+            yield return null;
+        }
+
+        // В конце окончательно прикрепляем к SwordTip.
+        transform.SetParent(skewerPoint);
+
+        transform.localPosition =
+            skeweredLocalPosition;
+
+        transform.localRotation =
+            Quaternion.Euler(
+                0f,
+                0f,
+                skeweredLocalRotation
+            );
+
+
+        if (wallSensor != null)
+            wallSensor.EnableSensor();
     }
 }

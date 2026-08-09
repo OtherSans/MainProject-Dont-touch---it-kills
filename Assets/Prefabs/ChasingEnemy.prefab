@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1195825532041292806}
   - component: {fileID: 7481061054121603151}
   - component: {fileID: 2504297173241629824}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84,7 +84,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6720086716486201624}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 7317594252348424543}
   - component: {fileID: 5443186337643340304}
   - component: {fileID: 753929922351347373}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -198,7 +198,7 @@ GameObject:
   - component: {fileID: 7759426923742350833}
   - component: {fileID: 2117247347448213738}
   - component: {fileID: 4420295005032178940}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -300,7 +300,7 @@ GameObject:
   - component: {fileID: 2848438225941985521}
   - component: {fileID: 6979115229814120967}
   - component: {fileID: 148958431708010393}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -419,6 +419,7 @@ GameObject:
   - component: {fileID: 3997564240427770861}
   - component: {fileID: 713967913716512363}
   - component: {fileID: 8514738953114873}
+  - component: {fileID: 320641867035091716}
   m_Layer: 7
   m_Name: ChasingEnemy
   m_TagString: Enemy
@@ -578,6 +579,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3211a0ad3c6f5e478deddd68367fed4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChaserController
+  roomAlarmController: {fileID: 0}
 --- !u!195 &6266153620432607168
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -588,7 +590,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 2.5
+  m_Speed: 2
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -632,9 +634,9 @@ MonoBehaviour:
   OnDamaged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8074440344224988305}
-        m_TargetAssemblyTypeName: EnemyKnockback, Assembly-CSharp
-        m_MethodName: SetState
+      - m_Target: {fileID: 148958431708010393}
+        m_TargetAssemblyTypeName: FloatingHealthBar, Assembly-CSharp
+        m_MethodName: UpdateHealthBar
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -644,9 +646,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 148958431708010393}
-        m_TargetAssemblyTypeName: FloatingHealthBar, Assembly-CSharp
-        m_MethodName: UpdateHealthBar
+      - m_Target: {fileID: 8074440344224988305}
+        m_TargetAssemblyTypeName: EnemyKnockback, Assembly-CSharp
+        m_MethodName: SetState
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -701,7 +703,7 @@ MonoBehaviour:
   rb: {fileID: 7198547518053088447}
   enemyContr: {fileID: 4719861292475305143}
   target: {fileID: 0}
-  force: 25
+  force: 30
   knockbackTimer: 0.3
   timer: 0
   knockbackIsRunning: 0
@@ -791,7 +793,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SkeweredEnemyInteractable
   enemy: {fileID: 4719861292475305143}
   enemyHealth: {fileID: 7938760148144071629}
-  consumeEffects: []
+  consumeEffects:
+  - {fileID: 320641867035091716}
 --- !u!114 &8514738953114873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -811,6 +814,19 @@ MonoBehaviour:
   enemyRb: {fileID: 7198547518053088447}
   ownerEnemy: {fileID: 4719861292475305143}
   cameraShake: {fileID: 0}
+--- !u!114 &320641867035091716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4762742735004683172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b08506fbf83d3a488f27fe885b5be16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealConsumeEffect
+  healAmount: 10
 --- !u!1 &6143916887486008687
 GameObject:
   m_ObjectHideFlags: 0
@@ -821,7 +837,7 @@ GameObject:
   m_Component:
   - component: {fileID: 263611404337029452}
   - component: {fileID: 4275228400599371876}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: ChaseCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -878,4 +894,4 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0.21133333}
-  m_Radius: 2.48
+  m_Radius: 7.95

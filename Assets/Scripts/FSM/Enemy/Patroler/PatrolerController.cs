@@ -1,10 +1,7 @@
 using UnityEngine;
 
 public class PatrolerController : EnemyController
-{
-    [Header("Room")]
-    [SerializeField] private RoomAlarmController roomAlarmController;
-
+{ 
     [Header("Patrol")]
     [SerializeField]
     private Transform[] patrolPoints;
@@ -50,12 +47,6 @@ public class PatrolerController : EnemyController
     {
         base.Awake();
 
-        if (roomAlarmController == null)
-        {
-            roomAlarmController =
-                GetComponentInParent<RoomAlarmController>();
-        }
-
         /*
          * Для 2D NavMeshAgent обычно отключают
          * стандартное вращение и изменение оси Up.
@@ -85,6 +76,32 @@ public class PatrolerController : EnemyController
         viewDirection.rotation =
             Quaternion.Euler(0f, 0f, angle);
     }
+
+    public override void OnKnockbackFinished()
+    {
+        if (_RoomAlarmController != null &&
+            _RoomAlarmController.IsAlarmRaised)
+        {
+            StartFleeing();
+        }
+        else
+        {
+            BeginPatrol();
+        }
+    }
+    public override void OnThrownFinished()
+    {
+        if (_RoomAlarmController != null &&
+            _RoomAlarmController.IsAlarmRaised)
+        {
+            StartFleeing();
+        }
+        else
+        {
+            BeginPatrol();
+        }
+    }
+
     protected override void RegisterSpecificStates()
     {
         Fsm.AddState(
@@ -97,8 +114,8 @@ public class PatrolerController : EnemyController
     }
     public override void OnStunFinished()
     {
-        if (roomAlarmController != null &&
-        roomAlarmController.IsAlarmRaised)
+        if (_RoomAlarmController != null &&
+        _RoomAlarmController.IsAlarmRaised)
         {
             StartFleeing();
         }
@@ -127,9 +144,9 @@ public class PatrolerController : EnemyController
 
     public void RaiseAlarm()
     {
-        if (roomAlarmController != null)
+        if (_RoomAlarmController != null)
         {
-            roomAlarmController.RaiseAlarm();
+            _RoomAlarmController.RaiseAlarm();
             return;
         }
 

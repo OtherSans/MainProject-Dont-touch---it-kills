@@ -4,6 +4,8 @@ using UnityEngine.Rendering;
 
 public abstract class EnemyController : MonoBehaviour
 {
+    [SerializeField] private RoomAlarmController roomAlarmController;
+
     public Rigidbody2D Rigidbody { get; private set; }
     
     public Animator Animator { get; private set; }
@@ -16,10 +18,27 @@ public abstract class EnemyController : MonoBehaviour
     public EnemyKnockback Knockback { get; private set; }
     public Fsm Fsm { get; private set; }
 
+    public RoomAlarmController _RoomAlarmController =>
+    roomAlarmController;
+
     public bool IsSleeping { get; private set; }
 
     protected virtual void Awake()
     {
+
+        if (roomAlarmController == null)
+        {
+            roomAlarmController =
+                GetComponentInParent<RoomAlarmController>();
+        }
+
+        if (roomAlarmController == null)
+        {
+            Debug.LogError(
+                $"{name}: RoomAlarmController не найден среди родителей.",
+                this
+            );
+        }
 
         Rigidbody = GetComponent<Rigidbody2D>();
         EnemyAttack = GetComponent<EnemyAttack>();
@@ -57,6 +76,11 @@ public abstract class EnemyController : MonoBehaviour
         Fsm.AddState(new FsmEnemyStatePetrified(Fsm, this));
         //Fsm.AddState(new FsmEnemyStateDead(Fsm, this));
     }
+
+    public virtual void OnKnockbackFinished()
+    {
+        Fsm.SetState<FsmEnemyStateIdle>();
+    }
     public virtual void Stun(float duration)
     {
         if (duration <= 0f)
@@ -82,6 +106,29 @@ public abstract class EnemyController : MonoBehaviour
     {
         Fsm.SetState<FsmEnemyStateIdle>();
     }
+
+    public void RaiseRoomAlarm()
+    {
+        if (roomAlarmController == null)
+        {
+            Debug.LogError(
+                $"{name}: невозможно поднять тревогу — RoomAlarmController отсутствует.",
+                this
+            );
+
+            return;
+        }
+
+        Debug.Log($"{name}: поднимает тревогу комнаты", this);
+
+        roomAlarmController.RaiseAlarm();
+    }
+
+    public virtual void OnThrownFinished()
+    {
+        Fsm.SetState<FsmEnemyStateIdle>();
+    }
+
     public virtual void EnterSleepState()
     {
         IsSleeping = true;

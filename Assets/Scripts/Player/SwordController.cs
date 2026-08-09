@@ -8,6 +8,7 @@ public class SwordController : MonoBehaviour
     [SerializeField] private Transform skewerPoint;
     [SerializeField] private AttackController attackBool;
 
+
     [Header("Length")]
     [SerializeField] private float minLength = 1f;
     [SerializeField] private float maxLength = 4f;
@@ -63,6 +64,9 @@ public class SwordController : MonoBehaviour
 
     private bool isExtensionBlocked;
     private float blockedLength;
+
+    private bool isDoorExtensionBlocked;
+    private float doorBlockedLength;
 
     [Header("Door skewer")]
     [SerializeField, Min(0f)]
@@ -159,6 +163,16 @@ public class SwordController : MonoBehaviour
 
         isExtensionBlocked = blocked;
     }
+
+    public void SetDoorExtensionBlocked(bool blocked)
+    {
+        if (blocked && !isDoorExtensionBlocked)
+        {
+            doorBlockedLength = currentLength;
+        }
+
+        isDoorExtensionBlocked = blocked;
+    }
     public void OnWallHitEnd()
     {
         Debug.Log("WALL EXIT");
@@ -192,18 +206,38 @@ public class SwordController : MonoBehaviour
 
         if (!wantsToAttack)
         {
-            // Кнопка отпущена — меч втягивается.
             targetLength = minLength;
         }
-        else if (isExtensionBlocked)
+        else if (isExtensionBlocked || isDoorExtensionBlocked)
         {
-            // Кончик упёрся в стену — дальше не вытягиваем.
-            targetLength = blockedLength;
+            /*
+             * Если одновременно мешают и стена, и дверь,
+             * берём ближайшее ограничение.
+             */
+            float allowedLength = maxLength;
+
+            if (isExtensionBlocked)
+            {
+                allowedLength = Mathf.Min(
+                    allowedLength,
+                    blockedLength
+                );
+            }
+
+            if (isDoorExtensionBlocked)
+            {
+                allowedLength = Mathf.Min(
+                    allowedLength,
+                    doorBlockedLength
+                );
+            }
+
+            targetLength = allowedLength;
         }
         else
         {
-            // Здесь оставь свою проверку стамины, если уже добавил её.
-            bool canExtend = CanExtendSword(wantsToAttack);
+            bool canExtend =
+                CanExtendSword(wantsToAttack);
 
             targetLength = canExtend
                 ? maxLength
