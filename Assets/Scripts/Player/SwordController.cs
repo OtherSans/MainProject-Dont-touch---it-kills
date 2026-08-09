@@ -25,12 +25,7 @@ public class SwordController : MonoBehaviour
     [SerializeField] private float minSkewerSpeed = 5f;
     [SerializeField] private float minExtensionSpeed = 1f;
     [SerializeField, Range(0f, 1f)]
-    private float minSkewerExtension = 0.5f;
-
-    [Header("Throw")]
-    [SerializeField] private float throwVelocity = 180f;
-    [SerializeField] private float minThrowSpeed = 6f;
-    public float maxThrowSpeed = 20f; 
+    private float minSkewerExtension = 0.5f; 
 
     [Header("Impact")]
     [SerializeField] private CameraShake cameraShake;
@@ -112,6 +107,7 @@ public class SwordController : MonoBehaviour
 
     private void Awake()
     {
+
         currentLength = minLength;
         targetLength = minLength;
         previousLength = currentLength;
@@ -134,7 +130,6 @@ public class SwordController : MonoBehaviour
         UpdateLength();
         UpdateSwing();
         CheckSwordVelocity();
-        CheckThrow();
 
     }
 
@@ -497,34 +492,6 @@ public class SwordController : MonoBehaviour
 
         SkeweredEnemy = null;
     }
-
-    #endregion
-
-    #region Throw
-
-    private void CheckThrow()
-    {
-        if (SkeweredEnemy == null)
-            return;
-        if (SkeweredEnemy.PetrifiedController.IsPetrified)
-            return;
-
-        if (Mathf.Abs(angularVelocity) < throwVelocity)
-            return;
-            
-        if (TipVelocity.magnitude < minThrowSpeed)  
-            return;
-
-        Debug.Log(Mathf.Abs(angularVelocity) + "angular Velocity|| " + TipVelocity.magnitude + "tipVeloc magnitude|| ");
-
-        SkeweredEnemy.Fsm.SetState<FsmEnemyStateThrown>(
-    new FsmThrownContext()
-    {
-        swordCntr = this
-    });
-        
-        SkeweredEnemy = null;
-    }
     private void CheckSwordVelocity()
     {
         if (Time.deltaTime <= Mathf.Epsilon)
@@ -564,4 +531,5 @@ public class SwordController : MonoBehaviour
         return true;
     }
     #endregion
+
 }

@@ -3,19 +3,26 @@ using UnityEngine;
 public class SkeweredEnemyInteractable : MonoBehaviour, IInteractable
 {
     [Header("References")]
-    [SerializeField] private EnemyController enemy;
-    [SerializeField] private HealthController enemyHealth;
+    [SerializeField]
+    private EnemyController enemy;
+
+    [SerializeField]
+    private HealthController enemyHealth;
 
     [Header("Absorption Effect")]
-    [SerializeField]private ConsumeEffect[] consumeEffects;
+    [SerializeField]
+    private ConsumeEffect[] consumeEffects;
 
     private SwordController sword;
     private PlayerController player;
 
+    private ConsumeChargeController chargeController;
+
     private bool isAvailable;
     private bool isAbsorbed;
 
-    public bool IsAvailable => isAvailable && !isAbsorbed;
+    public bool IsAvailable =>
+        isAvailable && !isAbsorbed;
 
     private void Awake()
     {
@@ -23,16 +30,20 @@ public class SkeweredEnemyInteractable : MonoBehaviour, IInteractable
             enemy = GetComponent<EnemyController>();
 
         if (enemyHealth == null)
-            enemyHealth = GetComponent<HealthController>();
+            enemyHealth =
+                GetComponent<HealthController>();
 
-        /*
-         * Если эффекты не назначены вручную,
-         * находим их на объекте врага автоматически.
-         */
-        if (consumeEffects == null || consumeEffects.Length == 0)
-            consumeEffects = GetComponents<ConsumeEffect>();
+        if (consumeEffects == null ||
+            consumeEffects.Length == 0)
+        {
+            consumeEffects =
+                GetComponents<ConsumeEffect>();
+        }
     }
-    public void EnableInteraction(PlayerController playerController, SwordController swordController)
+
+    public void EnableInteraction(
+        PlayerController playerController,
+        SwordController swordController)
     {
         if (isAbsorbed)
             return;
@@ -40,11 +51,17 @@ public class SkeweredEnemyInteractable : MonoBehaviour, IInteractable
         player = playerController;
         sword = swordController;
 
-        isAvailable = true;
-
         if (player != null)
+        {
+            chargeController =
+                player.GetComponent<ConsumeChargeController>();
+
             player.SetInteractable(this);
+        }
+
+        isAvailable = true;
     }
+
     public void DisableInteraction()
     {
         isAvailable = false;
@@ -54,16 +71,36 @@ public class SkeweredEnemyInteractable : MonoBehaviour, IInteractable
 
         player = null;
         sword = null;
+        chargeController = null;
     }
-    public void Interact(PlayerController interactingPlayer)
+
+    public void Interact(
+        PlayerController interactingPlayer)
     {
         if (!isAvailable)
             return;
+
         if (interactingPlayer == null)
             return;
-        Absorb(interactingPlayer);
+
+        /*
+         * Есть заряд — поглощаем.
+         */
+        if (chargeController != null &&
+            chargeController.TrySpendCharge())
+        {
+            Absorb(interactingPlayer);
+            return;
+        }
+
+        /*
+         * Заряда нет — просто снимаем врага с меча.
+         */
+        DropEnemy();
     }
-    private void Absorb(PlayerController interactingPlayer)
+
+    private void Absorb(
+        PlayerController interactingPlayer)
     {
         if (isAbsorbed)
             return;
@@ -76,14 +113,15 @@ public class SkeweredEnemyInteractable : MonoBehaviour, IInteractable
         ApplyConsumeEffects(interactingPlayer);
 
         /*
-         * Убираем поглощённого врага из меча.
+         * Убираем поглощённого врага
+         * из SwordController.
          */
         if (sword != null)
             sword.ConsumeSkeweredEnemy(enemy);
 
         /*
          * Убиваем через HealthController,
-         * чтобы сработали OnDied и логика комнаты.
+         * чтобы сохранилась логика смерти комнаты.
          */
         if (enemyHealth != null)
         {
@@ -91,18 +129,43 @@ public class SkeweredEnemyInteractable : MonoBehaviour, IInteractable
             return;
         }
 
-        /*
-         * Запасной вариант на случай,
-         * если HealthController отсутствует.
-         */
         if (enemy != null)
             Destroy(enemy.gameObject);
         else
             Destroy(gameObject);
     }
-    private void ApplyConsumeEffects(PlayerController interactingPlayer)
+
+    private void DropEnemy()
     {
-        if (consumeEffects == null || consumeEffects.Length == 0)
+        if (enemy == null)
+            return;
+
+        isAvailable = false;
+
+        if (player != null)
+            player.ClearInteractable(this);
+
+        /*
+         * Освобождаем ссылку в SwordController.
+         */
+        if (sword != null)
+            sword.ConsumeSkeweredEnemy(enemy);
+
+        /*
+         * Выходим из состояния Skewered.
+         */
+        enemy.Fsm.SetState<FsmEnemyStateDropped>();
+
+        player = null;
+        sword = null;
+        chargeController = null;
+    }
+
+    private void ApplyConsumeEffects(
+        PlayerController interactingPlayer)
+    {
+        if (consumeEffects == null ||
+            consumeEffects.Length == 0)
         {
             Debug.LogWarning(
                 $"{name}: не назначен ни один эффект поглощения.",
@@ -120,17 +183,15 @@ public class SkeweredEnemyInteractable : MonoBehaviour, IInteractable
             effect.Apply(interactingPlayer);
         }
     }
+
     private void OnDisable()
     {
-        /*
-         * При уничтожении врага или выключении комнаты
-         * не оставляем его в PlayerController.
-         */
         if (player != null)
             player.ClearInteractable(this);
 
         player = null;
         sword = null;
+        chargeController = null;
         isAvailable = false;
     }
 }

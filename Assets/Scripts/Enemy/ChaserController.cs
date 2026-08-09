@@ -11,7 +11,10 @@ public class ChaserController : EnemyController
         Chase = GetComponent<ChaseController>();
         playerInRange = GetComponent<CheckPlayerInRange>();
     }
-
+    public override void OnDroppedFromSword()
+    {
+        Fsm.SetState<FsmChaserStateIdle>();
+    }
     protected override void RegisterSpecificStates()
     {
         Fsm.AddState(new FsmEnemyStateChase(Fsm, this));

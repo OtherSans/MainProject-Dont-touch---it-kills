@@ -35,7 +35,18 @@ public class MageController : EnemyController
             Agent.enabled = false;
         }
     }
-
+    public override void OnDroppedFromSword()
+    {
+        if (_RoomAlarmController != null &&
+            _RoomAlarmController.IsAlarmRaised)
+        {
+            Fsm.SetState<FsmMageStateCast>();
+        }
+        else
+        {
+            EnterSleepState();
+        }
+    }
     public override void OnThrownFinished()
     {
         if (_RoomAlarmController != null &&

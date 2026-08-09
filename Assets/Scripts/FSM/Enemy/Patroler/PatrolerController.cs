@@ -101,7 +101,18 @@ public class PatrolerController : EnemyController
             BeginPatrol();
         }
     }
-
+    public override void OnDroppedFromSword()
+    {
+        if (_RoomAlarmController != null &&
+            _RoomAlarmController.IsAlarmRaised)
+        {
+            StartFleeing();
+        }
+        else
+        {
+            BeginPatrol();
+        }
+    }
     protected override void RegisterSpecificStates()
     {
         Fsm.AddState(

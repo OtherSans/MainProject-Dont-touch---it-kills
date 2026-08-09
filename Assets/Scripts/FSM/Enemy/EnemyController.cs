@@ -7,7 +7,7 @@ public abstract class EnemyController : MonoBehaviour
     [SerializeField] private RoomAlarmController roomAlarmController;
 
     public Rigidbody2D Rigidbody { get; private set; }
-    
+
     public Animator Animator { get; private set; }
     public Collider2D Collider { get; private set; }
     public Canvas EnemyUI { get; private set; }
@@ -71,12 +71,16 @@ public abstract class EnemyController : MonoBehaviour
         Fsm.AddState(new FsmEnemyStateWalk(Fsm, this));
         Fsm.AddState(new FsmEnemyStateKnockback(Fsm, this));
         Fsm.AddState(new FsmEnemyStateSkewered(Fsm, this));
-        Fsm.AddState(new FsmEnemyStateThrown(Fsm, this));
+        Fsm.AddState(new FsmEnemyStateDropped(Fsm, this));
         Fsm.AddState(new FsmEnemyStateStun(Fsm, this));
         Fsm.AddState(new FsmEnemyStatePetrified(Fsm, this));
         //Fsm.AddState(new FsmEnemyStateDead(Fsm, this));
     }
 
+    public virtual void OnDroppedFromSword()
+    {
+        Fsm.SetState<FsmEnemyStateIdle>();
+    }
     public virtual void OnKnockbackFinished()
     {
         Fsm.SetState<FsmEnemyStateIdle>();

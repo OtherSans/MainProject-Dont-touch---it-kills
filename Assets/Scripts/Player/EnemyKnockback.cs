@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class EnemyKnockback : MonoBehaviour
 {
-    private SwordController sword;
-
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private EnemyController enemyContr;
     [SerializeField] private Transform target;
@@ -14,19 +12,6 @@ public class EnemyKnockback : MonoBehaviour
     public float knockbackTimer;
     public float timer;
     public bool knockbackIsRunning = false;
-
-    private void Awake()
-    {
-        sword = GetComponentInParent<SwordController>();
-
-        if (sword == null)
-        {
-            Debug.LogError(
-                $"{name}: SwordController не найден среди родителей.",
-                this
-            );
-        }
-    }
     public void SetState()
     {
         if (enemyContr == null || enemyContr.Fsm == null)
