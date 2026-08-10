@@ -23,6 +23,9 @@ public class SwordAttack : MonoBehaviour
 
         if (collision.gameObject.CompareTag(targetTag))
         {
+            if (!collision.gameObject.GetComponent<EnemyController>().CanReceiveSwordHit())
+                return;
+
             roomAlarmController?.RaiseAlarm();
 
             var healthContr = collision.gameObject.GetComponent<HealthController>();

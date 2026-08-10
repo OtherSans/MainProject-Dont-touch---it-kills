@@ -16,6 +16,7 @@ public class HealthController : MonoBehaviour
         }
     }
     public float MaxHealth => maxHealth;
+    public float CurHealth => curHealth;
     public bool IsDead => curHealth <= 0f;
     public bool IsFull => curHealth >= maxHealth;
 

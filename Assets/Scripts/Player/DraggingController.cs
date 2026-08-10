@@ -88,6 +88,12 @@ public class DraggingController : MonoBehaviour
     }
     private void Update()
     {
+        if (playerController.IsKnockedBack)
+        {
+            edgeMoveDirection = Vector2.zero;
+            return;
+        }
+
         if (!isDragging)
         {
             edgeMoveDirection = Vector2.zero;
@@ -130,6 +136,12 @@ public class DraggingController : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        if (playerController.IsKnockedBack)
+        {
+            edgeMoveDirection = Vector2.zero;
+            return;
+        }
+
         if (!isDragging)
             return;
 
@@ -145,6 +157,12 @@ public class DraggingController : MonoBehaviour
     }
     private void DragCheck(bool dragCheck)
     {
+        if (playerController.IsKnockedBack)
+        {
+            edgeMoveDirection = Vector2.zero;
+            return;
+        }
+
         isDragging = dragCheck;
 
         edgeMoveDirection = Vector2.zero;

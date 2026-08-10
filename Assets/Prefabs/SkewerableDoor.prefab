@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7325419132581449870
+--- !u!1 &5119048691517270961
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,43 +8,38 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1386876205094772991}
-  - component: {fileID: 3276073076012375130}
-  - component: {fileID: 1963936397227592816}
-  - component: {fileID: 7837054515196157121}
-  - component: {fileID: 1053497340092816912}
-  - component: {fileID: 2488202447261638323}
+  - component: {fileID: 6957461672146716010}
+  - component: {fileID: 154670390023711641}
   m_Layer: 0
-  m_Name: SkewerableDoor
+  m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1386876205094772991
+--- !u!4 &6957461672146716010
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7325419132581449870}
+  m_GameObject: {fileID: 5119048691517270961}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.32, y: -3.29, z: 0}
-  m_LocalScale: {x: 0.4111, y: 5.0897, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 4255344010791086150}
-  m_Father: {fileID: 0}
+  m_Children: []
+  m_Father: {fileID: 1386876205094772991}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &3276073076012375130
+--- !u!212 &154670390023711641
 SpriteRenderer:
   serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7325419132581449870}
+  m_GameObject: {fileID: 5119048691517270961}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -97,6 +92,43 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!1 &7325419132581449870
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1386876205094772991}
+  - component: {fileID: 1963936397227592816}
+  - component: {fileID: 7837054515196157121}
+  - component: {fileID: 1053497340092816912}
+  - component: {fileID: 2488202447261638323}
+  m_Layer: 0
+  m_Name: SkewerableDoor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1386876205094772991
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7325419132581449870}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.32, y: -3.29, z: 0}
+  m_LocalScale: {x: 0.4111, y: 5.0897, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4255344010791086150}
+  - {fileID: 6957461672146716010}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1963936397227592816
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -182,11 +214,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40463f9b72d713341a8195c0eb98dcd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkewerableDoor
+  visual: {fileID: 6957461672146716010}
   blockingCollider: {fileID: 1963936397227592816}
   rigidbody2D: {fileID: 7837054515196157121}
   doorCollider: {fileID: 1963936397227592816}
   navMeshObstacle: {fileID: 2488202447261638323}
   wallSensor: {fileID: 8025078092910629462}
+  skeweredVisualRotation: 90
   swordWallMaterial: {fileID: 11400000, guid: 0ae256271b08b1942b24b4ef578a42ec, type: 2}
   stunRadius: 3.09
   stunDuration: 2

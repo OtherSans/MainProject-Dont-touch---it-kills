@@ -25,7 +25,8 @@ public class SwordController : MonoBehaviour
     [SerializeField] private float minSkewerSpeed = 5f;
     [SerializeField] private float minExtensionSpeed = 1f;
     [SerializeField, Range(0f, 1f)]
-    private float minSkewerExtension = 0.5f; 
+    private float minSkewerExtension = 0.5f;
+    
 
     [Header("Impact")]
     [SerializeField] private CameraShake cameraShake;

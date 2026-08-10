@@ -17,6 +17,27 @@ public class ConsumeChargeController : MonoBehaviour
     {
         currentCharges = Mathf.Clamp(currentCharges, 0, maxCharges);
     }
+    public bool TryAddCharges(int amount)
+    {
+        if (amount <= 0)
+            return false;
+
+        if (currentCharges >= maxCharges)
+            return false;
+
+        currentCharges = Mathf.Clamp(
+            currentCharges + amount,
+            0,
+            maxCharges
+        );
+
+        ChargesChanged?.Invoke(
+            currentCharges,
+            maxCharges
+        );
+
+        return true;
+    }
 
     public bool TrySpendCharge()
     {

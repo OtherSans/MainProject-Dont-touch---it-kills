@@ -26,6 +26,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private InvincibilityController invincibilityController;
 
+    private bool isKnockedBack;
+
+    public bool IsKnockedBack => isKnockedBack;
+
     public InvincibilityController InvincibilityController =>
         invincibilityController;
 
@@ -107,6 +111,9 @@ public class PlayerController : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        if (isKnockedBack)
+            return;
+
         if (draggingCheck)
         {
             rb.linearVelocity = Vector2.zero;
@@ -130,6 +137,8 @@ public class PlayerController : MonoBehaviour
     }
     private void OnDragStarted(InputAction.CallbackContext ctx)
     {
+        
+
         draggingCheck = true;
         rb.linearVelocity = Vector2.zero;
 
@@ -182,5 +191,44 @@ public class PlayerController : MonoBehaviour
 
         lastVelocity = velocity;
         lastPosition = transform.position;
+    }
+
+    public void ApplyKnockback(
+    Vector2 direction,
+    float force,
+    float duration)
+    {
+        if (!gameObject.activeInHierarchy)
+            return;
+
+        StartCoroutine(
+            KnockbackRoutine(
+                direction,
+                force,
+                duration
+            )
+        );
+    }
+
+    private IEnumerator KnockbackRoutine(
+        Vector2 direction,
+        float force,
+        float duration)
+    {
+        isKnockedBack = true;
+
+        Rigidbody2D rb =
+            GetComponent<Rigidbody2D>();
+
+        rb.linearVelocity = Vector2.zero;
+
+        rb.linearVelocity =
+            direction.normalized * force;
+
+        yield return new WaitForSeconds(duration);
+
+        rb.linearVelocity = Vector2.zero;
+
+        isKnockedBack = false;
     }
 }

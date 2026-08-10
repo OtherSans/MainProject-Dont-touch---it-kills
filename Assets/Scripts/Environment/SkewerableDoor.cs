@@ -7,14 +7,18 @@ using UnityEngine.AI;
 public class SkewerableDoor : MonoBehaviour, IInteractable
 {
     [Header("References")]
+    [SerializeField]
+    private Transform visual;
     [SerializeField] private Collider2D blockingCollider;
     [SerializeField] private Rigidbody2D rigidbody2D;
     [SerializeField] private Collider2D doorCollider;
     [SerializeField] private NavMeshObstacle navMeshObstacle;
     [SerializeField]
     private SkewerableDoorWallSensor wallSensor;
+    [SerializeField]
+    private float skeweredVisualRotation = 90f;
 
-
+    private Quaternion originalVisualRotation;
 
 
     [SerializeField]
@@ -68,6 +72,12 @@ public class SkewerableDoor : MonoBehaviour, IInteractable
 
     private void Awake()
     {
+        if (visual != null)
+        {
+            originalVisualRotation =
+                visual.localRotation;
+        }
+
         if (swordWallMaterial == null)
             swordWallMaterial = GetComponent<WallMaterial>();
 
@@ -323,19 +333,23 @@ public class SkewerableDoor : MonoBehaviour, IInteractable
             yield return null;
         }
 
-        // В конце окончательно прикрепляем к SwordTip.
         transform.SetParent(skewerPoint);
 
         transform.localPosition =
             skeweredLocalPosition;
 
         transform.localRotation =
-            Quaternion.Euler(
-                0f,
-                0f,
-                skeweredLocalRotation
-            );
+            Quaternion.identity;
 
+        if (visual != null)
+        {
+            visual.localRotation =
+                Quaternion.Euler(
+                    0f,
+                    0f,
+                    skeweredVisualRotation
+                );
+        }
 
         if (wallSensor != null)
             wallSensor.EnableSensor();

@@ -18,6 +18,8 @@ public class MageController : EnemyController
     [SerializeField, Min(0f)]
     private float positionRandomRadius = 1f;
 
+    private bool canCast = true;
+
     public MageAreaAttack AttackPrefab => attackPrefab;
     public Transform AttackContainer => attackContainer;
     public float AttackInterval => attackInterval;
@@ -59,7 +61,25 @@ public class MageController : EnemyController
             EnterSleepState();
         }
     }
+    public override void OnSkewered()
+    {
+        canCast = false;
 
+        CancelInvoke();
+
+        StopAllCoroutines();
+
+        if (EnemyAttack != null)
+            EnemyAttack.enabled = false;
+    }
+
+    public override void OnUnskewered()
+    {
+        canCast = true;
+
+        if (EnemyAttack != null)
+            EnemyAttack.enabled = true;
+    }
     protected override void RegisterSpecificStates()
     {
         Fsm.AddState(
@@ -104,6 +124,12 @@ public class MageController : EnemyController
 
     public void CreateAttack()
     {
+        if (!canCast)
+            return;
+
+        if (Fsm.CurrentState is FsmEnemyStateSkewered)
+            return;
+
         if (AttackPrefab == null || player == null)
             return;
 

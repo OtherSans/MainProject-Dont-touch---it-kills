@@ -12,6 +12,11 @@ public class EnemyKnockback : MonoBehaviour
     public float knockbackTimer;
     public float timer;
     public bool knockbackIsRunning = false;
+
+    private bool useCustomKnockback;
+    private Vector2 customDirection;
+    private float customForce;
+    private float customDuration;
     public void SetState()
     {
         if (enemyContr == null || enemyContr.Fsm == null)
@@ -32,14 +37,65 @@ public class EnemyKnockback : MonoBehaviour
         // Только атакованный враг получает отбрасывание.
         enemyContr.Fsm.SetState<FsmEnemyStateKnockback>();
     }
+
+    public void KnockbackFrom(
+    Vector2 sourcePosition,
+    float force,
+    float duration)
+    {
+        Vector2 direction =
+            (Vector2)transform.position -
+            sourcePosition;
+
+        if (direction.sqrMagnitude <
+            0.001f)
+        {
+            direction =
+                Random.insideUnitCircle.normalized;
+        }
+
+        customDirection =
+            direction.normalized;
+
+        customForce = force;
+        customDuration = duration;
+
+        useCustomKnockback = true;
+
+        SetState();
+    }
     public void KnockbackPerform()
     {
         if (enemyContr.PetrifiedController.IsPetrified)
             return;
-        timer = knockbackTimer;
-        rb.linearVelocity = Vector2.zero;
-        dir = transform.position - target.position;
-        rb.linearVelocity = dir.normalized * force;
+
+        rb.linearVelocity =
+            Vector2.zero;
+
+        if (useCustomKnockback)
+        {
+            timer =
+                customDuration;
+
+            rb.linearVelocity =
+                customDirection *
+                customForce;
+
+            useCustomKnockback = false;
+
+            return;
+        }
+
+        timer =
+            knockbackTimer;
+
+        dir =
+            transform.position -
+            target.position;
+
+        rb.linearVelocity =
+            dir.normalized *
+            force;
     }
 
 }

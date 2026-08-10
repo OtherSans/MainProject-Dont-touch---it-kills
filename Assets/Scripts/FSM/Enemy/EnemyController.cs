@@ -6,6 +6,28 @@ public abstract class EnemyController : MonoBehaviour
 {
     [SerializeField] private RoomAlarmController roomAlarmController;
 
+    [Header("Skewered Visual")]
+    [SerializeField]
+    private Transform visual;
+
+    [SerializeField]
+    private Vector3 skeweredLocalPosition =
+        new Vector3(0f, -0.2f, 0f);
+
+    [SerializeField]
+    private float skeweredVisualRotation = 90f;
+
+    public Transform Visual => visual;
+
+    public Vector3 SkeweredLocalPosition =>
+        skeweredLocalPosition;
+
+    public float SkeweredVisualRotation =>
+        skeweredVisualRotation;
+
+    [SerializeField, Min(0f)]
+    private float skewerHealthThreshold = 20f;
+
     public Rigidbody2D Rigidbody { get; private set; }
 
     public Animator Animator { get; private set; }
@@ -20,6 +42,9 @@ public abstract class EnemyController : MonoBehaviour
 
     public RoomAlarmController _RoomAlarmController =>
     roomAlarmController;
+
+    public bool IsSkewered =>
+    Fsm.CurrentState is FsmEnemyStateSkewered;
 
     public bool IsSleeping { get; private set; }
 
@@ -85,6 +110,14 @@ public abstract class EnemyController : MonoBehaviour
     {
         Fsm.SetState<FsmEnemyStateIdle>();
     }
+
+    public virtual void OnSkewered()
+    {
+    }
+
+    public virtual void OnUnskewered()
+    {
+    }
     public virtual void Stun(float duration)
     {
         if (duration <= 0f)
@@ -111,6 +144,29 @@ public abstract class EnemyController : MonoBehaviour
         Fsm.SetState<FsmEnemyStateIdle>();
     }
 
+    public bool CanReceiveSwordHit()
+    {
+        if (Fsm.CurrentState is FsmEnemyStateSkewered)
+            return false;
+
+        return true;
+    }
+    public bool CanBeSkewered()
+    {
+        // Спящего врага можно нанизать независимо от HP.
+        if (IsSleeping)
+            return true;
+
+        HealthController health =
+            GetComponent<HealthController>();
+
+        if (health == null)
+            return false;
+
+        // Бодрствующего можно нанизать только при низком здоровье.
+        return health.CurHealth <=
+               skewerHealthThreshold;
+    }
     public void RaiseRoomAlarm()
     {
         if (roomAlarmController == null)

@@ -163,6 +163,10 @@ public class SwordTip : MonoBehaviour
         if (enemy.PetrifiedController.IsPetrified)
             return;
 
+        // У врага слишком много HP — нанизать нельзя.
+        if (!enemy.CanBeSkewered())
+            return;
+
         if (!sword.CanSkewer())
             return;
 

@@ -22,7 +22,7 @@ TagManager:
   - Wall
   - 
   - Player
-  - 
+  - MovementObstacle
   - 
   - 
   - 
@@ -65,6 +65,9 @@ TagManager:
     locked: 0
   - name: Currency
     uniqueID: 4022065639
+    locked: 0
+  - name: Environment
+    uniqueID: 1177407179
     locked: 0
   m_RenderingLayers:
   - Default
