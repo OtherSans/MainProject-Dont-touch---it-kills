@@ -738,7 +738,7 @@ MonoBehaviour:
   rb: {fileID: 7198547518053088447}
   enemyContr: {fileID: 4719861292475305143}
   target: {fileID: 0}
-  force: 30
+  force: 50
   knockbackTimer: 0.3
   timer: 0
   knockbackIsRunning: 0
