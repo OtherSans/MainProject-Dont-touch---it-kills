@@ -21,7 +21,7 @@ public class SpikesController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         PlayerController player =
-        other.GetComponentInParent<PlayerController>();
+        other.GetComponent<PlayerController>();
 
         if (player == null)
             return;

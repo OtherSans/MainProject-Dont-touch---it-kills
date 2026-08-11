@@ -10,6 +10,8 @@ public class RoomAlarmController : MonoBehaviour
     [SerializeField]
     private PatrolerController patroler;
 
+    [SerializeField] private RoomCurrencySpawner currencySpawner;
+
     private bool isPrepared;
     private bool isAlarmRaised;
 
@@ -19,6 +21,12 @@ public class RoomAlarmController : MonoBehaviour
 
     private void Awake()
     {
+        if (currencySpawner == null)
+        {
+            currencySpawner =
+                GetComponent<RoomCurrencySpawner>();
+        }
+
         CollectEnemies();
     }
 
@@ -92,6 +100,11 @@ public class RoomAlarmController : MonoBehaviour
 
         if (patroler != null)
             patroler.StartFleeing();
+
+        if (currencySpawner != null)
+        {
+            currencySpawner.SpawnCurrency();
+        }
 
         AlarmRaised?.Invoke();
     }

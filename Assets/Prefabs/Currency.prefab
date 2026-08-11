@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6555911700637228605}
   - component: {fileID: 7132525357604412029}
   - component: {fileID: 7148949840835078317}
+  - component: {fileID: 5311047283045932839}
   m_Layer: 0
   m_Name: Currency
   m_TagString: Untagged
@@ -110,7 +111,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 0.01
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -171,3 +172,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Currency
   CurrencyValue: 5
+--- !u!114 &5311047283045932839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 210690828687138050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9b817ed6a4e37445aeba16830abf9e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CurrencyLifetime

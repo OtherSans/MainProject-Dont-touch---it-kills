@@ -25,6 +25,11 @@ public class PlayerController : MonoBehaviour
     private PlayerVisualController visualController;
     [SerializeField]
     private InvincibilityController invincibilityController;
+    [SerializeField]
+    private StatUpgradeController statUpgradeController;
+
+    [SerializeField]
+    private StatUpgradePanel statUpgradePanel;
 
     private bool isKnockedBack;
 
@@ -59,6 +64,12 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        if (statUpgradeController == null)
+        {
+            statUpgradeController =
+                GetComponent<StatUpgradeController>();
+        }
+
         playerInput = new PlayerInput();
 
         rb = GetComponent<Rigidbody2D>();
@@ -88,6 +99,8 @@ public class PlayerController : MonoBehaviour
 
         playerInput.Player.Interact.performed += OnInteract;
 
+        playerInput.Player.StatPanel.performed += OnStatOpen;
+
     }
     private void OnDisable()
     {
@@ -99,6 +112,8 @@ public class PlayerController : MonoBehaviour
         playerInput.Player.Attack.canceled -= OnAttackCanceled;
 
         playerInput.Player.Interact.performed -= OnInteract;
+
+        playerInput.Player.StatPanel.performed -= OnStatOpen;
 
         playerInput.Disable();
     }
@@ -155,6 +170,13 @@ public class PlayerController : MonoBehaviour
 
         OnDragEvent?.Invoke(draggingCheck);
     }
+    private void OnStatOpen(InputAction.CallbackContext ctx)
+    {
+        if (!ctx.performed)
+            return;
+
+        TryOpenStatUpgrade();
+    }
 
     private void OnAttackStarted(InputAction.CallbackContext ctx)
     {
@@ -174,6 +196,11 @@ public class PlayerController : MonoBehaviour
     private void HandleLevelUp(int level)
     {
         playerHealth.IncreaseMaxHealth(levelUpHealth);
+
+        if (statUpgradeController != null)
+        {
+            statUpgradeController.AddUpgradePoints();
+        }
     }
     private void SwordSwing()
     {
@@ -192,7 +219,40 @@ public class PlayerController : MonoBehaviour
         lastVelocity = velocity;
         lastPosition = transform.position;
     }
+    public void TryOpenStatUpgrade()
+    {
+        if (statUpgradeController == null)
+        {
+            Debug.LogWarning(
+                "StatUpgradeController не найден.",
+                this
+            );
 
+            return;
+        }
+
+        if (statUpgradePanel == null)
+        {
+            Debug.LogWarning(
+                "StatUpgradePanel не назначен.",
+                this
+            );
+
+            return;
+        }
+
+        if (!statUpgradeController.CanUseUpgradeItem)
+        {
+            Debug.Log(
+                "Нельзя открыть улучшение: " +
+                "нет предмета или очка улучшения."
+            );
+
+            return;
+        }
+
+        statUpgradePanel.Open();
+    }
     public void ApplyKnockback(
     Vector2 direction,
     float force,
