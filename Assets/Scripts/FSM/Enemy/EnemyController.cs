@@ -4,7 +4,6 @@ using UnityEngine.Rendering;
 
 public abstract class EnemyController : MonoBehaviour
 {
-    [SerializeField] private RoomAlarmController roomAlarmController;
 
     [Header("Skewered Visual")]
     [SerializeField]
@@ -27,6 +26,10 @@ public abstract class EnemyController : MonoBehaviour
 
     [SerializeField, Min(0f)]
     private float skewerHealthThreshold = 20f;
+    private RoomController roomController;
+
+    public RoomController _RoomController =>
+    roomController;
 
     public Rigidbody2D Rigidbody { get; private set; }
 
@@ -40,30 +43,13 @@ public abstract class EnemyController : MonoBehaviour
     public EnemyKnockback Knockback { get; private set; }
     public Fsm Fsm { get; private set; }
 
-    public RoomAlarmController _RoomAlarmController =>
-    roomAlarmController;
-
     public bool IsSkewered =>
     Fsm.CurrentState is FsmEnemyStateSkewered;
 
-    public bool IsSleeping { get; private set; }
+    public bool IsSleeping { get;  set; }
 
     protected virtual void Awake()
     {
-
-        if (roomAlarmController == null)
-        {
-            roomAlarmController =
-                GetComponentInParent<RoomAlarmController>();
-        }
-
-        if (roomAlarmController == null)
-        {
-            Debug.LogError(
-                $"{name}: RoomAlarmController не найден среди родителей.",
-                this
-            );
-        }
 
         Rigidbody = GetComponent<Rigidbody2D>();
         EnemyAttack = GetComponent<EnemyAttack>();
@@ -89,6 +75,11 @@ public abstract class EnemyController : MonoBehaviour
     {
         Fsm.SetState<FsmEnemyStateIdle>();
     }
+
+    public virtual void OnRoomActivated()
+    {
+        WakeUp();
+    }
     protected virtual void RegisterCommonStates()
     {
         Fsm.AddState(new FsmEnemyStateIdle(Fsm, this));
@@ -101,7 +92,13 @@ public abstract class EnemyController : MonoBehaviour
         Fsm.AddState(new FsmEnemyStatePetrified(Fsm, this));
         //Fsm.AddState(new FsmEnemyStateDead(Fsm, this));
     }
-
+    public void Initialize(
+    PlayerController playerController,
+    RoomController room)
+    {
+        player = playerController;
+        roomController = room;
+    }
     public virtual void OnDroppedFromSword()
     {
         Fsm.SetState<FsmEnemyStateIdle>();
@@ -167,22 +164,7 @@ public abstract class EnemyController : MonoBehaviour
         return health.CurHealth <=
                skewerHealthThreshold;
     }
-    public void RaiseRoomAlarm()
-    {
-        if (roomAlarmController == null)
-        {
-            Debug.LogError(
-                $"{name}: невозможно поднять тревогу — RoomAlarmController отсутствует.",
-                this
-            );
-
-            return;
-        }
-
-        Debug.Log($"{name}: поднимает тревогу комнаты", this);
-
-        roomAlarmController.RaiseAlarm();
-    }
+    
 
     public virtual void OnThrownFinished()
     {

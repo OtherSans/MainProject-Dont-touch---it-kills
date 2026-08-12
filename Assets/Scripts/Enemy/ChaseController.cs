@@ -7,6 +7,8 @@ public class ChaseController : MonoBehaviour
 {
     [SerializeField] private Transform target;
 
+    [SerializeField] private EnemyController enemy;
+
     private NavMeshAgent agent;
 
     private void Awake()
@@ -14,6 +16,8 @@ public class ChaseController : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+
+        enemy = GetComponent<EnemyController>();
     }
     private void Start()
     {
@@ -31,8 +35,8 @@ public class ChaseController : MonoBehaviour
     public void ChasePlayer()
     {
         agent.isStopped = false;
-        if(target != null)
-            agent.SetDestination(target.position);
+        if(enemy.player != null)
+            agent.SetDestination(enemy.player.transform.position);
     }
     public void StopChasing()
     {

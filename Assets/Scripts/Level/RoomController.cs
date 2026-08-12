@@ -1,72 +1,56 @@
 using System;
 using UnityEngine;
 
-public abstract class RoomController : MonoBehaviour
+public class RoomController : MonoBehaviour
 {
-    [Header("Room")]
-    [SerializeField] private string roomID;
+    private EnemyController[] enemies;
+    private PlayerController player;
 
-    [Header("Optional content")]
-    [SerializeField] private GameObject roomContent;
+    private bool isActivated;
 
-    [Header("Camera")]
-    [SerializeField] private BoxCollider2D cameraBounds;
-    public BoxCollider2D CameraBounds => cameraBounds;
+    public bool IsActivated => isActivated;
 
-    private bool isActive;
-    private bool isCompleted;
-
-    public string RoomID => roomID;
-    public bool IsActive => isActive;
-    public bool IsCompleted => isCompleted;
-
-    public event Action<RoomController> Completed;
-
-    public void EnterRoom()
+    private void Start()
     {
-        if (isActive)
+        enemies =
+            GetComponentsInChildren<EnemyController>(true);
+
+        player =
+            FindAnyObjectByType<PlayerController>();
+
+        foreach (EnemyController enemy in enemies)
+        {
+            if (enemy == null)
+                continue;
+
+            enemy.Initialize(
+                player,
+                this
+            );
+
+            // ВАЖНО:
+            // после полной инициализации принудительно усыпляем.
+            enemy.EnterSleepState();
+        }
+    }
+
+    public void ActivateRoom()
+    {
+        if (isActivated)
             return;
-        isActive = true;
-        
-        if(roomContent != null)
-            roomContent.SetActive(true);
-        OnRoomEntered();
-    }
-    public void PlayerArrived()
-    {
-        if (!isActive)
-            return;
-        OnPlayerArrived();
-    }
-    public void ExitRoom()
-    {
-        if (!isActive)
-            return;
-        isActive = false;
-        OnRoomExited();
-    }
-    protected void CompleteRoom()
-    {
-        if (isCompleted)
-            return;
-        isCompleted = true;
-        OnRoomCompleted();
-        Completed?.Invoke(this);
-    }
-    protected virtual void OnRoomEntered()
-    {
 
-    }
-    protected virtual void OnPlayerArrived()
-    {
+        isActivated = true;
 
-    }
-    protected virtual void OnRoomExited()
-    {
+        Debug.Log(
+            $"{name}: ROOM ACTIVATED"
+        );
 
-    }
-    protected virtual void OnRoomCompleted()
-    {
+        foreach (EnemyController enemy in enemies)
+        {
+            if (enemy == null)
+                continue;
 
+            enemy.OnRoomActivated();
+        }
     }
 }

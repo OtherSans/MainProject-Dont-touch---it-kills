@@ -77,42 +77,6 @@ public class PatrolerController : EnemyController
             Quaternion.Euler(0f, 0f, angle);
     }
 
-    public override void OnKnockbackFinished()
-    {
-        if (_RoomAlarmController != null &&
-            _RoomAlarmController.IsAlarmRaised)
-        {
-            StartFleeing();
-        }
-        else
-        {
-            BeginPatrol();
-        }
-    }
-    public override void OnThrownFinished()
-    {
-        if (_RoomAlarmController != null &&
-            _RoomAlarmController.IsAlarmRaised)
-        {
-            StartFleeing();
-        }
-        else
-        {
-            BeginPatrol();
-        }
-    }
-    public override void OnDroppedFromSword()
-    {
-        if (_RoomAlarmController != null &&
-            _RoomAlarmController.IsAlarmRaised)
-        {
-            StartFleeing();
-        }
-        else
-        {
-            BeginPatrol();
-        }
-    }
     protected override void RegisterSpecificStates()
     {
         Fsm.AddState(
@@ -123,18 +87,7 @@ public class PatrolerController : EnemyController
             new FsmPatrolerStateFlee(Fsm, this)
         );
     }
-    public override void OnStunFinished()
-    {
-        if (_RoomAlarmController != null &&
-        _RoomAlarmController.IsAlarmRaised)
-        {
-            StartFleeing();
-        }
-        else
-        {
-            BeginPatrol();
-        }
-    }
+
     protected override void SetInitialState()
     {
         Fsm.SetState<FsmPatrolerStatePatrol>();
@@ -148,25 +101,6 @@ public class PatrolerController : EnemyController
         Fsm.SetState<FsmPatrolerStatePatrol>();
     }
 
-    public void DetectPlayer()
-    {
-        RaiseAlarm();
-    }
-
-    public void RaiseAlarm()
-    {
-        if (_RoomAlarmController != null)
-        {
-            _RoomAlarmController.RaiseAlarm();
-            return;
-        }
-
-        /*
-         * Запасной вариант, если Patroler пока
-         * тестируется без RoomAlarmController.
-         */
-        StartFleeing();
-    }
 
     public void StartFleeing()
     {

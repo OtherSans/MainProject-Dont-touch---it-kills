@@ -37,30 +37,7 @@ public class MageController : EnemyController
             Agent.enabled = false;
         }
     }
-    public override void OnDroppedFromSword()
-    {
-        if (_RoomAlarmController != null &&
-            _RoomAlarmController.IsAlarmRaised)
-        {
-            Fsm.SetState<FsmMageStateCast>();
-        }
-        else
-        {
-            EnterSleepState();
-        }
-    }
-    public override void OnThrownFinished()
-    {
-        if (_RoomAlarmController != null &&
-            _RoomAlarmController.IsAlarmRaised)
-        {
-            Fsm.SetState<FsmMageStateCast>();
-        }
-        else
-        {
-            EnterSleepState();
-        }
-    }
+
     public override void OnSkewered()
     {
         canCast = false;
@@ -86,18 +63,6 @@ public class MageController : EnemyController
             new FsmMageStateCast(Fsm, this)
         );
     }
-    public override void OnKnockbackFinished()
-    {
-        if (_RoomAlarmController != null &&
-        _RoomAlarmController.IsAlarmRaised)
-        {
-            Fsm.SetState<FsmMageStateCast>();
-        }
-        else
-        {
-            EnterSleepState();
-        }
-    }
     protected override void SetInitialState()
     {
         /*
@@ -107,31 +72,62 @@ public class MageController : EnemyController
         Fsm.SetState<FsmEnemyStateSleep>();
     }
 
-    public override void WakeUp()
-    {
-        if (!IsSleeping)
-            return;
+    //public override void WakeUp()
+    //{
+    //    if (!IsSleeping)
+    //        return;
 
-        base.WakeUp();
+    //    base.WakeUp();
 
-        Fsm.SetState<FsmMageStateCast>();
-    }
+    //    Fsm.SetState<FsmMageStateCast>();
+    //}
 
     public override void OnStunFinished()
     {
         Fsm.SetState<FsmMageStateCast>();
     }
+    public override void OnRoomActivated()
+    {
+        Debug.Log("MageWakeUp");
+        WakeUp();
 
+        Fsm.SetState<FsmMageStateCast>();
+    }
     public void CreateAttack()
     {
+        Debug.Log(
+        $"Mage CreateAttack | " +
+        $"canCast={canCast} | " +
+        $"player={(player == null ? "NULL" : player.name)} | " +
+        $"prefab={(AttackPrefab == null ? "NULL" : AttackPrefab.name)} | " +
+        $"state={Fsm.CurrentState.GetType().Name}"
+    );
+
         if (!canCast)
             return;
 
         if (Fsm.CurrentState is FsmEnemyStateSkewered)
             return;
 
-        if (AttackPrefab == null || player == null)
+        if (AttackPrefab == null)
+        {
+            Debug.LogError(
+                $"{name}: AttackPrefab не назначен.",
+                this
+            );
+
             return;
+        }
+
+        if (player == null)
+        {
+            Debug.LogError(
+                $"{name}: PlayerController не был передан через Initialize().",
+                this
+            );
+
+            return;
+        }
 
         Vector2 randomOffset =
             Random.insideUnitCircle *

@@ -58,6 +58,13 @@ public class SwordController : MonoBehaviour
     private Transform swordBase;
     private float baseSwordWorldLength;
 
+    [Header("Door Break")]
+    [SerializeField, Min(0f)]
+    private float minDoorBreakExtensionSpeed = 3f;
+
+    [SerializeField, Range(0f, 1f)]
+    private float minDoorBreakExtension = 0.6f;
+
     private bool isExtensionBlocked;
     private float blockedLength;
 
@@ -159,7 +166,18 @@ public class SwordController : MonoBehaviour
 
         isExtensionBlocked = blocked;
     }
+    public bool CanBreakDoor()
+    {
+        float normalizedExtension =
+            Mathf.InverseLerp(
+                minLength,
+                maxLength,
+                currentLength
+            );
 
+        return ExtensionSpeed >= minDoorBreakExtensionSpeed &&
+               normalizedExtension >= minDoorBreakExtension;
+    }
     public void SetDoorExtensionBlocked(bool blocked)
     {
         if (blocked && !isDoorExtensionBlocked)

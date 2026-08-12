@@ -56,7 +56,6 @@ public class PatrolerDetectionArea : MonoBehaviour
         }
 
         playerDetected = true;
-        patroler.DetectPlayer();
     }
 
     private bool IsInsideViewAngle(

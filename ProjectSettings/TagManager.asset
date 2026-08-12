@@ -69,6 +69,9 @@ TagManager:
   - name: Environment
     uniqueID: 1177407179
     locked: 0
+  - name: FogWall
+    uniqueID: 3751475645
+    locked: 0
   m_RenderingLayers:
   - Default
   m_MigratedRenderPipelines: []

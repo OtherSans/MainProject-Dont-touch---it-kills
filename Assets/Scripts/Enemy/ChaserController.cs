@@ -20,21 +20,31 @@ public class ChaserController : EnemyController
         Fsm.AddState(new FsmEnemyStateChase(Fsm, this));
         Fsm.AddState(new FsmChaserStateIdle(Fsm, this));
     }
-
+    protected override void SetInitialState()
+    {
+        Fsm.SetState<FsmEnemyStateSleep>();
+    }
     public override void OnKnockbackFinished()
     {
         Fsm.SetState<FsmChaserStateIdle>();
     }
-    protected override void SetInitialState()
-    {
-        Fsm.SetState<FsmChaserStateIdle>();
-    }
-    public override void WakeUp()
-    {
-        if (!IsSleeping)
-            return;
+    //public override void WakeUp()
+    //{
+    //    if (!IsSleeping)
+    //        return;
 
-        base.WakeUp();
+    //    base.WakeUp();
+
+    //    Fsm.SetState<FsmChaserStateIdle>();
+    //}
+
+    public override void OnRoomActivated()
+    {
+        Debug.Log(
+        $"{name}: CHASER ACTIVATED"
+    );
+
+        WakeUp();
 
         Fsm.SetState<FsmChaserStateIdle>();
     }

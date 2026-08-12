@@ -31,8 +31,6 @@ public class EnemyKnockback : MonoBehaviour
         if (enemyContr.Fsm.CurrentState is FsmEnemyStateKnockback)
             return;
 
-        // Любой удар будит всю комнату.
-        enemyContr.RaiseRoomAlarm();
 
         // Только атакованный враг получает отбрасывание.
         enemyContr.Fsm.SetState<FsmEnemyStateKnockback>();
@@ -91,7 +89,7 @@ public class EnemyKnockback : MonoBehaviour
 
         dir =
             transform.position -
-            target.position;
+            enemyContr.player.transform.position;
 
         rb.linearVelocity =
             dir.normalized *

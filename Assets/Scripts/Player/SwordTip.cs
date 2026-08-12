@@ -43,13 +43,8 @@ public class SwordTip : MonoBehaviour
 
     private void TryProcessHit(Collider2D other)
     {
-        /*
-         * Сначала всегда проверяем дверь.
-         * Пока дверь закрыта, враг за ней вообще
-         * не должен обрабатываться SwordTip.
-         */
-        SkewerableDoor door =
-            other.GetComponentInParent<SkewerableDoor>();
+        BreakableDoor door =
+            other.GetComponentInParent<BreakableDoor>();
 
         if (door != null)
         {
@@ -60,97 +55,19 @@ public class SwordTip : MonoBehaviour
         ProcessEnemy(other);
     }
 
-    private void ProcessDoor(SkewerableDoor door)
+    private void ProcessDoor(BreakableDoor door)
     {
         if (door == null)
             return;
 
-        /*
-         * Если дверь уже находится на мече,
-         * она больше не является препятствием.
-         */
-        if (door.IsSkewered)
-        {
-            ClearDoorBlock(door);
+        if (!sword.CanBreakDoor())
             return;
-        }
 
-        /*
-         * Нельзя нанизать дверь.
-         *
-         * Например:
-         * - меч слишком медленный;
-         * - недостаточно вытянут;
-         * - на мече уже есть враг;
-         * - меч сейчас не выдвигается.
-         *
-         * В таком случае дверь работает как стена.
-         */
-        if (!sword.CanSkewerDoor())
-        {
-            BlockSwordWithDoor(door);
-            return;
-        }
+        sword.PlayImpact();
 
-        /*
-         * Пробуем нанизать.
-         */
-        bool success =
-            sword.TrySkewerDoor(
-                door,
-                playerController
-            );
-
-        if (success)
-        {
-            /*
-             * Дверь снята с прохода —
-             * больше меч не блокируем.
-             */
-            ClearDoorBlock(door);
-        }
-        else
-        {
-            /*
-             * Если по какой-либо причине
-             * TrySkewerDoor не сработал,
-             * меч всё равно не проходит насквозь.
-             */
-            BlockSwordWithDoor(door);
-        }
+        door.Break();
     }
 
-    private void BlockSwordWithDoor(
-        SkewerableDoor door)
-    {
-
-        blockingDoor = door;
-
-        sword.SetDoorExtensionBlocked(true);
-
-        // Блокируем раскачивание сквозь дверь.
-        if (door.SwordWallMaterial != null)
-        {
-            sword.OnWallHit(
-                door.SwordWallMaterial
-            );
-        }
-    }
-
-    private void ClearDoorBlock(
-        SkewerableDoor door)
-    {
-        if (blockingDoor != null &&
-        blockingDoor != door)
-        {
-            return;
-        }
-
-        blockingDoor = null;
-
-        sword.SetDoorExtensionBlocked(false);
-        sword.OnWallHitEnd();
-    }
 
     private void ProcessEnemy(Collider2D other)
     {

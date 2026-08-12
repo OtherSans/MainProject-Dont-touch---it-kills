@@ -103,10 +103,10 @@ GameObject:
   - component: {fileID: 1386876205094772991}
   - component: {fileID: 1963936397227592816}
   - component: {fileID: 7837054515196157121}
-  - component: {fileID: 1053497340092816912}
   - component: {fileID: 2488202447261638323}
+  - component: {fileID: 3296374914831338441}
   m_Layer: 0
-  m_Name: SkewerableDoor
+  m_Name: BreakableDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -202,61 +202,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &1053497340092816912
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7325419132581449870}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40463f9b72d713341a8195c0eb98dcd6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SkewerableDoor
-  visual: {fileID: 6957461672146716010}
-  blockingCollider: {fileID: 1963936397227592816}
-  rigidbody2D: {fileID: 7837054515196157121}
-  doorCollider: {fileID: 1963936397227592816}
-  navMeshObstacle: {fileID: 2488202447261638323}
-  wallSensor: {fileID: 8025078092910629462}
-  skeweredVisualRotation: 90
-  swordWallMaterial: {fileID: 11400000, guid: 0ae256271b08b1942b24b4ef578a42ec, type: 2}
-  stunRadius: 3.09
-  stunDuration: 2
-  enemyMask:
-    serializedVersion: 2
-    m_Bits: 128
-  maximumEnemies: 20
-  destroyOnInteract: 1
-  pullOutDuration: 0.2
-  pullOutCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  skeweredLocalPosition: {x: 0, y: 0, z: 0}
-  skeweredLocalRotation: 90
-  destroyDelay: 0
 --- !u!208 &2488202447261638323
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -273,6 +218,21 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &3296374914831338441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7325419132581449870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f01382d3ab96664b82da997c4bf7021, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BreakableDoor
+  destroyVfxPrefab: {fileID: 8934944676494471400, guid: c5a01ec826f1a2148aa1edad36a1b0a1, type: 3}
+  blockingCollider: {fileID: 1963936397227592816}
+  navigationBlocker: {fileID: 7325419132581449870}
 --- !u!1 &7565963750253162806
 GameObject:
   m_ObjectHideFlags: 0
@@ -365,7 +325,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5a6a403e4744b04abea64fe4e67617e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkewerableDoorWallSensor
-  door: {fileID: 1053497340092816912}
+  door: {fileID: 0}
   wallMask:
     serializedVersion: 2
     m_Bits: 1024
