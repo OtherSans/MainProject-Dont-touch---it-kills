@@ -598,6 +598,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChaseController
   target: {fileID: 0}
+  enemy: {fileID: 0}
 --- !u!114 &4719861292475305143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -610,7 +611,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3211a0ad3c6f5e478deddd68367fed4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChaserController
-  roomAlarmController: {fileID: 0}
   visual: {fileID: 5000612056213721382}
   skeweredLocalPosition: {x: 0, y: -0.2, z: 0}
   skeweredVisualRotation: 90
@@ -625,7 +625,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 2
+  m_Speed: 2.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -769,7 +769,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDeathController
   deathTime: 0.1
   currencyPrefab: {fileID: 210690828687138050, guid: 6ee62da2bf27dfe449a98e5928ac8e2d, type: 3}
-  captureController: {fileID: 0}
   experienceManager: {fileID: 0}
   experienceReward: 10
 --- !u!114 &8030622097746198836
@@ -909,5 +908,5 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.21133333}
-  m_Radius: 7.95
+  m_Offset: {x: -0.05287838, y: 0.5286083}
+  m_Radius: 14.242611
