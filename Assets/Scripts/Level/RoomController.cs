@@ -10,8 +10,26 @@ public class RoomController : MonoBehaviour
 
     public bool IsActivated => isActivated;
 
+    private LevelRoomManager levelRoomManager;
+
+    [SerializeField]
+    private BreakableDoor[] doors;
+
+    [SerializeField]
+    private RoomFog roomFog;
+
     private void Start()
     {
+        levelRoomManager =
+        FindAnyObjectByType<LevelRoomManager>();
+
+        if (levelRoomManager != null)
+        {
+            levelRoomManager.RegisterRoom(
+                this
+            );
+        }
+
         enemies =
             GetComponentsInChildren<EnemyController>(true);
 
@@ -34,6 +52,27 @@ public class RoomController : MonoBehaviour
         }
     }
 
+    public void ForceOpenRoom()
+    {
+        if (roomFog != null)
+        {
+            roomFog.Reveal();
+        }
+
+        if (doors != null)
+        {
+            foreach (BreakableDoor door in doors)
+            {
+                if (door == null)
+                    continue;
+
+                door.ForceBreak();
+            }
+        }
+
+        ActivateRoom();
+    }
+
     public void ActivateRoom()
     {
         if (isActivated)
@@ -51,6 +90,15 @@ public class RoomController : MonoBehaviour
                 continue;
 
             enemy.OnRoomActivated();
+        }
+    }
+    private void OnDestroy()
+    {
+        if (levelRoomManager != null)
+        {
+            levelRoomManager.UnregisterRoom(
+                this
+            );
         }
     }
 }

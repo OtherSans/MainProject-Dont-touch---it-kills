@@ -15,23 +15,29 @@ public class RandomRoomSlot : MonoBehaviour
     [SerializeField]
     private bool generateOnStart = true;
 
+    [SerializeField] private bool canBeShop;
+
+    [SerializeField]
+    private bool canBeKeyRoom;
+
+    [SerializeField]
+    private LayerMask roomGenerationMask;
+
+    public bool CanBeKeyRoom =>
+        canBeKeyRoom;
+
+    public bool CanBeShop => canBeShop;
+
     private GameObject spawnedRoom;
+
+    public bool HasRoom =>
+    spawnedRoom != null;
+
 
     public void GenerateRoom()
     {
         if (spawnedRoom != null)
             return;
-
-        if (roomPrefabs == null ||
-            roomPrefabs.Length == 0)
-        {
-            Debug.LogWarning(
-                $"{name}: Room Prefabs пуст.",
-                this
-            );
-
-            return;
-        }
 
         List<GameObject> validRooms =
             new List<GameObject>();
@@ -45,14 +51,7 @@ public class RandomRoomSlot : MonoBehaviour
                 prefab.GetComponent<RoomDefinition>();
 
             if (definition == null)
-            {
-                Debug.LogWarning(
-                    $"{prefab.name}: нет RoomDefinition.",
-                    prefab
-                );
-
                 continue;
-            }
 
             if (!IsSizeAllowed(definition.Size))
                 continue;
@@ -60,37 +59,43 @@ public class RandomRoomSlot : MonoBehaviour
             validRooms.Add(prefab);
         }
 
-        if (validRooms.Count == 0)
+        while (validRooms.Count > 0)
         {
-            Debug.LogWarning(
-                $"{name}: нет подходящих комнат.",
-                this
-            );
-
-            return;
-        }
-
-        GameObject selectedRoom =
-            validRooms[
+            int index =
                 Random.Range(
                     0,
                     validRooms.Count
-                )
-            ];
+                );
 
-        spawnedRoom =
-            Instantiate(
-                selectedRoom,
-                transform.position,
-                transform.rotation,
-                transform
-            );
+            GameObject candidate =
+                validRooms[index];
 
-        spawnedRoom.transform.localPosition =
-            Vector3.zero;
+            if (CanSpawnRoom(candidate))
+            {
+                spawnedRoom = Instantiate(
+                    candidate,
+                    transform.position,
+                    transform.rotation,
+                    transform
+                );
 
-        spawnedRoom.transform.localRotation =
-            Quaternion.identity;
+                spawnedRoom.transform.localPosition =
+                    Vector3.zero;
+
+                spawnedRoom.transform.localRotation =
+                    Quaternion.identity;
+
+                return;
+            }
+
+            // Этот prefab сюда не помещается.
+            validRooms.RemoveAt(index);
+        }
+
+        Debug.LogWarning(
+            $"{name}: ни одна комната не помещается.",
+            this
+        );
     }
 
     private bool IsSizeAllowed(
@@ -109,5 +114,67 @@ public class RandomRoomSlot : MonoBehaviour
         }
 
         return false;
+    }
+    public void SpawnSpecificRoom(GameObject roomPrefab)
+    {
+        if (spawnedRoom != null)
+            return;
+        if (roomPrefab == null)
+            return;
+
+        spawnedRoom = Instantiate(roomPrefab, transform.position, transform.rotation, transform);
+
+        spawnedRoom.transform.localPosition = Vector3.zero;
+
+        spawnedRoom.transform.localRotation = Quaternion.identity;
+    }
+    public bool AllowsSize(RoomSize size)
+    {
+        if (allowedSizes == null)
+            return false;
+
+        foreach (RoomSize allowed in allowedSizes)
+        {
+            if (allowed == size)
+                return true;
+        }
+
+        return false;
+    }
+
+    private bool CanSpawnRoom(
+    GameObject roomPrefab)
+    {
+        RoomDefinition definition =
+            roomPrefab.GetComponent<RoomDefinition>();
+
+        if (definition == null ||
+            definition.GenerationBounds == null)
+        {
+            return false;
+        }
+
+        BoxCollider2D bounds =
+            definition.GenerationBounds;
+
+        Vector2 worldCenter =
+            (Vector2)transform.position +
+            bounds.offset;
+
+        Vector2 worldSize =
+            Vector2.Scale(
+                bounds.size,
+                roomPrefab.transform.localScale
+            );
+
+        Collider2D hit =
+            Physics2D.OverlapBox(
+                worldCenter,
+                worldSize,
+                transform.eulerAngles.z,
+                roomGenerationMask
+            );
+
+        return hit == null;
     }
 }

@@ -60,9 +60,6 @@ TagManager:
   - name: Wall
     uniqueID: 270182633
     locked: 0
-  - name: PlayerUI
-    uniqueID: 1151714867
-    locked: 0
   - name: Currency
     uniqueID: 4022065639
     locked: 0
@@ -71,6 +68,9 @@ TagManager:
     locked: 0
   - name: FogWall
     uniqueID: 3751475645
+    locked: 0
+  - name: PlayerUI
+    uniqueID: 1151714867
     locked: 0
   m_RenderingLayers:
   - Default

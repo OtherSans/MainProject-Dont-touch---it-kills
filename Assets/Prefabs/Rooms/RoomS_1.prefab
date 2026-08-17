@@ -206,6 +206,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad2086bb8de318048a1738821beb19b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomController
+  doors:
+  - {fileID: 8500282492096622742}
+  roomFog: {fileID: 8173752967353776055}
 --- !u!114 &4089933111968132290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,6 +222,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RoomDefinition
   size: 0
+  type: 0
+  generationBounds: {fileID: 7415618566614396378}
 --- !u!1 &2045188882725306848
 GameObject:
   m_ObjectHideFlags: 0
@@ -298,7 +303,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -543491651
-  m_SortingLayer: 9
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
@@ -646,7 +651,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5737043923174563516}
-  - component: {fileID: 3606154828075005186}
+  - component: {fileID: 7415618566614396378}
   m_Layer: 0
   m_Name: GenerationBounds
   m_TagString: Untagged
@@ -669,8 +674,8 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4796320026755685515}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!60 &3606154828075005186
-PolygonCollider2D:
+--- !u!61 &7415618566614396378
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -703,7 +708,7 @@ PolygonCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 1.1535811, y: 2.3238795}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -713,14 +718,8 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -4.400486, y: 7.2006836}
-      - {x: -4.4529486, y: -0.09283945}
-      - {x: -4.4604526, y: -2.5175467}
-      - {x: 6.8523936, y: -2.5175464}
-      - {x: 6.81837, y: 7.194832}
-  m_UseDelaunayMesh: 1
+  m_Size: {x: 11.800191, y: 10.328957}
+  m_EdgeRadius: 0
 --- !u!1 &6425899362476569068
 GameObject:
   m_ObjectHideFlags: 0
@@ -1100,3 +1099,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1386876205094772991, guid: 852e15f09d41c764fa79f92f88d68a49, type: 3}
   m_PrefabInstance: {fileID: 6361337114979990367}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8500282492096622742 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3296374914831338441, guid: 852e15f09d41c764fa79f92f88d68a49, type: 3}
+  m_PrefabInstance: {fileID: 6361337114979990367}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f01382d3ab96664b82da997c4bf7021, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BreakableDoor

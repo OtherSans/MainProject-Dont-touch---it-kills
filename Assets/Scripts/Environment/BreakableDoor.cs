@@ -26,6 +26,24 @@ public class BreakableDoor : MonoBehaviour
                 GetComponentInParent<RoomFog>();
         }
     }
+    public void ForceBreak()
+    {
+        if (isDestroyed)
+            return;
+
+        isDestroyed = true;
+
+        if (destroyVfxPrefab != null)
+        {
+            Instantiate(
+                destroyVfxPrefab,
+                transform.position,
+                transform.rotation
+            );
+        }
+
+        Destroy(gameObject);
+    }
     public void Break()
     {
         if (isDestroyed)

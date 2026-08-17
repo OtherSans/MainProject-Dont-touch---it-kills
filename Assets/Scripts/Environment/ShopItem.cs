@@ -5,20 +5,25 @@ using UnityEngine;
 public class ShopItem : MonoBehaviour
 {
     [Header("Price")]
-    [SerializeField] private int price;
-    [SerializeField] private CurrencyCollector wallet;
+    [SerializeField, Min(0)]
+    private int price;
 
     [Header("UI")]
-    [SerializeField] private TextMeshProUGUI priceText;
+    [SerializeField]
+    private TextMeshProUGUI priceText;
 
     [Header("Selection")]
-    [SerializeField] private float minSwordExtension;
+    [SerializeField, Range(0f, 1f)]
+    private float minSwordExtension;
 
     private bool isPurchased;
 
     private void Start()
     {
-        priceText.text = price.ToString();
+        if(priceText != null)
+        { 
+            priceText.text = price.ToString(); 
+        }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -38,9 +43,30 @@ public class ShopItem : MonoBehaviour
         if (detector == null)
             return;
 
+        if (!detector.CanPurchase())
+            return;
+
         SwordController touchingSword = detector.Sword;
+        if (touchingSword == null)
+            return;
         if (touchingSword.ExtensionNormalized < minSwordExtension)
             return;
+
+        PlayerController player = touchingSword.GetComponentInParent<PlayerController>();
+        if (player == null)
+            return;
+
+        CurrencyCollector wallet = player.GetComponent<CurrencyCollector>();
+
+        if(wallet == null)
+        {
+            Debug.LogWarning(
+               "На Player нет CurrencyCollector.",
+               player
+           );
+
+            return;
+        }
 
         if (!wallet.TrySpendCurrency(price))
         {
@@ -49,15 +75,16 @@ public class ShopItem : MonoBehaviour
         }
             
         detector.RegisterPurchase();
-        ApplyPurchase(touchingSword);
+        ApplyPurchase(player, touchingSword);
 
     }
 
-    private void ApplyPurchase(SwordController touchingSword)
+    private void ApplyPurchase(PlayerController player, SwordController touchingSword)
     {
         isPurchased = true;
         Debug.Log($"Товар куплен за {price} монет");
-        priceText.text = "Куплено";
+        if (priceText != null)
+            priceText.text = "Куплено";
         Destroy(gameObject);
     }
 }

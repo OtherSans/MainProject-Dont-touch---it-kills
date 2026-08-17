@@ -63,6 +63,10 @@ public class MageController : EnemyController
             new FsmMageStateCast(Fsm, this)
         );
     }
+    public override void OnKnockbackFinished()
+    {
+        Fsm.SetState<FsmMageStateCast>();
+    }
     protected override void SetInitialState()
     {
         /*

@@ -47,16 +47,28 @@ public class SwordController : MonoBehaviour
     [SerializeField]
     private float wallResistance = 20f;
 
+    [Header("Swing Wall Collision")]
+    [SerializeField]
+    private LayerMask swingWallMask;
+
+    [SerializeField, Min(0f)]
+    private float swingWallOffset = 0.02f;
+
     [Header("Sword wall blocking")]
     [SerializeField]
     private LayerMask swordObstacleMask;
+
+    [SerializeField, Min(0.01f)]
+    private float swordCollisionRadius = 0.1f;
+
     [SerializeField, Min(0f)]
     private float wallOffset = 0.05f;
-    [SerializeField, Min(0f)]
+
+    [SerializeField, Min(0.01f)]
     private float swordLengthMultiplier = 1f;
+
     [SerializeField]
     private Transform swordBase;
-    private float baseSwordWorldLength;
 
     [Header("Door Break")]
     [SerializeField, Min(0f)]
@@ -224,10 +236,6 @@ public class SwordController : MonoBehaviour
         }
         else if (isExtensionBlocked || isDoorExtensionBlocked)
         {
-            /*
-             * Если одновременно мешают и стена, и дверь,
-             * берём ближайшее ограничение.
-             */
             float allowedLength = maxLength;
 
             if (isExtensionBlocked)
@@ -258,30 +266,61 @@ public class SwordController : MonoBehaviour
                 : minLength;
         }
 
-        float speed = targetLength > currentLength
-            ? extendSpeed
-            : retractSpeed;
+        /*
+         * ВАЖНО:
+         * Если меч сейчас должен быть вытянут,
+         * проверяем, сколько места реально есть
+         * перед ним до стены.
+         *
+         * Эта проверка работает не только во время
+         * выдвижения, но и когда уже вытянутый меч
+         * поворачивается в стену.
+         */
+        if (wantsToAttack &&
+            targetLength > minLength)
+        {
+            float wallAllowedLength =
+                GetAllowedSwordLength(
+                    targetLength
+                );
 
-        previousLength = currentLength;
+            targetLength =
+                Mathf.Min(
+                    targetLength,
+                    wallAllowedLength
+                );
+        }
 
-        currentLength = Mathf.MoveTowards(
-            currentLength,
-            targetLength,
-            speed * Time.deltaTime
-        );
+        float speed =
+            targetLength > currentLength
+                ? extendSpeed
+                : retractSpeed;
 
-        if (Time.deltaTime > Mathf.Epsilon)
+        previousLength =
+            currentLength;
+
+        currentLength =
+            Mathf.MoveTowards(
+                currentLength,
+                targetLength,
+                speed * Time.deltaTime
+            );
+
+        if (Time.deltaTime >
+            Mathf.Epsilon)
         {
             ExtensionSpeed =
-                (currentLength - previousLength) /
+                (currentLength -
+                 previousLength) /
                 Time.deltaTime;
         }
 
-        sword.localScale = new Vector3(
-            sword.localScale.x,
-            currentLength,
-            sword.localScale.z
-        );
+        sword.localScale =
+            new Vector3(
+                sword.localScale.x,
+                currentLength,
+                sword.localScale.z
+            );
     }
     private bool CanExtendSword(bool wantsToAttack)
     {
@@ -311,41 +350,55 @@ public class SwordController : MonoBehaviour
 
         return staminaController.TrySpend(cost);
     }
-    private float GetAllowedSwordLength(float desiredLength)
+    private float GetAllowedSwordLength(
+     float desiredLength)
     {
-        // При втягивании стену проверять не нужно.
-        if (desiredLength <= currentLength)
-            return desiredLength;
+        Vector2 origin =
+        swordBase != null
+            ? swordBase.position
+            : transform.position;
 
-        Vector2 origin = transform.position;
+        Vector2 direction =
+            -transform.up;
 
-        /*
-         * У тебя направление нанизывания было -transform.up,
-         * поэтому используем такое же направление.
-         */
-        Vector2 direction = -transform.up;
+        // Реальная текущая длина меча в world space.
+        float currentWorldLength =
+            Vector2.Distance(
+                origin,
+                skewerPoint.position
+            );
+
+        // Определяем, сколько world units
+        // приходится на 1 единицу currentLength.
+        float worldPerLengthUnit =
+            currentLength > Mathf.Epsilon
+                ? currentWorldLength / currentLength
+                : 1f;
 
         float desiredWorldDistance =
-            desiredLength * swordLengthMultiplier;
+            desiredLength *
+            worldPerLengthUnit;
 
-        RaycastHit2D hit = Physics2D.Raycast(
-            origin,
-            direction,
-            desiredWorldDistance,
-            swordObstacleMask
-        );
+        RaycastHit2D hit =
+            Physics2D.Raycast(
+                origin,
+                direction,
+                desiredWorldDistance,
+                swordObstacleMask
+            );
 
         if (hit.collider == null)
             return desiredLength;
 
         float allowedWorldDistance =
             Mathf.Max(
-                minLength * swordLengthMultiplier,
+                0f,
                 hit.distance - wallOffset
             );
 
         float allowedLength =
-            allowedWorldDistance / swordLengthMultiplier;
+            allowedWorldDistance /
+            worldPerLengthUnit;
 
         return Mathf.Clamp(
             allowedLength,
@@ -427,10 +480,74 @@ public class SwordController : MonoBehaviour
             }
         }
 
+        nextAngle = ClampSwingAngleByWalls(
+    angle,
+    nextAngle
+);
+
         angle = nextAngle;
 
         transform.localRotation =
             Quaternion.Euler(0f, 0f, angle);
+    }
+
+    private float ClampSwingAngleByWalls(
+    float currentAngle,
+    float desiredAngle)
+    {
+        if (skewerPoint == null)
+            return desiredAngle;
+
+        Vector2 pivot =
+            swordBase != null
+                ? swordBase.position
+                : transform.position;
+
+        Vector2 currentTip =
+            skewerPoint.position;
+
+        float angleDelta =
+            desiredAngle - currentAngle;
+
+        Quaternion rotation =
+            Quaternion.Euler(
+                0f,
+                0f,
+                angleDelta
+            );
+
+        Vector2 currentOffset =
+            currentTip - pivot;
+
+        Vector2 desiredOffset =
+            rotation * currentOffset;
+
+        Vector2 desiredTip =
+            pivot + desiredOffset;
+
+        Vector2 move =
+            desiredTip - currentTip;
+
+        float distance =
+            move.magnitude;
+
+        if (distance <= Mathf.Epsilon)
+            return desiredAngle;
+
+        RaycastHit2D hit =
+            Physics2D.Raycast(
+                currentTip,
+                move.normalized,
+                distance + swingWallOffset,
+                swingWallMask
+            );
+
+        if (hit.collider == null)
+            return desiredAngle;
+
+        angularVelocity = 0f;
+
+        return currentAngle;
     }
 
     #endregion
