@@ -625,7 +625,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 2.5
+  m_Speed: 4
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -770,7 +770,7 @@ MonoBehaviour:
   deathTime: 0.1
   currencyPrefab: {fileID: 210690828687138050, guid: 6ee62da2bf27dfe449a98e5928ac8e2d, type: 3}
   experienceManager: {fileID: 0}
-  experienceReward: 10
+  experienceReward: 50
 --- !u!114 &8030622097746198836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -909,4 +909,4 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: -0.05287838, y: 0.5286083}
-  m_Radius: 14.242611
+  m_Radius: 50

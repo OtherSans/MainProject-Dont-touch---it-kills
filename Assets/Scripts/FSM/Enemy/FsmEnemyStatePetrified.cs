@@ -13,7 +13,8 @@ public class FsmEnemyStatePetrified : FsmState
         enemy.Rigidbody.linearVelocity = Vector2.zero;
         enemy.Rigidbody.angularVelocity = 0f;
         enemy.EnemyUI.enabled = false;
-        enemy.Agent.isStopped = true;
+        if(enemy.Agent != null)
+            enemy.Agent.isStopped = true;
     }
     public override void Exit()
     { 

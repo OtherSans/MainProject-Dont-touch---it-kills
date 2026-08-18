@@ -11,19 +11,29 @@ public class MageController : EnemyController
 
     [SerializeField, Min(0.1f)]
     private float attackInterval = 3f;
+    [SerializeField, Min(0f)]
+    private float attackIntervalRandom = 0.4f;  
 
     [SerializeField, Min(0f)]
-    private float firstAttackDelay = 1f;
+    private float minFirstAttackDelay = 0.5f;
+
+    [SerializeField, Min(0f)]
+    private float maxFirstAttackDelay = 1.5f;
 
     [SerializeField, Min(0f)]
     private float positionRandomRadius = 1f;
+
+    public float RandomFirstAttackDelay =>
+    Random.Range(
+        minFirstAttackDelay,
+        maxFirstAttackDelay
+    );
 
     private bool canCast = true;
 
     public MageAreaAttack AttackPrefab => attackPrefab;
     public Transform AttackContainer => attackContainer;
     public float AttackInterval => attackInterval;
-    public float FirstAttackDelay => firstAttackDelay;
     public float PositionRandomRadius => positionRandomRadius;
 
     protected override void Awake()
@@ -49,7 +59,14 @@ public class MageController : EnemyController
         if (EnemyAttack != null)
             EnemyAttack.enabled = false;
     }
-
+    public float GetNextAttackInterval()
+    {
+        return attackInterval +
+            Random.Range(
+                -attackIntervalRandom,
+                attackIntervalRandom
+            );
+    }
     public override void OnUnskewered()
     {
         canCast = true;
@@ -65,6 +82,9 @@ public class MageController : EnemyController
     }
     public override void OnKnockbackFinished()
     {
+        if (IsPetrified)
+            return;
+
         Fsm.SetState<FsmMageStateCast>();
     }
     protected override void SetInitialState()
@@ -88,10 +108,16 @@ public class MageController : EnemyController
 
     public override void OnStunFinished()
     {
+        if (IsPetrified)
+            return;
+
         Fsm.SetState<FsmMageStateCast>();
     }
     public override void OnRoomActivated()
     {
+        if (IsPetrified)
+            return;
+
         Debug.Log("MageWakeUp");
         WakeUp();
 

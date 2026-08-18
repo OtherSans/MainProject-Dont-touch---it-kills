@@ -9,8 +9,6 @@ public class LevelKey : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log($"KEY touched by: {other.name}");
-
         TryCollect(other);
     }
 
@@ -24,33 +22,21 @@ public class LevelKey : MonoBehaviour
         if (isCollected)
             return;
 
-        Debug.Log($"KEY touched by: {other.name}");
-
         SwordShopDetector detector =
             other.GetComponent<SwordShopDetector>();
 
         if (detector == null)
-        {
-            Debug.Log("Нет SwordShopDetector");
             return;
-        }
 
         SwordController sword =
             detector.Sword;
 
         if (sword == null)
-        {
-            Debug.Log("У detector нет Sword");
             return;
-        }
 
-        Debug.Log(
-            $"Sword extension = {sword.ExtensionNormalized}"
-        );
-
-        if (sword.ExtensionNormalized < minSwordExtension)
+        if (sword.ExtensionNormalized <
+            minSwordExtension)
         {
-            Debug.Log("Меч недостаточно вытянут");
             return;
         }
 
@@ -58,17 +44,18 @@ public class LevelKey : MonoBehaviour
             sword.GetComponentInParent<PlayerController>();
 
         if (player == null)
-        {
-            Debug.Log("PlayerController не найден");
             return;
-        }
 
         PlayerLevelKeyController keyController =
             player.GetComponent<PlayerLevelKeyController>();
 
         if (keyController == null)
         {
-            Debug.Log("PlayerLevelKeyController не найден");
+            Debug.LogError(
+                "PlayerLevelKeyController не найден.",
+                player
+            );
+
             return;
         }
 
@@ -77,17 +64,21 @@ public class LevelKey : MonoBehaviour
 
         if (roomManager == null)
         {
-            Debug.Log("LevelRoomManager НЕ НАЙДЕН");
+            Debug.LogError(
+                "LevelRoomManager не найден.",
+                this
+            );
+
             return;
         }
-
-        Debug.Log("KEY COLLECTED");
 
         isCollected = true;
 
         keyController.GiveKey();
 
         roomManager.ActivateKeyPhase();
+
+        Debug.Log("KEY COLLECTED");
 
         Destroy(gameObject);
     }

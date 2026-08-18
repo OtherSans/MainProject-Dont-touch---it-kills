@@ -26,6 +26,9 @@ public class BreakableDoor : MonoBehaviour
                 GetComponentInParent<RoomFog>();
         }
     }
+
+    // Используется ключом:
+    // дверь уничтожается, но XP за исследование НЕ даётся.
     public void ForceBreak()
     {
         if (isDestroyed)
@@ -44,6 +47,8 @@ public class BreakableDoor : MonoBehaviour
 
         Destroy(gameObject);
     }
+
+    // Используется, когда игрок сам ломает дверь мечом.
     public void Break()
     {
         if (isDestroyed)
@@ -55,7 +60,10 @@ public class BreakableDoor : MonoBehaviour
             roomFog.Reveal();
 
         if (roomController != null)
+        {
             roomController.ActivateRoom();
+            roomController.GiveDiscoveryExperience();
+        }
 
         if (destroyVfxPrefab != null)
         {

@@ -43,6 +43,7 @@ public abstract class EnemyController : MonoBehaviour
     public EnemyKnockback Knockback { get; private set; }
     public Fsm Fsm { get; private set; }
 
+    public bool IsPetrified { get; private set; }
     public bool IsSkewered =>
     Fsm.CurrentState is FsmEnemyStateSkewered;
 
@@ -76,8 +77,19 @@ public abstract class EnemyController : MonoBehaviour
         Fsm.SetState<FsmEnemyStateIdle>();
     }
 
+    public void Petrify()
+    {
+        if (IsPetrified)
+            return;
+
+        IsPetrified = true;
+
+        Fsm.SetState<FsmEnemyStatePetrified>();
+    }
+
     public virtual void OnRoomActivated()
     {
+
         WakeUp();
     }
     protected virtual void RegisterCommonStates()

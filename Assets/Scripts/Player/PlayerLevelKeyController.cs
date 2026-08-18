@@ -6,6 +6,7 @@ public class PlayerLevelKeyController : MonoBehaviour
     public bool HasKey { get; private set; }
 
     public event Action KeyCollected;
+    public event Action KeyUsed;
 
     public void GiveKey()
     {
@@ -15,12 +16,19 @@ public class PlayerLevelKeyController : MonoBehaviour
         HasKey = true;
 
         KeyCollected?.Invoke();
-
-        Debug.Log("Ключ от выхода получен!");
     }
 
-    public void RemoveKey()
+    public bool TryUseKey()
     {
+        if (!HasKey)
+            return false;
+
         HasKey = false;
+
+        KeyUsed?.Invoke();
+
+        Debug.Log("Ключ использован.");
+
+        return true;
     }
 }

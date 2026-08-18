@@ -24,8 +24,8 @@ TagManager:
   - Player
   - MovementObstacle
   - Spikes
-  - 
-  - 
+  - RoomGeneration
+  - Interactable
   - 
   - 
   - 

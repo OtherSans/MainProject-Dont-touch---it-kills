@@ -8,6 +8,14 @@ public class SwordShopDetector : MonoBehaviour
 
     private float nextPurchaseTime;
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        Debug.Log(
+            $"SWORD TIP TRIGGERED: {other.name}",
+            this
+        );
+    }
+
     public bool CanPurchase()
     {
         return Time.time >= nextPurchaseTime;

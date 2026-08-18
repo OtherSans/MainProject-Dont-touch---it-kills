@@ -20,7 +20,8 @@ public class FsmMageStateCast : FsmState
         Debug.Log("Mage Cast State [ENTER]");
 
         firstAttack = true;
-        attackTimer = mage.FirstAttackDelay;
+        attackTimer =
+    mage.RandomFirstAttackDelay;
 
         if (mage.Rigidbody != null)
         {
@@ -49,7 +50,9 @@ public class FsmMageStateCast : FsmState
         mage.CreateAttack();
 
         firstAttack = false;
-        attackTimer = mage.AttackInterval;
+
+        attackTimer =
+    mage.GetNextAttackInterval();
     }
 
     public override void Exit()

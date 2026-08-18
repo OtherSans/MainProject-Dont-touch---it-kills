@@ -13,6 +13,9 @@ public class ChaserController : EnemyController
     }
     public override void OnDroppedFromSword()
     {
+        if (IsPetrified)
+            return;
+
         Fsm.SetState<FsmChaserStateIdle>();
     }
     protected override void RegisterSpecificStates()
@@ -22,10 +25,14 @@ public class ChaserController : EnemyController
     }
     protected override void SetInitialState()
     {
+
         Fsm.SetState<FsmEnemyStateSleep>();
     }
     public override void OnKnockbackFinished()
     {
+        if (IsPetrified)
+            return;
+
         Fsm.SetState<FsmChaserStateIdle>();
     }
     //public override void WakeUp()
@@ -40,6 +47,9 @@ public class ChaserController : EnemyController
 
     public override void OnRoomActivated()
     {
+        if (IsPetrified)
+            return;
+
         Debug.Log(
         $"{name}: CHASER ACTIVATED"
     );
@@ -54,6 +64,9 @@ public class ChaserController : EnemyController
     }
     public override void OnStunFinished()
     {
+        if (IsPetrified)
+            return;
+
         Fsm.SetState<FsmChaserStateIdle>();
     }
 }

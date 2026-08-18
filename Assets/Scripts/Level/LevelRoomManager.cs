@@ -19,6 +19,42 @@ public class LevelRoomManager : MonoBehaviour
 
         rooms.Add(room);
     }
+    public void GiveKeyCompletionExperience()
+    {
+        int totalExperience = 0;
+
+        foreach (RoomController room in rooms)
+        {
+            if (room == null)
+                continue;
+
+            totalExperience +=
+                room.GiveKeyCompletionExperience();
+        }
+
+        Debug.Log(
+            $"XP за доставку ключа: +{totalExperience}"
+        );
+    }
+
+    public void PetrifyAllEnemies()
+    {
+        Debug.Log(
+        $"PETRIFY ALL ENEMIES | rooms = {rooms.Count}"
+    );
+
+        foreach (RoomController room in rooms)
+        {
+            if (room == null)
+                continue;
+
+            Debug.Log(
+                $"Petrify room: {room.name}"
+            );
+
+            room.PetrifyAllEnemies();
+        }
+    }
 
     public void UnregisterRoom(
         RoomController room)

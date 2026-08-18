@@ -261,15 +261,32 @@ public class LevelGenerator : MonoBehaviour
     }
     private void ValidateLevel()
     {
-        LevelKey key =
-        FindAnyObjectByType<LevelKey>();
+        LevelKey[] keys =
+        FindObjectsByType<LevelKey>(
+            FindObjectsInactive.Include
+        );
 
-        if (key == null)
+        if (keys.Length == 0)
         {
             Debug.LogError(
-                "КРИТИЧЕСКАЯ ОШИБКА: " +
-                "уровень создан без ключа!"
+                "КРИТИЧЕСКАЯ ОШИБКА: уровень создан без ключа!"
             );
+
+            return;
         }
+
+        if (keys.Length > 1)
+        {
+            Debug.LogError(
+                $"КРИТИЧЕСКАЯ ОШИБКА: " +
+                $"на уровне создано ключей: {keys.Length}"
+            );
+
+            return;
+        }
+
+        Debug.Log(
+            "LEVEL VALIDATION: ключ создан корректно."
+        );
     }
 }
