@@ -39,5 +39,7 @@ public class EnemyExperienceReward : MonoBehaviour
         }
 
         GameManager.Instance.Experience.AddExperience(experienceReward);
+
+        EnemyKillEvents.ReportKill();
     }
 }

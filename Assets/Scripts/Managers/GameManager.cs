@@ -4,6 +4,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    public RunData Run { get; private set; } =
+    new RunData();
+
     [Header("Systems")]
     [SerializeField] private XPManager experience;
 

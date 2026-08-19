@@ -7,6 +7,18 @@ public class DraggingController : MonoBehaviour
 {
     [SerializeField] private PlayerController playerController;
 
+
+    [Header("Movement Stats")]
+
+    [SerializeField, Min(0.1f)]
+    private float permanentSpeedMultiplier = 1f;
+
+    private float temporarySpeedMultiplier = 1f;
+
+    private float CurrentSpeedMultiplier =>
+        permanentSpeedMultiplier *
+        temporarySpeedMultiplier;
+
     private Vector2 storedEdgeDirection;
 
     [Header("Camera edge movement")]
@@ -128,9 +140,10 @@ public class DraggingController : MonoBehaviour
             dragSensitivity;
 
         dragMovement = Vector2.ClampMagnitude(
-            dragMovement,
-            maxDragDistancePerFrame
-        );
+    dragMovement,
+    maxDragDistancePerFrame *
+    CurrentSpeedMultiplier
+);
 
         MoveWithCollisions(dragMovement);
     }
@@ -149,9 +162,10 @@ public class DraggingController : MonoBehaviour
             return;
 
         Vector2 movement =
-            edgeMoveDirection *
-            edgeMoveSpeed *
-            Time.fixedDeltaTime;
+    edgeMoveDirection *
+    edgeMoveSpeed *
+    CurrentSpeedMultiplier *
+    Time.fixedDeltaTime;
 
         MoveWithCollisions(movement);
     }
@@ -350,5 +364,25 @@ public class DraggingController : MonoBehaviour
             rb.position +
             direction * allowedDistance
         );
+    }
+    public void IncreaseMovementSpeed(
+    float percent)
+    {
+        if (percent <= 0f)
+            return;
+
+        permanentSpeedMultiplier += percent;
+
+        Debug.Log(
+            $"Movement speed increased by {percent * 100f}%. " +
+            $"Multiplier: {permanentSpeedMultiplier:F2}"
+        );
+    }
+
+    public void SetTemporarySpeedMultiplier(
+    float multiplier)
+    {
+        temporarySpeedMultiplier =
+            Mathf.Max(0f, multiplier);
     }
 }

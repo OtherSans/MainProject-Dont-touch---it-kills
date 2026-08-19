@@ -1,6 +1,7 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class LevelExit : MonoBehaviour
+public class LevelExit : MonoBehaviour, IInteractable
 {
     [SerializeField]
     private LevelRoomManager roomManager;
@@ -15,6 +16,8 @@ public class LevelExit : MonoBehaviour
     private GameObject completedVisual;
 
     private bool isCompleted;
+
+    private bool playerInside;
 
     private void Awake()
     {
@@ -41,6 +44,15 @@ public class LevelExit : MonoBehaviour
     private void OnTriggerEnter2D(
         Collider2D other)
     {
+        PlayerController player = other.GetComponent<PlayerController>();
+
+        if (player == null)
+            return;
+
+        playerInside = true;
+
+        player.SetInteractable(this);
+
         if (isCompleted)
             return;
 
@@ -59,6 +71,18 @@ public class LevelExit : MonoBehaviour
         CompleteLevel(
             keyController
         );
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        PlayerController player = collision.GetComponent<PlayerController>();
+
+        if (player == null)
+            return;
+
+        playerInside = false;
+
+        player.ClearInteractable(this);
     }
 
     private void CompleteLevel(
@@ -85,5 +109,39 @@ public class LevelExit : MonoBehaviour
 
 
         Debug.Log("LEVEL COMPLETED");
+    }
+
+    public void Interact(PlayerController player)
+    {
+        if (!isCompleted)
+            return;
+        PlayerRunState runState =
+    player.GetComponent<PlayerRunState>();
+
+        if (runState != null)
+            runState.Save();
+
+        LoadNextLevel();
+    }
+
+    private void LoadNextLevel()
+    {
+        int currentScene =
+        SceneManager.GetActiveScene().buildIndex;
+
+        int nextScene =
+            currentScene + 1;
+
+        if (nextScene >=
+            SceneManager.sceneCountInBuildSettings)
+        {
+            Debug.Log(
+                "Это последняя сцена на сегодня."
+            );
+
+            return;
+        }
+
+        SceneManager.LoadScene(nextScene);
     }
 }

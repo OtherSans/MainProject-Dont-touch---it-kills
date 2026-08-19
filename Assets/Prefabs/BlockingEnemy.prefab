@@ -75,94 +75,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1 &706934244712550064
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4521842198633384987}
-  - component: {fileID: 7968987072789174249}
-  - component: {fileID: 6250912552749784625}
-  m_Layer: 7
-  m_Name: DetectionArea
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4521842198633384987
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 706934244712550064}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7300518119877524873}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &7968987072789174249
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 706934244712550064}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 256
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.21133333}
-  m_Radius: 4.27
---- !u!114 &6250912552749784625
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 706934244712550064}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c09337a5cccb6e44a238516911810e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PatrolerDetectionArea
-  patroler: {fileID: 5958958246328694859}
-  viewDirection: {fileID: 4993252243285158764}
-  viewAngle: 90
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 1024
-  requireLineOfSight: 1
 --- !u!1 &1152559678536473201
 GameObject:
   m_ObjectHideFlags: 0
@@ -238,37 +150,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1 &2203753973960310263
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4993252243285158764}
-  m_Layer: 7
-  m_Name: ViewDirection
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4993252243285158764
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2203753973960310263}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7300518119877524873}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2468084996657762917
 GameObject:
   m_ObjectHideFlags: 0
@@ -616,7 +497,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7300518119877524873}
   - component: {fileID: 1932460603141356040}
-  - component: {fileID: 1814729246321082723}
   - component: {fileID: 2365580520495923154}
   - component: {fileID: 6000066984397956659}
   - component: {fileID: 8076178234910619695}
@@ -625,10 +505,10 @@ GameObject:
   - component: {fileID: 4858727553481502405}
   - component: {fileID: 993294684267658747}
   - component: {fileID: 223632690560928479}
-  - component: {fileID: 927025761060801586}
-  - component: {fileID: 5958958246328694859}
+  - component: {fileID: 7465925285601656931}
+  - component: {fileID: 6281469801396424327}
   m_Layer: 7
-  m_Name: PatrolEnemy
+  m_Name: BlockingEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -648,8 +528,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5959023255519672748}
-  - {fileID: 4521842198633384987}
-  - {fileID: 4993252243285158764}
   - {fileID: 2526902744361626947}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -703,28 +581,6 @@ PolygonCollider2D:
       - {x: -0.5, y: -0.28866667}
       - {x: 0.5, y: -0.28866667}
   m_UseDelaunayMesh: 1
---- !u!195 &1814729246321082723
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7708130122621750826}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 1.4226667
-  m_BaseOffset: 0.71133333
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!114 &2365580520495923154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -824,10 +680,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyKnockback
   rb: {fileID: 6000066984397956659}
-  enemyContr: {fileID: 5958958246328694859}
+  enemyContr: {fileID: 0}
   target: {fileID: 0}
-  force: 30
-  knockbackTimer: 0.3
+  force: 5
+  knockbackTimer: 0.1
   timer: 0
   knockbackIsRunning: 0
 --- !u!114 &5864136180314998026
@@ -844,7 +700,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDeathController
   deathTime: 0.1
   currencyPrefab: {fileID: 210690828687138050, guid: 6ee62da2bf27dfe449a98e5928ac8e2d, type: 3}
-  captureController: {fileID: 0}
   experienceManager: {fileID: 0}
   experienceReward: 10
 --- !u!114 &8172964439974731324
@@ -901,11 +756,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25155464bad7c7a47b2c101c37139b1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkeweredEnemyInteractable
-  enemy: {fileID: 5958958246328694859}
+  enemy: {fileID: 6281469801396424327}
   enemyHealth: {fileID: 2365580520495923154}
   consumeEffects:
-  - {fileID: 927025761060801586}
---- !u!114 &927025761060801586
+  - {fileID: 7465925285601656931}
+--- !u!114 &7465925285601656931
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -914,11 +769,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7708130122621750826}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d79572d50ff70f42b133dd328d3fcc8, type: 3}
+  m_Script: {fileID: 11500000, guid: 0b08506fbf83d3a488f27fe885b5be16, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InvincibilityConsumeEffect
-  duration: 3
---- !u!114 &5958958246328694859
+  m_EditorClassIdentifier: Assembly-CSharp::HealConsumeEffect
+  healAmount: 2
+--- !u!114 &6281469801396424327
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -927,22 +782,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7708130122621750826}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf5a8900925d9994e897af59d9124cd6, type: 3}
+  m_Script: {fileID: 11500000, guid: df64106dad99986499f3801a63e66b72, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PatrolerController
-  roomAlarmController: {fileID: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::BlockerController
   visual: {fileID: 2526902744361626947}
   skeweredLocalPosition: {x: 0, y: -0.2, z: 0}
   skeweredVisualRotation: 90
   skewerHealthThreshold: 20
-  patrolPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  viewDirection: {fileID: 4993252243285158764}
-  patrolSpeed: 2
-  pointReachDistance: 0.25
-  waitAtPoint: 0.5
-  fleeSpeed: 4
-  fleeDistance: 5
-  pathRefreshInterval: 0.15
-  navMeshSearchRadius: 2

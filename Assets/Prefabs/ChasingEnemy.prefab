@@ -509,7 +509,7 @@ GameObject:
   - component: {fileID: 7461294674369220780}
   - component: {fileID: 3997564240427770861}
   - component: {fileID: 713967913716512363}
-  - component: {fileID: 320641867035091716}
+  - component: {fileID: 2116256219638948233}
   m_Layer: 7
   m_Name: ChasingEnemy
   m_TagString: Enemy
@@ -828,8 +828,8 @@ MonoBehaviour:
   enemy: {fileID: 4719861292475305143}
   enemyHealth: {fileID: 7938760148144071629}
   consumeEffects:
-  - {fileID: 320641867035091716}
---- !u!114 &320641867035091716
+  - {fileID: 2116256219638948233}
+--- !u!114 &2116256219638948233
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -838,10 +838,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4762742735004683172}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b08506fbf83d3a488f27fe885b5be16, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d79572d50ff70f42b133dd328d3fcc8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HealConsumeEffect
-  healAmount: 10
+  m_EditorClassIdentifier: Assembly-CSharp::InvincibilityConsumeEffect
+  duration: 3
 --- !u!1 &6143916887486008687
 GameObject:
   m_ObjectHideFlags: 0

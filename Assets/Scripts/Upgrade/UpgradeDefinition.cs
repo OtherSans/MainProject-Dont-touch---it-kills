@@ -16,4 +16,9 @@ public class UpgradeDefinition : ScriptableObject
 
     [Header("ID")]
     public string id;
+
+    [Header("Effect")]
+    public float effectValue;
+
+    public float duration;
 }
