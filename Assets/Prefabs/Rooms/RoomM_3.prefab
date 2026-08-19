@@ -244,6 +244,7 @@ MonoBehaviour:
   doors:
   - {fileID: 8500282492096622742}
   roomFog: {fileID: 3932751729520727686}
+  discoveryExperience: 10
 --- !u!114 &4297503858459533736
 MonoBehaviour:
   m_ObjectHideFlags: 0

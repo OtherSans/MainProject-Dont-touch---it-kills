@@ -22,17 +22,13 @@ public class GameManager : MonoBehaviour
 
         Instance = this;
 
-        if (experience == null)
-            experience = GetComponentInChildren<XPManager>();
-
-        if (experience == null)
-        {
-            Debug.LogError(
-                "ExperienceManager не назначен в GameManager.",
-                this
-            );
-        }
-
         DontDestroyOnLoad(gameObject);
+
+        experience =
+            GetComponentInChildren<XPManager>();
+
+        Debug.Log(
+            $"GameManager Awake | {gameObject.name}"
+        );
     }
 }

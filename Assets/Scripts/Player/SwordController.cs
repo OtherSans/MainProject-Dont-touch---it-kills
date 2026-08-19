@@ -442,7 +442,10 @@ public class SwordController : MonoBehaviour
         }
 
         angularVelocity += -angle * spring * Time.deltaTime;
-        angularVelocity *= damping;
+        angularVelocity *= Mathf.Pow(
+    damping,
+    Time.deltaTime * 60f
+);
 
         if (blocked && currentWallMaterial != null)
         {

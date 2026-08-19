@@ -436,7 +436,7 @@ MonoBehaviour:
   extendSpeed: 80
   retractSpeed: 55
   spring: 35
-  damping: 0.97
+  damping: 0.98
   impulseMultiplier: 1.3
   impulseThreshold: 0.1
   minSkewerSpeed: 12
@@ -966,8 +966,8 @@ MonoBehaviour:
   permanentSpeedMultiplier: 1
   playerViewportEdge: 0.05
   minimumCursorDistance: 20
-  dragSensitivity: 1.3
-  maxDragDistancePerFrame: 0.4
+  dragSensitivity: 0.9
+  maxDragSpeed: 20
   edgeMoveSpeed: 6
   obstacleMask:
     serializedVersion: 2

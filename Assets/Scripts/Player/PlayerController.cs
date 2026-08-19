@@ -117,22 +117,24 @@ public class PlayerController : MonoBehaviour
 
         playerInput.Disable();
     }
-    private void Update()
-    {
-        if (draggingCheck)
-            SwordSwing();
-        else
-            ResetSwordSwingTracking();
-    }
     private void FixedUpdate()
     {
         if (isKnockedBack)
+        {
+            ResetSwordSwingTracking();
             return;
+        }
 
         if (draggingCheck)
         {
-            rb.linearVelocity = Vector2.zero;
-            return;
+            rb.linearVelocity =
+                Vector2.zero;
+
+            SwordSwing();
+        }
+        else
+        {
+            ResetSwordSwingTracking();
         }
     }
     public void SetInteractable(IInteractable interactable)
@@ -204,20 +206,26 @@ public class PlayerController : MonoBehaviour
     }
     private void SwordSwing()
     {
-
-        if (Time.deltaTime <= Mathf.Epsilon)
+        if (Time.fixedDeltaTime <=
+               Mathf.Epsilon)
         {
             ResetSwordSwingTracking();
             return;
         }
 
-        Vector3 velocity =
-        (transform.position - lastPosition) / Time.deltaTime;
+        Vector3 currentPosition =
+            transform.position;
 
-        swordController.AddImpulse(velocity.x);
+        Vector3 velocity =
+            (currentPosition - lastPosition) /
+            Time.fixedDeltaTime;
+
+        swordController.AddImpulse(
+            velocity.x
+        );
 
         lastVelocity = velocity;
-        lastPosition = transform.position;
+        lastPosition = currentPosition;
     }
     public void TryOpenStatUpgrade()
     {

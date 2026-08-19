@@ -8,6 +8,8 @@ public class DraggingController : MonoBehaviour
     [SerializeField] private PlayerController playerController;
 
 
+
+
     [Header("Movement Stats")]
 
     [SerializeField, Min(0.1f)]
@@ -35,7 +37,7 @@ public class DraggingController : MonoBehaviour
     [Header("Drag")]
     [SerializeField, Range(0, 2f)] private float dragSensitivity = 1f;
     [SerializeField, Min(0.01f)]
-    private float maxDragDistancePerFrame = 0.5f;
+    private float maxDragSpeed = 30f;
 
     [Header("Screen edge movement")]
     [Tooltip("Скорость движения, когда курсор находится у края экрана")]
@@ -64,9 +66,11 @@ public class DraggingController : MonoBehaviour
     private Rigidbody2D rb;
     private Collider2D playerCollider;
 
+    private Vector2 desiredDragVelocity;
+
     private Vector2 edgeMoveDirection;
 
-
+    private Vector2 pendingDragMovement;
     private bool isDragging;
 
     private bool wasNearEdge;
@@ -103,27 +107,35 @@ public class DraggingController : MonoBehaviour
         if (playerController.IsKnockedBack)
         {
             edgeMoveDirection = Vector2.zero;
+            desiredDragVelocity = Vector2.zero;
             return;
         }
 
         if (!isDragging)
         {
             edgeMoveDirection = Vector2.zero;
+            desiredDragVelocity = Vector2.zero;
             return;
         }
 
         Vector2 currentEdgeDirection =
             GetScreenEdgeDirection();
 
+        // Если работает движение у края экрана,
+        // обычный drag в этот момент не используем.
         if (currentEdgeDirection != Vector2.zero)
         {
             edgeMoveDirection =
                 currentEdgeDirection.normalized;
 
+            desiredDragVelocity =
+                Vector2.zero;
+
             return;
         }
 
-        edgeMoveDirection = Vector2.zero;
+        edgeMoveDirection =
+            Vector2.zero;
 
         Vector2 mousePixelDelta =
             Mouse.current != null
@@ -134,38 +146,70 @@ public class DraggingController : MonoBehaviour
             mainCamera.orthographicSize * 2f /
             Screen.height;
 
-        Vector2 dragMovement =
+        Vector2 rawMovement =
             mousePixelDelta *
             worldUnitsPerPixel *
             dragSensitivity;
 
-        dragMovement = Vector2.ClampMagnitude(
-    dragMovement,
-    maxDragDistancePerFrame *
-    CurrentSpeedMultiplier
-);
+        if (Time.deltaTime <= Mathf.Epsilon)
+        {
+            desiredDragVelocity =
+                Vector2.zero;
 
-        MoveWithCollisions(dragMovement);
+            return;
+        }
+
+        /*
+         * Переводим движение мыши за render frame
+         * в скорость world units / second.
+         */
+        desiredDragVelocity =
+            rawMovement / Time.deltaTime;
+
+        desiredDragVelocity =
+            Vector2.ClampMagnitude(
+                desiredDragVelocity,
+                maxDragSpeed *
+                CurrentSpeedMultiplier
+            );
     }
     private void FixedUpdate()
     {
         if (playerController.IsKnockedBack)
         {
             edgeMoveDirection = Vector2.zero;
+            desiredDragVelocity = Vector2.zero;
             return;
         }
 
         if (!isDragging)
+        {
+            desiredDragVelocity = Vector2.zero;
             return;
+        }
 
-        if (edgeMoveDirection == Vector2.zero)
+        Vector2 movement;
+
+        if (edgeMoveDirection != Vector2.zero)
+        {
+            movement =
+                edgeMoveDirection *
+                edgeMoveSpeed *
+                CurrentSpeedMultiplier *
+                Time.fixedDeltaTime;
+        }
+        else
+        {
+            movement =
+                desiredDragVelocity *
+                Time.fixedDeltaTime;
+        }
+
+        if (movement.sqrMagnitude <=
+            Mathf.Epsilon)
+        {
             return;
-
-        Vector2 movement =
-    edgeMoveDirection *
-    edgeMoveSpeed *
-    CurrentSpeedMultiplier *
-    Time.fixedDeltaTime;
+        }
 
         MoveWithCollisions(movement);
     }
@@ -174,12 +218,14 @@ public class DraggingController : MonoBehaviour
         if (playerController.IsKnockedBack)
         {
             edgeMoveDirection = Vector2.zero;
+            desiredDragVelocity = Vector2.zero;
             return;
         }
 
         isDragging = dragCheck;
 
         edgeMoveDirection = Vector2.zero;
+        desiredDragVelocity = Vector2.zero;
         storedEdgeDirection = Vector2.zero;
 
         isUsingVirtualCursor = false;
